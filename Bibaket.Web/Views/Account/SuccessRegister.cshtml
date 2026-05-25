@@ -1,0 +1,96 @@
+﻿@using Bibaket.Domin.ViewModels.Account
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "اتمام ثبت نام";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <!-- هدر گرادیانتی -->
+                <div class="bg-gradient-primary text-white p-4 text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="mb-3">
+                        <i class="fas fa-check-circle fs-1"></i>
+                    </div>
+                    <h2 class="fw-bold mb-2">@Model.UserName عزیز، خوش آمدید! 🎉</h2>
+                    <p class="text-white-50 mb-0">ثبت نام شما با موفقیت انجام شد</p>
+                </div>
+
+                <!-- محتوای اصلی -->
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="alert-modern bg-light rounded-3 p-4">
+                            <div class="mb-3">
+                                <i class="fas fa-envelope-open-text fs-2 text-primary"></i>
+                            </div>
+                            <p class="lead mb-2">
+                                ایمیلی حاوی لینک فعال سازی به آدرس زیر ارسال شد:
+                            </p>
+                            <div class="email-box bg-white p-3 rounded-3 shadow-sm d-inline-block px-4">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong class="fs-5">@Model.Email</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="steps-container mb-4">
+                        <div class="step-item d-flex align-items-center mb-3">
+                            <div class="step-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">مرحله ۱: ثبت نام</h6>
+                                <p class="text-muted small mb-0">اطلاعات شما با موفقیت ثبت شد</p>
+                            </div>
+                        </div>
+                        <div class="step-item d-flex align-items-center mb-3">
+                            <div class="step-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">مرحله ۲: تایید ایمیل</h6>
+                                <p class="text-muted small mb-0">منتظر تایید ایمیل شما هستیم</p>
+                            </div>
+                        </div>
+                        <div class="step-item d-flex align-items-center">
+                            <div class="step-icon bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0">مرحله ۳: فعال سازی حساب</h6>
+                                <p class="text-muted small mb-0">پس از کلیک روی لینک، به سایت وارد شوید</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info border-0 rounded-3 bg-light-info p-4 text-center">
+                        <i class="fas fa-lightbulb fs-4 text-info mb-2 d-block"></i>
+                        <h5 class="fw-bold mb-2">نکات مهم:</h5>
+                        <ul class="list-unstyled text-muted mb-0">
+                            <li class="mb-2">🔗 لینک فعال‌سازی ۲۴ ساعت اعتبار دارد</li>
+                            <li class="mb-2">📧 پوشه اسپم (Spam) ایمیل خود را نیز بررسی کنید</li>
+                            <li>⏳ پس از فعال‌سازی، می‌توانید وارد حساب کاربری خود شوید</li>
+                        </ul>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-home me-2"></i>
+                            بازگشت به صفحه اصلی
+                        </a>
+                    </div>
+                </div>
+
+                <!-- فوتر -->
+                <div class="card-footer bg-light border-0 text-center py-3 text-muted small">
+                    <i class="fas fa-question-circle me-1"></i>
+                    ایمیلی دریافت نکردید؟
+                    <a href="#" class="text-decoration-none">ارسال مجدد لینک فعال سازی</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

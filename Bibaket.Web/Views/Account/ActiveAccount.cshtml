@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "فعالسازی حساب کاربری";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            @if (ViewBag.ActiveAccount == true)
+            {
+                <!-- حالت موفقیت آمیز -->
+                <div class="card border-0 shadow-4 rounded-4 overflow-hidden">
+                    <div class="card-header text-white text-center py-4" style="background: linear-gradient(180deg, #10B981 0%, #06B6D4 100%) !important;">
+                        <div class="mb-3">
+                            <i class="fas fa-check-circle fa-4x"></i>
+                        </div>
+                        <h2 class="fw-bold mb-0">✨ ایمیل شما با موفقیت فعال شد ✨</h2>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5 text-center">
+                        <!-- آیکون بزرگ -->
+                        <div class="mb-4">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex p-4">
+                                <i class="fas fa-envelope-open-text fa-3x text-success"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="h4 fw-bold text-dark mb-3">به خانواده بزرگ ما خوش آمدید! 🎉</h3>
+
+                        <p class="lead text-muted mb-4">
+                            حساب کاربری شما با موفقیت تأیید و فعال گردید.
+                            حالا می‌توانید از تمام امکانات ویژه سایت استفاده کنید.
+                        </p>
+
+                        <!-- ویژگی‌های دسترسی -->
+                        <div class="row g-3 mb-4 text-end">
+                            <div>
+                                <div class="d-flex align-items-center justify-content-center gap-2">
+                                    <i class="fas fa-headset text-primary"></i>
+                                    <span class="small">پشتیبانی ویژه</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success bg-opacity-10 border-0 rounded-3">
+                            <i class="fas fa-gem text-warning me-2"></i>
+                            <strong>نکته:</strong> اکنون می‌توانید به تمام امکانات پیشرفته سایت دسترسی داشته باشید.
+                        </div>
+
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                            <a href="/" class="btn btn-primary px-4 py-2 rounded-pill">
+                                <i class="fas fa-home me-2"></i> صفحه اصلی
+                            </a>
+                            <a href="/Account/Login" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+                                <i class="fas fa-sign-in-alt me-2"></i> ورود به حساب
+                            </a>
+                            <a href="/Home/Dashboard" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
+                                <i class="fas fa-tachometer-alt me-2"></i> پنل کاربری
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light text-center py-3 border-0">
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>
+                            فعالسازی با موفقیت انجام شد - خوشحالیم که به جمع ما پیوستید
+                        </small>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- حالت خطا و ناموفق -->
+                <div class="card border-0 shadow-4 rounded-4 overflow-hidden">
+                    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #F43F5E 0%, #E11D48 100%) !important;">
+                        <div class="mb-3">
+                            <i class="fas fa-exclamation-triangle fa-4x"></i>
+                        </div>
+                        <h2 class="fw-bold mb-0">⚠️ خطا در فعالسازی حساب ⚠️</h2>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5 text-center">
+                        <div class="mb-4">
+                            <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-4">
+                                <i class="fas fa-user-slash fa-3x text-danger"></i>
+                            </div>
+                        </div>
+
+                        <h3 class="h4 fw-bold text-dark mb-3">حساب کاربری یافت نشد!</h3>
+
+                        <p class="lead text-muted mb-4">
+                            متأسفانه هیچ حساب کاربری با این مشخصات یافت نشد.
+                            لطفاً از صحت لینک فعالسازی اطمینان حاصل کنید.
+                        </p>
+
+                        <div class="alert alert-warning bg-opacity-10 border-0 rounded-3 text-end">
+                            <i class="fas fa-lightbulb text-warning me-2"></i>
+                            <strong>دلایل احتمالی:</strong>
+                            <ul class="mt-2 mb-0 text-muted small">
+                                <li>لینک فعالسازی منقضی شده است</li>
+                                <li>حساب کاربری قبلاً فعال شده است</li>
+                                <li>آدرس ایمیل یا کد فعالسازی نادرست است</li>
+                            </ul>
+                        </div>
+
+                        <p class="text-muted mt-3">
+                            <i class="fas fa-phone-alt text-primary me-2"></i>
+                            اگر فکر می‌کنید مشکل پیش آمده، می‌توانید با تیم پشتیبانی سایت تماس بگیرید.
+                        </p>
+
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                            <a href="/Home/Contact" class="btn btn-danger px-4 py-2 rounded-pill">
+                                <i class="fas fa-headset me-2"></i> تماس با پشتیبانی
+                            </a>
+                            @* <a href="/Account/Register" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
+                                <i class="fas fa-user-plus me-2"></i> ثبت‌نام مجدد
+                            </a> *@
+                            <a href="/" class="btn btn-link text-decoration-none px-3">
+                                <i class="fas fa-arrow-left me-1"></i> بازگشت به خانه
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-light text-center py-3 border-0">
+                        <small class="text-muted">
+                            <i class="fas fa-envelope me-1"></i>
+                            برای راهنمایی بیشتر با ایمیل support@bibaket.com تماس بگیرید
+                        </small>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,81 @@
+﻿@using Bibaket.Domain.ViewModels.Account
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+<div class="row ui-box" style="padding:0">
+    <!-- هدر با گرادیان -->
+    <div class="gradient-header">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <!-- فرم -->
+    <form asp-action="EditProfile" enctype="multipart/form-data" method="post" style="padding: 25px">
+        <div class="row">
+            <!-- ستون راست - فیلدها -->
+            <div class="col-md-8">
+                <input type="hidden" asp-for="Avatar" />
+                <input type="hidden" asp-for="Avatar" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <input asp-for="FirstName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                    <input asp-for="LastName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Mobile" class="control-label"></label>
+                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                    <input asp-for="Mobile" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="NationalCode" class="control-label"></label>
+                    <span asp-validation-for="NationalCode" class="text-danger"></span>
+                    <input asp-for="NationalCode" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="ذخیره تغییرات" class="btn-gradient" />
+                </div>
+            </div>
+
+            <!-- ستون چپ - تصویر پروفایل -->
+            <div class="col-md-4">
+                <div class="avatar-box">
+                    <h3 style="margin-bottom: 10px;">تصویر پروفایل</h3>
+                    <hr />
+
+                    <!-- تصویر برای پیش‌نمایش -->
+                    <img id="imgAvatar" src="/Avatars/@Model.Avatar" class="avatar-image" />
+                    <br />
+
+                    <!-- دکمه انتخاب فایل -->
+                    <label for="AvatarUp" class="file-label">
+                        انتخاب عکس جدید
+                    </label>
+                    <input type="file" id="AvatarUp" name="imgAvatar" onchange="ShowpImage(this);" style="display: none;" />
+                    @if (ViewBag.ValidateImage != null)
+                    {
+                        <div class="alert alert-danger">
+                            تصویر معتبر نمی باشد
+                        </div>
+                    }
+
+                    <p class="text-muted" style="margin-top: 10px; font-size: 12px;">
+                        فرمت‌های مجاز: jpg, png
+                    </p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
