@@ -5,85 +5,138 @@
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4">@ViewData["Title"]</h4>
+    <h4 class="fw-bold py-3 mb-4">
+        <i class="bx bx-user-plus me-1"></i>
+        @ViewData["Title"]
+    </h4>
 
-    <form asp-action="Create" enctype="multipart/form-data">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-        <div class="row">
+        <div class="row g-4">
             <!-- ستون اصلی اطلاعات -->
-            <div class="col-md-8">
-                <div class="card mb-4">
+            <div class="col-xl-8">
+                <div class="card h-100">
+                    <div class="card-header bg-transparent">
+                        <h5 class="mb-0">اطلاعات شخصی</h5>
+                    </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="FirstName" class="form-label"></label>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-semibold"></label>
                                 <input asp-for="FirstName" class="form-control" placeholder="نام" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="LastName" class="form-label"></label>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-semibold"></label>
                                 <input asp-for="LastName" class="form-control" placeholder="نام خانوادگی" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="UserName" class="form-label"></label>
-                                <input asp-for="UserName" class="form-control" placeholder="نام کاربری" />
+                            <div class="col-md-6">
+                                <label asp-for="UserName" class="form-label fw-semibold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                    <input asp-for="UserName" class="form-control" placeholder="نام کاربری" />
+                                </div>
+                                <span asp-validation-for="UserName" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label fw-semibold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                                    <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Mobile" class="form-label"></label>
-                                <input asp-for="Mobile" class="form-control" placeholder="09xxxxxxxxx" />
+                            <div class="col-md-6">
+                                <label asp-for="Mobile" class="form-label fw-semibold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-phone"></i></span>
+                                    <input asp-for="Mobile" class="form-control" placeholder="09xxxxxxxxx" />
+                                </div>
+                                <span asp-validation-for="Mobile" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Password" class="form-label"></label>
-                                <input asp-for="Password"  class="form-control" />
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label fw-semibold"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bx bx-lock"></i></span>
+                                    <input asp-for="Password" class="form-control" />
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                        <i class="bx bx-show"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
                         </div>
-                        <div class="form-check form-switch mt-2">
-                            <input class="form-check-input" asp-for="IsActive" type="checkbox">
-                            <label class="form-check-label" for="IsActive">حساب کاربری فعال باشد</label>
+
+                        <div class="form-check form-switch mt-4">
+                            <input class="form-check-input" asp-for="IsActive" type="checkbox" id="IsActive" checked>
+                            <label class="form-check-label fw-semibold" for="IsActive">
+                                <i class="bx bx-check-circle me-1 text-success"></i>
+                                حساب کاربری فعال باشد
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- ستون عکس و نقش‌ها -->
-            <div class="col-md-4">
+            <div class="col-xl-4">
+                <!-- بخش عکس -->
                 <div class="card mb-4 text-center">
+                    <div class="card-header bg-transparent">
+                        <h5 class="mb-0">تصویر پروفایل</h5>
+                    </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <img id="imgAvatar" src="/Avatars/NoPhoto.jpg" class="img-fluid rounded-circle" style="width:150px; height:150px; cursor:pointer;" onclick="$('#AvatarUp').click();" />
+                        <div class="mb-3 position-relative d-inline-block">
+                            <img id="imgAvatar" src="/Avatars/NoPhoto.jpg"
+                                 class="rounded-circle border"
+                                 style="width: 160px; height: 160px; object-fit: cover; cursor: pointer;"
+                                 onclick="$('#AvatarUp').click();" />
+                            <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle p-2" style="cursor: pointer;" onclick="$('#AvatarUp').click();">
+                                <i class="bx bx-camera text-white" style="font-size: 14px;"></i>
+                            </div>
                         </div>
-                         <input type="file" asp-for="AvatarFile" id="AvatarUp" onchange="ShowpImage(this);" style="display: none;" /> 
-                        <label class="btn btn-primary" onclick="$('#AvatarUp').click();">انتخاب تصویر</label>
+                        <input type="file" asp-for="AvatarFile" id="AvatarUp" accept="image" onchange="previewImage(this);" style="display: none;" />
+                        <div class="small text-muted mt-2">فرمت‌های مجاز: JPG, PNG, GIF</div>
                     </div>
                 </div>
 
-                @if (Model.Roles.Any())
+                <!-- بخش نقش‌ها -->
+                @if (Model.Roles != null && Model.Roles.Any())
                 {
                     <div class="card">
-                        <div class="card-header">نقش‌های کاربر</div>
+                        <div class="card-header bg-transparent">
+                            <h5 class="mb-0">نقش‌های کاربر</h5>
+                        </div>
                         <div class="card-body">
-                            @foreach (var item in Model.Roles)
-                            {
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" name="UserSelectedRoles" type="checkbox" value="@item.Id" id="role_@item.Id">
-                                    <label class="form-check-label" for="role_@item.Id">@item.RoleName</label>
-                                </div>
-                            }
+                            <div class="row">
+                                @foreach (var item in Model.Roles)
+                                {
+                                    <div class="col-12 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="UserSelectedRoles" type="checkbox" value="@item.Id" id="role_@item.Id">
+                                            <label class="form-check-label user-select-none" for="role_@item.Id">
+                                                @item.RoleName
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
             </div>
         </div>
 
-        <div class="mt-3">
-            <button type="submit" class="btn btn-success px-5">ذخیره اطلاعات</button>
-            <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+        <!-- دکمه‌های اقدام -->
+        <div class="mt-4 d-flex gap-2 justify-content-end">
+            <a asp-action="Index" class="btn btn-label-secondary px-4">
+                <i class="bx bx-x me-1"></i>بازگشت
+            </a>
+            <button type="submit" class="btn btn-primary px-5">
+                <i class="bx bx-save me-1"></i>ذخیره اطلاعات
+            </button>
         </div>
     </form>
 </div>
@@ -92,15 +145,55 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
-        function ShowpImage(input) {
-           if (input.files && input.files[0]) {
-              var reader = new FileReader();
-              reader.onload = function (e) {
-                 $('#imgAvatar').attr('src', e.target.result);
-              }
-              reader.readAsDataURL(input.files[0]);
-           }
+        // پیش‌نمایش عکس
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
         }
+
+        // نمایش/مخفی کردن رمز عبور
+        function togglePassword(btn) {
+            var input = $(btn).closest('.input-group').find('input');
+            var icon = $(btn).find('i');
+
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                icon.removeClass('bx-show').addClass('bx-hide');
+            } else {
+                input.attr('type', 'password');
+                icon.removeClass('bx-hide').addClass('bx-show');
+            }
+        }
+
+        // اطمینان از فعال بودن اعتبارسنجی
+        // $(document).ready(function() {
+        //     بررسی اینکه jQuery Validation لود شده است
+        //     if (typeof $.validator !== 'undefined') {
+        //         تنظیمات اضافی برای اعتبارسنجی
+        //         $.validator.setDefaults({
+        //             highlight: function(element) {
+        //                 $(element).addClass('is-invalid').removeClass('is-valid');
+        //             },
+        //             unhighlight: function(element) {
+        //                 $(element).removeClass('is-invalid').addClass('is-valid');
+        //             },
+        //             errorPlacement: function(error, element) {
+        //                 error.addClass('text-danger small');
+        //                 error.insertAfter(element);
+        //             }
+        //         });
+        //     }
+        });
     </script>
+
+    <style>
+
+    </style>
 }
