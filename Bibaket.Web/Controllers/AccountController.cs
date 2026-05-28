@@ -127,7 +127,7 @@ namespace Bibaket.Web.Controllers
             {
                 ModelState.AddModelError("", "اطلاعات وارد شده صحیح نمی باشد");
                 this.Captcha = new Captcha(140, 40, 20f, "#FFFFFF", "#61028D",
-                Mode.AlphaNumeric);
+                Mode.Numeric);
                 login.ImageData = Captcha.ImageData;
                 return View(login);
             }

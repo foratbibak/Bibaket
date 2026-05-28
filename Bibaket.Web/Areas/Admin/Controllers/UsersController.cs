@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bibaket.Domain.ViewModels.User;
+using Bibaket.Domin.Models.Users;
+using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bibaket.Domin.Models.Users;
-using Bibaket.Ifra.Data.Context;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
@@ -23,7 +24,22 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var lst = _context.Users.Select(u => new UserViewModel
+            {
+                Avatar = u.Avatar,
+                CreatDate = u.CreatDate,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                Id = u.Id,
+                IsActive = u.IsActive,
+                LastName = u.LastName,
+                Mobile = u.Mobile,
+                NationalCode = u.NationalCode,
+                Password = u.Password,
+                UpdateDate = u.UpdateDate,
+                UserName = u.UserName,
+            }).ToList();
+            return View(lst);
         }
 
         // GET: Admin/Users/Details/5
@@ -47,7 +63,11 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Users/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new AdminCreatUserViewModel()
+            {
+                Roles = _context.Role.ToList()
+            };
+            return View(model);
         }
 
         // POST: Admin/Users/Create
