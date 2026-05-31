@@ -14,8 +14,15 @@ namespace Bibaket.Domin.Contracts
         Task DeleteAsync(User user);
         Task DeleteAsync(int UserId);
 
+
+        Task AddUserToRole(int UserId, List<int> roleIds);
+
         Task<bool> IsExsitUserNameAsync(string userName);
         Task<bool> IsExistEmailAsync(string email);
+        Task<bool> IsExistMobileAsync(string mobile);
+        Task<bool> IsExistNationalAsync(string national);
+
+
 
         Task<User?> GetUserByActiveCodeAsync(string activeCode);
 

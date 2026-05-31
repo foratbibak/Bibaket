@@ -20,6 +20,7 @@ namespace Bibaket.Ifra.Ioc
 
             #region Services
             services.AddScoped<IAccountServices, AccountServices>();
+            services.AddScoped<IUserServices, UserServices>();
             #endregion
         }
     }

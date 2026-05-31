@@ -1,5 +1,5 @@
-﻿using Bibaket.Domain.ViewModels.Account;
-using Bibaket.Domin.Enums;
+﻿using Bibaket.Domain.Enums.Account;
+using Bibaket.Domain.ViewModels.Account;
 using Bibaket.Domin.Models.Users;
 using Bibaket.Domin.ViewModels.Account;
 using System;

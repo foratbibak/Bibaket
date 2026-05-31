@@ -10,6 +10,18 @@ namespace Bibaket.Ifra.Data.Repositories
 {
     public class UserRepository(EshopDbContext context) : IUserRepository
     {
+        public async Task AddUserToRole(int UserId, List<int> roleIds)
+        {
+            foreach(int roleId in roleIds)
+            {
+                context.UserInRoles.Add(new Domain.Models.Roles.UserInRoles()
+                {
+                    RoleId = roleId,
+                    UserId=UserId,
+                });
+            }
+        }
+
         public async Task CreatAsync(User user)
         {
             await context.Users.AddAsync(user);
@@ -55,6 +67,17 @@ namespace Bibaket.Ifra.Data.Repositories
         public async Task<bool> IsExistEmailAsync(string email)
         {
             return await context.Users.AnyAsync(u => u.Email == email);
+        }
+
+        public async Task<bool> IsExistMobileAsync(string mobile)
+        {
+            return await context.Users.AnyAsync(u => u.Mobile == mobile);
+
+        }
+
+        public async Task<bool> IsExistNationalAsync(string national)
+        {
+            return await context.Users.AnyAsync(n=>n.NationalCode==national);
         }
 
         public async Task<bool> IsExsitUserNameAsync(string userName)

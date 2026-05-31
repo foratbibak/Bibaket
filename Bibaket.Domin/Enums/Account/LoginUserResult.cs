@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Bibaket.Domin.Enums
+namespace Bibaket.Domain.Enums.Account
 {
     public enum LoginUserResult
     {

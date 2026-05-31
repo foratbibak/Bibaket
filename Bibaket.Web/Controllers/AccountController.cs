@@ -1,7 +1,7 @@
 ﻿using ASPSnippets.Core.Captcha;
 using Bibaket.Application.Services.Implementation;
 using Bibaket.Application.Services.Interfaces;
-using Bibaket.Domin.Enums;
+using Bibaket.Domain.Enums.Account;
 using Bibaket.Domin.ViewModels.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

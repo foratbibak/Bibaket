@@ -75,15 +75,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,UserName,Email,EmailActiveCode,IsEmailActive,Mobile,MobileActiveCode,NationalCode,Password,Avatar,IsActive,LastLoginDate,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] User user)
+        public async Task<IActionResult> Create(AdminCreatUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
             }
-            return View(user);
+            return View(model);
         }
 
         // GET: Admin/Users/Edit/5
