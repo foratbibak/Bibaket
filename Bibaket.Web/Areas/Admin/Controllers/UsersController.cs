@@ -1,4 +1,6 @@
-﻿using Bibaket.Domain.ViewModels.User;
+﻿using Bibaket.Application.Services.Interfaces;
+using Bibaket.Domain.Enums.User;
+using Bibaket.Domain.ViewModels.User;
 using Bibaket.Domin.Models.Users;
 using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +17,16 @@ namespace Bibaket.Web.Areas.Admin.Controllers
     public class UsersController : Controller
     {
         private readonly EshopDbContext _context;
+        private readonly IUserServices _userServices;
 
-        public UsersController(EshopDbContext context)
+        public UsersController(EshopDbContext context,IUserServices userServices)
         {
             _context = context;
+            this._userServices = userServices;
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string create="false")
         {
             var lst = _context.Users.Select(u => new UserViewModel
             {
@@ -39,6 +43,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 UpdateDate = u.UpdateDate,
                 UserName = u.UserName,
             }).ToList();
+            ViewBag.Create = create;
             return View(lst);
         }
 
@@ -79,8 +84,17 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                var result = await _userServices.CreatUserInAdminAsync(model);
+                if (result == AdminCreateUserResult.Success)
+                {
+                    return Redirect("/Admin/Users?Create=Success");
+                }
+                else
+                {
+                    ViewBag.Error = result;
+                }
             }
+            model.Roles=_context.Role.ToList();
             return View(model);
         }
 

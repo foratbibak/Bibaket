@@ -9,6 +9,10 @@
 <p>
     <a asp-action="Create">افزودن کاربر جدید</a>
 </p>
+@if (ViewBag.Create == "Success")
+{
+    <div class="alert alert-success">کاربر با موفقیت ثبت شد</div>
+}
 <table class="table">
     <thead>
         <tr>

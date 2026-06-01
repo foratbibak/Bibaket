@@ -8,6 +8,6 @@ namespace Bibaket.Application.Services.Interfaces
 {
     public interface IUserServices
     {
-        Task<AdminCreateUserResult> CreatUserInAdmin(AdminCreatUserViewModel model);
+        Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model);
     }
 }

@@ -16,7 +16,7 @@ namespace Bibaket.Application.Services.Implementation
 {
     public class UserServices(IUserRepository userRepository) : IUserServices
     {
-        public async Task<AdminCreateUserResult> CreatUserInAdmin(AdminCreatUserViewModel model)
+        public async Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model)
         {
             #region Validations
             try
@@ -66,13 +66,14 @@ namespace Bibaket.Application.Services.Implementation
             #endregion
 
             #region Save Avatar
-            var avatarName=SaveImageFileAsync(model.AvatarFile);
+            var avatarName=await SaveImageFileAsync(model.AvatarFile);
+            model.Avatar = avatarName;
             #endregion
 
             #region CreateUser
             User user=UserMapper.MapToUser(model);
-            userRepository.CreatAsync(user);
-            userRepository.SaveAsync();
+            await userRepository.CreatAsync(user);
+            await userRepository.SaveAsync();
             if (model.UserSelectedRoles!=null&&model.UserSelectedRoles.Any())
             {
                 await userRepository.AddUserToRole(user.Id, model.UserSelectedRoles);
