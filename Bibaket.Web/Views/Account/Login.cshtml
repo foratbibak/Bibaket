@@ -88,7 +88,7 @@
                         <input asp-for="RememberMe" type="checkbox" />
                         <span>مرا به خاطر بسپار</span>
                     </label>
-                    <a asp-action="ForgotPassword" class="forgot-link">رمز را فراموش کردم</a>
+                    <a asp-area="UserPanel" asp-controller="Profile" asp-action="ChangePassword" class="forgot-link">رمز را فراموش کردم</a>
                 </div>
 
                 <!-- دکمه ورود -->
