@@ -46,7 +46,7 @@ namespace Bibaket.Domain.ViewModels.User
         [DisplayName("فعال/غیرفعال")]
         public bool IsActive { get; set; }
 
-        public List<Role>? Roles { get; set; }
+        public IEnumerable<Role>? Roles { get; set; }
         public List<int>? UserSelectedRoles { get; set; }
     }
 }

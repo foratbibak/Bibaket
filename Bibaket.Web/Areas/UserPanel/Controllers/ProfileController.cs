@@ -62,22 +62,6 @@ namespace Bibaket.Web.Areas.UserPanel.Controllers
             }
             int currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString());
             await _accountServices.EditProfile(currentUserId, model);
-
-            var user = await _accountServices.GetUserByEmailOrUserName("foratb");
-            var claims = new List<Claim>() {
-            new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-            new Claim(ClaimTypes.Name,user.UserName),
-            new Claim("FullName",$"{user.FirstName} {user.LastName}"),
-            new Claim("Mobile",user.Mobile??""),
-            new Claim("Avatar",user.Avatar)
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-       
-            await HttpContext.SignInAsync(principal);
-
-
             TempData["SuccessEditProfile"] = "True";
             return Redirect("/UserPanel");
         } 

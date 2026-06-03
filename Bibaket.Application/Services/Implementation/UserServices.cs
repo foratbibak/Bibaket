@@ -83,6 +83,17 @@ namespace Bibaket.Application.Services.Implementation
             return AdminCreateUserResult.Success;
         }
 
+        public async Task DeleteUserAsync(int userId)
+        {
+            await userRepository.DeleteAsync(userId);
+            await userRepository.SaveAsync();
+        }
+
+        public async Task<User> GetUserForDeleteAsync(int userId)
+        {
+            return await userRepository.GetUserFullDataAsync(userId);
+        }
+
         #region Utilites
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {

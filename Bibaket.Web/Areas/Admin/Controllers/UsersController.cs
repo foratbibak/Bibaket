@@ -18,11 +18,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
     {
         private readonly EshopDbContext _context;
         private readonly IUserServices _userServices;
+        private readonly IRoleServices _roleServices;
 
-        public UsersController(EshopDbContext context,IUserServices userServices)
+        public UsersController(EshopDbContext context,IUserServices userServices,IRoleServices roleServices)
         {
             _context = context;
             this._userServices = userServices;
+            this._roleServices = roleServices;
         }
 
         // GET: Admin/Users
@@ -42,6 +44,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 Password = u.Password,
                 UpdateDate = u.UpdateDate,
                 UserName = u.UserName,
+                IsDelete = u.IsDelete,
             }).ToList();
             ViewBag.Create = create;
             return View(lst);
@@ -65,12 +68,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(user);
         }
 
+        #region Create
         // GET: Admin/Users/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var model = new AdminCreatUserViewModel()
             {
-                Roles = _context.Role.ToList()
+                Roles = await _roleServices.GetAllRoleAsync()
             };
             return View(model);
         }
@@ -94,9 +98,10 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                     ViewBag.Error = result;
                 }
             }
-            model.Roles=_context.Role.ToList();
+            model.Roles = await _roleServices.GetAllRoleAsync();
             return View(model);
         }
+        #endregion
 
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -150,15 +155,14 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var user = await _userServices.GetUserForDeleteAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -172,13 +176,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-            }
-
-            await _context.SaveChangesAsync();
+            await _userServices.DeleteUserAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

@@ -50,6 +50,8 @@ namespace Bibaket.Domain.ViewModels.User
         [DisplayName("تاریخ ویرایش")]
         public DateTime? UpdateDate { get; set; }
 
+        public bool IsDelete { get; set; }
+
 
 
     }

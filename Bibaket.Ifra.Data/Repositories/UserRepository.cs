@@ -64,6 +64,12 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Users.SingleOrDefaultAsync(u => u.Id == userId);
         }
 
+        public async Task<User?> GetUserFullDataAsync(int userId)
+        {
+            return await context.Users.Include(u => u.UserInRole)
+                .ThenInclude(u => u.Role).SingleOrDefaultAsync(u => u.Id == userId);
+        }
+
         public async Task<bool> IsExistEmailAsync(string email)
         {
             return await context.Users.AnyAsync(u => u.Email == email);
