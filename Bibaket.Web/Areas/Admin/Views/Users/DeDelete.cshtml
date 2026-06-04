@@ -17,7 +17,7 @@
 }
 <h1>@fullName</h1>
 
-<h3>آیا از حذف کاربر @fullName مطمئن هستید</h3>
+<h3>آیا از فعال کردن کاربر  @fullName مطمئن هستید</h3>
 <div>
     <hr />
     <dl class="row">
@@ -95,9 +95,9 @@
         <img src="/Avatars/@Model.Avatar" alt="">
     </div>
 
-    <form asp-action="Delete">
+    <form asp-action="DeDelete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="حذف" class="btn btn-danger" /> |
+        <input type="submit" value="بازگردانی " class="btn btn-info" /> |
         <a asp-action="Index">بازگشت به لیست</a>
     </form>
 </div>

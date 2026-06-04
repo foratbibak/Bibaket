@@ -13,5 +13,6 @@ namespace Bibaket.Application.Services.Interfaces
         Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model);
         Task<User> GetUserForDeleteAsync(int userId);
         Task DeleteUserAsync(int userId);
+        Task UserDeAcitve(int userId);
     }
 }

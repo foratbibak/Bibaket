@@ -177,8 +177,39 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _userServices.DeleteUserAsync(id);
+
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> DeDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            //var user = await _userServices.GetUserForDeleteAsync(id);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(user);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        // POST: Admin/Users/Delete/5
+        [HttpPost, ActionName("DeDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeDeleteConfirmed(int id)
+        {
+            //await _userServices.DeleteUserAsync(id);
+            await _userServices.UserDeAcitve(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         private bool UserExists(int id)
         {

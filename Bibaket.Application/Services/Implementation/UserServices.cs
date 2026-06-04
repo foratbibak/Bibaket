@@ -94,6 +94,12 @@ namespace Bibaket.Application.Services.Implementation
             return await userRepository.GetUserFullDataAsync(userId);
         }
 
+        public async Task UserDeAcitve(int userId)
+        {
+            await userRepository.UserDeAcitve(userId);
+            await userRepository.SaveAsync();
+        }
+
         #region Utilites
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {

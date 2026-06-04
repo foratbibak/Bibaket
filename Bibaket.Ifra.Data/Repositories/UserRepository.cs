@@ -91,6 +91,21 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Users.AnyAsync(u=>u.UserName == userName);
         }
 
+        public async Task ReturnUserDeAcitve(User user)
+        {
+            user.IsDelete = false;
+            user.IsActive=true;
+            user.UpdateDate = DateTime.Now;
+            await UpdateAsync(user);
+        }
+        public async Task UserDeAcitve(int userId)
+        {
+            var user=await GetUserbyIdAsync(userId);
+            if (user != null)
+            {
+                await ReturnUserDeAcitve(user);
+            }
+        }
         public async Task SaveAsync()
         {
             await context.SaveChangesAsync();
@@ -100,5 +115,7 @@ namespace Bibaket.Ifra.Data.Repositories
         {
             context.Users.Update(user);
         }
+
+     
     }
 }

@@ -1,336 +1,122 @@
 ﻿@model IEnumerable<Bibaket.Domain.ViewModels.User.UserViewModel>
+@using Bibaket.Domin.Models.Users.User
 
 @{
     ViewData["Title"] = "لیست کاربران";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
+<h1>@ViewData["Title"]</h1>
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .btn-create {
-            display: inline-block;
-            background: #28a745;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            transition: background 0.3s;
-        }
-
-            .btn-create:hover {
-                background: #218838;
-            }
-
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            padding: 12px;
-            text-align: right;
-            border-bottom: 2px solid #dee2e6;
-            font-weight: 600;
-            color: #495057;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #dee2e6;
-            vertical-align: middle;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .badge-active {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .badge-inactive {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .badge-deleted {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .action-links a {
-            margin: 0 5px;
-            text-decoration: none;
-        }
-
-            .action-links a:hover {
-                text-decoration: underline;
-            }
-
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-            .search-box input {
-                padding: 8px 12px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                width: 300px;
-                font-size: 14px;
-            }
-
-            .search-box select {
-                padding: 8px 12px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                margin-right: 10px;
-            }
-
-        .btn-reset {
-            padding: 8px 12px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .text-deleted {
-            color: #dc3545;
-        }
-
-        .line-through {
-            text-decoration: line-through;
-        }
-
-        .deleted-row {
-            background-color: #fff5f5;
-        }
-
-        .avatar-deleted {
-            opacity: 0.6;
-            filter: grayscale(100%);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1>@ViewData["Title"]</h1>
-            </div>
-            <div>
-                <a asp-action="Create" class="btn-create">➕ افزودن کاربر جدید</a>
-            </div>
-        </div>
-
-        @if (ViewBag.Create == "Success")
-        {
-            <div class="alert alert-success">
-                ✓ کاربر با موفقیت ثبت شد
-            </div>
-        }
-
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 جستجوی کاربر...">
-            <select id="statusFilter">
-                <option value="">همه کاربران</option>
-                <option value="active">فعال</option>
-                <option value="inactive">غیرفعال</option>
-                <option value="deleted">حذف شده</option>
-            </select>
-            <button id="resetBtn" class="btn-reset">پاک کردن فیلترها</button>
-        </div>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>آواتار</th>
-                    <th>نام</th>
-                    <th>نام خانوادگی</th>
-                    <th>نام کاربری</th>
-                    <th>ایمیل</th>
-                    <th>موبایل</th>
-                    <th>وضعیت</th>
-                    <th>تاریخ ثبت</th>
-                    <th>تاریخ بروزرسانی</th>
-                    <th>آخرین ورود</th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr class="@(item.IsDelete ? "deleted-row" : "")">
-                        <td>
-                            <img src="/Avatars/@item.Avatar" alt=""
-                                 class="user-avatar @(item.IsDelete ? "avatar-deleted" : "")">
-                            @if (item.IsDelete)
-                            {
-                                <div style="font-size: 10px; color: #dc3545;">حذف شده</div>
-                            }
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted line-through" : "")">
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted line-through" : "")">
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @Html.DisplayFor(modelItem => item.UserName)
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @Html.DisplayFor(modelItem => item.Mobile)
-                        </td>
-                        <td>
-                            @if (item.IsDelete)
-                            {
-                                <span class="badge badge-deleted">حذف شده</span>
-                            }
-                            else
-                            {
-                                <span class="badge @(item.IsActive ? "badge-active" : "badge-inactive")">
-                                    @(item.IsActive ? "فعال" : "غیرفعال")
-                                </span>
-                            }
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @item.CreatDate.ToShamsi()
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @(item.UpdateDate?.ToShamsi() ?? "-")
-                        </td>
-                        <td class="@(item.IsDelete ? "text-deleted" : "")">
-                            @(item.LastLoginDate?.ToShamsi() ?? "-")
-                        </td>
-                        <td class="action-links">
-                            @if (!item.IsDelete)
-                            {
-                                <a asp-action="Edit" asp-route-id="@item.Id" style="color: #007bff;">ویرایش</a>
-                                <span>|</span>
-                                <a asp-action="Details" asp-route-id="@item.Id" style="color: #28a745;">جزئیات</a>
-                                <span>|</span>
-                                <a asp-action="Delete" asp-route-id="@item.Id" style="color: #dc3545;">حذف</a>
-                            }
-                            else
-                            {
-                                <span style="color: #6c757d;">ویرایش</span>
-                                <span>|</span>
-                                <a asp-action="Details" asp-route-id="@item.Id" style="color: #28a745;">جزئیات</a>
-                                <span>|</span>
-                                <span style="color: #6c757d;">حذف</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        @if (!Model.Any())
-        {
-            <div style="text-align: center; padding: 50px; color: #999;">
-                <p>هیچ کاربری یافت نشد</p>
-            </div>
-        }
+<p>
+    <a asp-action="Create">افزودن کاربر جدید</a>
+</p>
+@if (ViewBag.Create == "Success")
+{
+    <div class="alert alert-success">
+        <h6>کاربر با موفقیت ثبت شد</h6>
     </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                تاریخ ایجاد
+            </th>
+            <th>
+                تاریخ ویرایش
+            </th>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const statusFilter = document.getElementById('statusFilter');
-            const resetBtn = document.getElementById('resetBtn');
-            const rows = document.querySelectorAll('tbody tr');
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="@(item.IsDelete?"color:Red;":"")">
+                <td>
+                    <img src="/Avatars/@item.Avatar" class="user-profile-img" style="max-width: 75px;border-radius: 15px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
 
-            function filterTable() {
-                const searchText = searchInput.value.toLowerCase();
-                const statusValue = statusFilter.value;
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @item.CreatDate.ToShamsi()
+                </td>
+                <td>
+                    @item.UpdateDate?.ToShamsi()
+                </td>
+                <td>
+                    @item.LastLoginDate?.ToShamsi()
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> 
+                    <a asp-action="Details" asp-route-id="@item.Id" style="color: #28a745;">جزئیات</a>
+                    @if (item.IsDelete == false)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
 
-                rows.forEach(row => {
-                    const rowText = row.innerText.toLowerCase();
-                    let showRow = true;
-
-                    if (searchText && !rowText.includes(searchText)) {
-                        showRow = false;
                     }
-
-                    if (statusValue) {
-                        const hasDeletedBadge = row.innerText.includes('حذف شده');
-                        const hasActiveBadge = row.innerText.includes('فعال') && !hasDeletedBadge;
-                        const hasInactiveBadge = row.innerText.includes('غیرفعال');
-
-                        if (statusValue === 'deleted' && !hasDeletedBadge) showRow = false;
-                        if (statusValue === 'active' && !hasActiveBadge) showRow = false;
-                        if (statusValue === 'inactive' && !hasInactiveBadge) showRow = false;
+                    else
+                    {
+                        <form asp-action="DeDelete">
+                            <a asp-action="DeDelete" asp-route-id="@item.Id" style="color: green;">بازگردانی</a>
+                        </form>
                     }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-                    row.style.display = showRow ? '' : 'none';
-                });
-            }
+                            
 
-            searchInput.addEventListener('keyup', filterTable);
-            statusFilter.addEventListener('change', filterTable);
-            resetBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                statusFilter.value = '';
-                filterTable();
-            });
-        });
-    </script>
 
-</body>
-</html>
+
+
+
+
+
+
+
+
+
+
+
+

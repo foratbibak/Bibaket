@@ -10,6 +10,8 @@ namespace Bibaket.Domin.Contracts
         Task<IEnumerable<User>> GetAllUserAsync();
         Task<User?> GetUserbyIdAsync(int userId);
         Task<User?> GetUserFullDataAsync(int userId);
+        Task ReturnUserDeAcitve(User user);
+        Task UserDeAcitve(int userId);
         Task CreatAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(User user);
