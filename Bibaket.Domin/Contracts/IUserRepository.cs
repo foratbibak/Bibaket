@@ -8,6 +8,7 @@ namespace Bibaket.Domin.Contracts
     public interface IUserRepository
     {
         Task<IEnumerable<User>> GetAllUserAsync();
+        Task<IEnumerable<User>> GetAllUserForAdminAsync();
         Task<User?> GetUserbyIdAsync(int userId);
         Task<User?> GetUserFullDataAsync(int userId);
         Task ReturnUserDeAcitve(User user);

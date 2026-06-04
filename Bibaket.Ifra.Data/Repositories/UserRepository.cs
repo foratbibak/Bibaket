@@ -116,6 +116,9 @@ namespace Bibaket.Ifra.Data.Repositories
             context.Users.Update(user);
         }
 
-     
+        public async Task<IEnumerable<User>> GetAllUserForAdminAsync()
+        {
+           return await context.Users.IgnoreQueryFilters().ToListAsync();
+        }
     }
 }

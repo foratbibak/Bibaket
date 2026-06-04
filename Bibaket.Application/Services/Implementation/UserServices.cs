@@ -89,9 +89,30 @@ namespace Bibaket.Application.Services.Implementation
             await userRepository.SaveAsync();
         }
 
-        public async Task<User> GetUserForDeleteAsync(int userId)
+        public async Task<User> GetUserFullDataAsync(int userId)
         {
             return await userRepository.GetUserFullDataAsync(userId);
+        }
+
+        public async Task<IEnumerable<UserViewModel>> ListUsersForAdmin()
+        {
+            var List= userRepository.GetAllUserForAdminAsync().Result.Select(u => new UserViewModel
+            {
+                Avatar = u.Avatar,
+                CreatDate = u.CreatDate,
+                Email = u.Email,
+                FirstName = u.FirstName,
+                Id = u.Id,
+                IsActive = u.IsActive,
+                LastName = u.LastName,
+                Mobile = u.Mobile,
+                NationalCode = u.NationalCode,
+                Password = u.Password,
+                UpdateDate = u.UpdateDate,
+                UserName = u.UserName,
+                IsDelete = u.IsDelete,
+            }).ToList();
+            return List;
         }
 
         public async Task UserDeAcitve(int userId)

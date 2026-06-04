@@ -21,6 +21,9 @@ namespace Bibaket.Ifra.Data.Context
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Query Fillter
+            modelBuilder.Entity<User>().HasQueryFilter(u=>!u.IsDelete);
+            #endregion
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             base.OnModelCreating(modelBuilder);
         }

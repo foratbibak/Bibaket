@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Bibaket.Domain.ViewModels.User.UserViewModel>
-@using Bibaket.Domin.Models.Users.User
 
 @{
     ViewData["Title"] = "لیست کاربران";
@@ -53,7 +52,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="@(item.IsDelete?"color:Red;":"")">
+            <tr style="@(item.IsDelete ? "color:Red;" : "")">
                 <td>
                     <img src="/Avatars/@item.Avatar" class="user-profile-img" style="max-width: 75px;border-radius: 15px;" />
                 </td>
@@ -86,7 +85,7 @@
                     @item.LastLoginDate?.ToShamsi()
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> 
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
                     <a asp-action="Details" asp-route-id="@item.Id" style="color: #28a745;">جزئیات</a>
                     @if (item.IsDelete == false)
                     {
@@ -95,9 +94,7 @@
                     }
                     else
                     {
-                        <form asp-action="DeDelete">
-                           <a asp-action="DeDelete" asp-route-id="@item.Id" style="color: green;">بازگردانی</a> 
-                        </form>
+                        <a asp-action="DeDelete" asp-route-id="@item.Id" style="color: green;">بازگردانی</a>
                     }
                 </td>
             </tr>
@@ -105,7 +102,7 @@
     </tbody>
 </table>
 
-                            
+
 
 
 

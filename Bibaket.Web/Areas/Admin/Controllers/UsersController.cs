@@ -30,22 +30,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Users
         public async Task<IActionResult> Index(string create="false")
         {
-            var lst = _context.Users.Select(u => new UserViewModel
-            {
-                Avatar = u.Avatar,
-                CreatDate = u.CreatDate,
-                Email = u.Email,
-                FirstName = u.FirstName,
-                Id = u.Id,
-                IsActive = u.IsActive,
-                LastName = u.LastName,
-                Mobile = u.Mobile,
-                NationalCode = u.NationalCode,
-                Password = u.Password,
-                UpdateDate = u.UpdateDate,
-                UserName = u.UserName,
-                IsDelete = u.IsDelete,
-            }).ToList();
+            var lst =await _userServices.ListUsersForAdmin();
             ViewBag.Create = create;
             return View(lst);
         }
@@ -162,7 +147,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _userServices.GetUserForDeleteAsync(id);
+            var user = await _userServices.GetUserFullDataAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -188,14 +173,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            //var user = await _userServices.GetUserForDeleteAsync(id);
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
+            var user = await _userServices.GetUserFullDataAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            //return View(user);
-            return RedirectToAction(nameof(Index));
+            return View(user);
 
         }
 
@@ -204,7 +188,6 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeDeleteConfirmed(int id)
         {
-            //await _userServices.DeleteUserAsync(id);
             await _userServices.UserDeAcitve(id);
 
             return RedirectToAction(nameof(Index));
