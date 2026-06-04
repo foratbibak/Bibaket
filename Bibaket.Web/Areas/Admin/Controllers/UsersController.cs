@@ -163,7 +163,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         {
             await _userServices.DeleteUserAsync(id);
 
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> DeDelete(int id)
