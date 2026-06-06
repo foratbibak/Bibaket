@@ -89,7 +89,12 @@ namespace Bibaket.Application.Services.Implementation
             await userRepository.SaveAsync();
         }
 
-        public async Task<User> GetUserFullDataAsync(int userId)
+        public async Task<User> GetUserForDeleteAsync(int userId)
+        {
+            return await userRepository.GetUserFullDataAsync(userId);
+        }
+
+        public async Task<User> GetUserForEditAsync(int userId)
         {
             return await userRepository.GetUserFullDataAsync(userId);
         }

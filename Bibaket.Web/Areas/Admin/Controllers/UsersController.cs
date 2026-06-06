@@ -27,14 +27,17 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             this._roleServices = roleServices;
         }
 
+        #region Index
         // GET: Admin/Users
-        public async Task<IActionResult> Index(string create="false")
+        public async Task<IActionResult> Index(string create = "false")
         {
-            var lst =await _userServices.ListUsersForAdmin();
+            var lst = await _userServices.ListUsersForAdmin();
             ViewBag.Create = create;
             return View(lst);
         }
+        #endregion
 
+        #region Deatiles
         // GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -52,6 +55,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
             return View(user);
         }
+        #endregion
 
         #region Create
         // GET: Admin/Users/Create
@@ -88,6 +92,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
+        #region Edit
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,7 +101,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userServices.GetUserForEditAsync(id.Value);
             if (user == null)
             {
                 return NotFound();
@@ -138,6 +143,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             }
             return View(user);
         }
+        #endregion
 
         // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int id)
@@ -147,7 +153,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _userServices.GetUserFullDataAsync(id);
+            var user = await _userServices.GetUserForDeleteAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -166,32 +172,32 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> DeDelete(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> DeDelete(int id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var user = await _userServices.GetUserFullDataAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //    var user = await _userServices.GetUserFullDataAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(user);
+        //    return View(user);
 
-        }
+        //}
 
-        // POST: Admin/Users/Delete/5
-        [HttpPost, ActionName("DeDelete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeDeleteConfirmed(int id)
-        {
-            await _userServices.UserDeAcitve(id);
+        //// POST: Admin/Users/Delete/5
+        //[HttpPost, ActionName("DeDelete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeDeleteConfirmed(int id)
+        //{
+        //    await _userServices.UserDeAcitve(id);
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    return RedirectToAction(nameof(Index));
+        //}
 
 
         private bool UserExists(int id)
