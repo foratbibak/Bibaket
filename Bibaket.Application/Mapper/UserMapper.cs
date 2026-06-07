@@ -46,5 +46,23 @@ namespace Bibaket.Application.Mapper
                 
             };
         }
+        public static AdminEditViewModel MapToEditUser(User user)
+        {
+            return new AdminEditViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email=user.Email,
+                Avatar=user.Avatar,
+                IsActive = user.IsActive,
+                IsDelete=user.IsDelete,
+                NationalCode=user.NationalCode,
+                Mobile=user.Mobile,
+                UserSelectedRoles=user.UserInRole?.Select(r=>r.Id).ToList(),
+               
+            };
+
+        }
     }
 }

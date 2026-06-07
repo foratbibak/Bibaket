@@ -87,15 +87,16 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a>
                     <a asp-action="Details" asp-route-id="@item.Id" style="color: #28a745;">جزئیات</a>
-                    @if (item.IsDelete == false)
-                    {
-                        <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
 
-                    }
-                    else
+                    @* @if (item.IsDelete == false)
+                    {
+
+                    } *@
+                    @* else
                     {
                         <a asp-action="DeDelete" asp-route-id="@item.Id" style="color: green;">بازگردانی</a>
-                    }
+                    } *@
                 </td>
             </tr>
         }

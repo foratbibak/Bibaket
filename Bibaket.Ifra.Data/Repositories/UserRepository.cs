@@ -66,7 +66,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task<User?> GetUserFullDataAsync(int userId)
         {
-            return await context.Users.Include(u => u.UserInRole)
+            return await context.Users.IgnoreQueryFilters().Include(u => u.UserInRole)
                 .ThenInclude(u => u.Role).SingleOrDefaultAsync(u => u.Id == userId);
         }
 

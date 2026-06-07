@@ -2,6 +2,7 @@
 using Bibaket.Application.Mapper;
 using Bibaket.Application.Security;
 using Bibaket.Application.Services.Interfaces;
+using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Enums.User;
 using Bibaket.Domain.ViewModels.User;
 using Bibaket.Domin.Contracts;
@@ -14,7 +15,7 @@ using System.Text;
 
 namespace Bibaket.Application.Services.Implementation
 {
-    public class UserServices(IUserRepository userRepository) : IUserServices
+    public class UserServices(IUserRepository userRepository,IRoleRepository roleRepository) : IUserServices
     {
         public async Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model)
         {
@@ -94,9 +95,15 @@ namespace Bibaket.Application.Services.Implementation
             return await userRepository.GetUserFullDataAsync(userId);
         }
 
-        public async Task<User> GetUserForEditAsync(int userId)
+        public async Task<AdminEditViewModel> GetUserForEditAsync(int userId)
         {
-            return await userRepository.GetUserFullDataAsync(userId);
+            var user= await userRepository.GetUserFullDataAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("کاربر یافت نشد");           }
+            var edituser=UserMapper.MapToEditUser(user);
+            edituser.Roles=await roleRepository.GetAllRolesAsync();
+            return edituser;
         }
 
         public async Task<IEnumerable<UserViewModel>> ListUsersForAdmin()

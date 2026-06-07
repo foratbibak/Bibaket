@@ -2,7 +2,7 @@
 @model Bibaket.Domain.ViewModels.User.AdminEditViewModel
 
 @{
-    ViewData["Title"] = "افزودن کاربر جدید";
+    ViewData["Title"] = "ویرایش کاربر ";
 }
 
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -12,68 +12,6 @@
     </h4>
 
     <div class="row g-4">
-        @if (ViewBag.Error != null)
-        {
-            var error = (AdminCreateUserResult)ViewBag.Error;
-            switch (error)
-            {
-                case AdminCreateUserResult.UserNameDuplicated:
-                    {
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <i class="bx bx-user-x me-2"></i>
-                            <strong>نام کاربری تکراری!</strong> این نام کاربری قبلاً ثبت شده است. لطفاً نام کاربری دیگری انتخاب کنید.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-                case AdminCreateUserResult.EmailDuplicated:
-                    {
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <i class="bx bx-envelope me-2"></i>
-                            <strong>ایمیل تکراری!</strong> این آدرس ایمیل قبلاً در سیستم ثبت شده است. لطفاً از ایمیل دیگری استفاده کنید.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-                case AdminCreateUserResult.NationalCodeDuplicated:
-                    {
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <i class="bx bx-id-card me-2"></i>
-                            <strong>کد ملی تکراری!</strong> این کد ملی قبلاً ثبت نام کرده است. در صورت صحت اطلاعات، با پشتیبانی تماس بگیرید.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-                case AdminCreateUserResult.InvalidImage:
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="bx bx-image-alt me-2"></i>
-                            <strong>خطا در آپلود تصویر!</strong> فرمت تصویر نامعتبر است. فرمت‌های مجاز: JPG، PNG و GIF.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-                case AdminCreateUserResult.DatabaseError:
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="bx bx-server me-2"></i>
-                            <strong>خطای سرور!</strong> مشکلی در سرور رخ داده است. لطفاً چند دقیقه دیگر تلاش کنید یا با پشتیبانی تماس بگیرید.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-                case AdminCreateUserResult.UnknownError:
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="bx bx-help-circle me-2"></i>
-                            <strong>خطای ناشناخته!</strong> خطایی رخ داده است. لطفاً با پشتیبانی تماس بگیرید. (کد: 5001)
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        break;
-                    }
-            }
-        }
-
         <form asp-action="Create" class="row g-4" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
@@ -93,7 +31,7 @@
                                     <i class="bx bx-user text-muted me-1"></i>
                                     نام
                                 </label>
-                                <input asp-for="FirstName" class="form-control" placeholder="مثال: علی" />
+                                <input asp-for="FirstName" class="form-control" placeholder="مثال: فرات" />
                                 <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
@@ -101,7 +39,7 @@
                                     <i class="bx bx-user-voice text-muted me-1"></i>
                                     نام خانوادگی
                                 </label>
-                                <input asp-for="LastName" class="form-control" placeholder="مثال: رضایی" />
+                                <input asp-for="LastName" class="form-control" placeholder="مثال: بی باک" />
                                 <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
@@ -157,23 +95,6 @@
                                 </div>
                                 <span asp-validation-for="Mobile" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6">
-                                <label asp-for="Password" class="form-label fw-semibold">
-                                    <i class="bx bx-key text-muted me-1"></i>
-                                    رمز عبور
-                                </label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-end-0">
-                                        <i class="bx bx-lock"></i>
-                                    </span>
-                                    <input asp-for="Password" class="form-control border-start-0" type="password" />
-                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
-                                        <i class="bx bx-show"></i>
-                                    </button>
-                                </div>
-                                <span asp-validation-for="Password" class="text-danger small"></span>
-                                <div class="form-text">حداقل ۶ کاراکتر</div>
-                            </div>
                         </div>
 
                         <hr class="my-4" />
@@ -185,6 +106,14 @@
                                 فعال بودن حساب کاربری
                             </label>
                             <div class="form-text ms-4">در صورت غیرفعال بودن، کاربر قادر به ورود نخواهد بود</div>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" asp-for="IsDelete" type="checkbox" id="IsDelete" checked>
+                            <label class="form-check-label fw-semibold" for="IsActive">
+                                <i class="bx bx-check-circle text-success me-1"></i>
+                                 حذف بودن حساب کاربری
+                            </label>
+                            <div class="form-text ms-4">در صورت حذف بودن، کاربر قادر به ورود نخواهد بود</div>
                         </div>
                     </div>
                 </div>
@@ -201,10 +130,12 @@
                     </div>
                     <div class="card-body text-center">
                         <div class="position-relative d-inline-block mb-3">
-                            <img id="imgAvatar" src="/Avatars/NoPhoto.jpg"
+
+                            <img id="imgAvatar" src="/Avatars/@Model.Avatar"
                                  class="rounded-circle border shadow-sm"
                                  style="width: 160px; height: 160px; object-fit: cover; cursor: pointer;"
                                  onclick="$('#AvatarUp').click();" />
+
                             <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle p-2 shadow-sm"
                                  style="cursor: pointer;"
                                  onclick="$('#AvatarUp').click();">
@@ -232,7 +163,7 @@
                             @foreach (var item in Model.Roles)
                             {
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="UserSelectedRoles" type="checkbox" value="@item.Id" id="role_@item.Id">
+                                    <input class="form-check-input" name="UserSelectedRoles" type="checkbox" value="@item.Id" @((Model.UserSelectedRoles.Any(r => r == item.Id) ? "checked" : ""))>
                                     <label class="form-check-label" for="role_@item.Id">
                                         <i class="bx bx-shield-alt text-info me-1"></i>
                                         @item.RoleName
@@ -265,7 +196,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script>
         function previewImage(input) {
             if (input.files && input.files[0]) {
@@ -274,19 +204,6 @@
                     $('#imgAvatar').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function togglePassword(btn) {
-            var input = $(btn).closest('.input-group').find('input');
-            var icon = $(btn).find('i');
-
-            if (input.attr('type') === 'password') {
-                input.attr('type', 'text');
-                icon.removeClass('bx-show').addClass('bx-hide');
-            } else {
-                input.attr('type', 'password');
-                icon.removeClass('bx-hide').addClass('bx-show');
             }
         }
     </script>
