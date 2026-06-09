@@ -10,6 +10,7 @@ namespace Bibaket.Domain.ViewModels.User
 {
     public class AdminEditViewModel
     {
+        public int Id { get; set; }
         [DisplayName("نام")]
         public string? FirstName { get; set; }
 

@@ -1,7 +1,9 @@
-﻿using Bibaket.Application.Generator;
+﻿using Bibaket.Application.Extensions;
+using Bibaket.Application.Generator;
 using Bibaket.Application.Mapper;
 using Bibaket.Application.Security;
 using Bibaket.Application.Services.Interfaces;
+using Bibaket.Application.Utilities;
 using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Enums.User;
 using Bibaket.Domain.ViewModels.User;
@@ -15,7 +17,7 @@ using System.Text;
 
 namespace Bibaket.Application.Services.Implementation
 {
-    public class UserServices(IUserRepository userRepository,IRoleRepository roleRepository) : IUserServices
+    public class UserServices(IUserRepository userRepository, IRoleRepository roleRepository) : IUserServices
     {
         public async Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model)
         {
@@ -84,6 +86,91 @@ namespace Bibaket.Application.Services.Implementation
             return AdminCreateUserResult.Success;
         }
 
+        public async Task<AdminEditUserResult> EditUserInAdminAsync(AdminEditViewModel model)
+        {
+            #region Validations
+            try
+            {
+                if (string.IsNullOrEmpty(model.UserName) &&
+                    string.IsNullOrEmpty(model.Email))
+                {
+                    return AdminEditUserResult.Error;
+                }
+                //if (await userRepository.IsExistEmailAsync(model.Email))
+                //{
+                //    return AdminEditUserResult.EmailDuplicated;
+                //}
+                //if (await userRepository.IsExsitUserNameAsync(model.UserName))
+                //{
+                //    return AdminEditUserResult.UserNameDuplicated;
+                //}
+                //if (!string.IsNullOrEmpty(model.Mobile))
+                //{
+                //    if (await userRepository.IsExistMobileAsync(model.Mobile))
+                //    {
+                //        return AdminEditUserResult.MobileDuplicated;
+                //    }
+                //}
+                //if (!string.IsNullOrEmpty(model.NationalCode))
+                //{
+                //    if (await userRepository.IsExistNationalAsync(model.NationalCode))
+                //    {
+                //        return AdminEditUserResult.NationalCodeDuplicated;
+                //    }
+                //}
+                if (model.AvatarFile?.ImageValidate() == false)
+                {
+                    return AdminEditUserResult.InvalidImage;
+                }
+            }
+            catch (DbUpdateException)
+            {
+                return AdminEditUserResult.DatabaseError;
+            }
+            catch (Exception)
+            {
+
+                return AdminEditUserResult.UnknownError;
+            }
+            #endregion        }
+
+            #region Save Avatar
+            if (model.Avatar != null)
+            {
+                if (model.Avatar != "NoPhoto.jpg")
+                {
+                    string DeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatars", model.Avatar);
+                    FileHellper.DeletePath(DeletePath);
+
+                }
+                var avatarName = await SaveImageFileAsync(model.AvatarFile);
+                model.Avatar = avatarName;
+            }
+            #endregion
+
+            #region Edit User
+            //User user = UserMapper.MapToEditUser(model);
+            var user = await userRepository.GetUserFullDataAsync(model.Id);
+            user.FirstName=model.FirstName.Trim();
+            user.LastName=model.LastName.Trim();
+            user.Email=model.Email.FixEmail();
+            user.Avatar = model.Avatar;
+            user.UserName = model.UserName.FixUserName();
+            user.UpdateDate=DateTime.Now;
+            user.IsDelete = model.IsDelete;
+            user.IsActive = model.IsActive;
+            user.Mobile = model.Mobile;
+            user.NationalCode=model.NationalCode;
+
+            await userRepository.UpdateAsync(user);
+            await userRepository.SaveAsync();
+            #endregion
+
+            #region Edit Role
+            await roleRepository.UpdateUserInRole(user.Id,model.UserSelectedRoles);
+            #endregion
+            return AdminEditUserResult.Success;
+        }
         public async Task DeleteUserAsync(int userId)
         {
             await userRepository.DeleteAsync(userId);

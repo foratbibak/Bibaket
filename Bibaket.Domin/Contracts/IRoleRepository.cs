@@ -8,5 +8,7 @@ namespace Bibaket.Domain.Contracts
     public interface IRoleRepository
     {
         Task<IEnumerable<Role>> GetAllRolesAsync();
+
+        Task UpdateUserInRole(int  userId, List<int> selectedroles);
     }
 }

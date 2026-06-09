@@ -46,6 +46,23 @@ namespace Bibaket.Application.Mapper
                 
             };
         }
+        //public static User MapToEditUser(AdminEditViewModel model)
+        //{
+        //    return new User()
+        //    {
+        //        FirstName = model.FirstName,
+        //        LastName = model.LastName,
+        //        UserName = model.UserName.FixUserName(),
+        //        Email = model.Email.FixEmail(),
+        //        Mobile = model.Mobile,
+        //        NationalCode = model.NationalCode,
+        //        Avatar = model.Avatar,
+        //        IsActive = model.IsActive,
+        //        IsDelete = model.IsDelete,
+        //        UpdateDate = DateTime.Now,
+
+        //    };
+        //}
         public static AdminEditViewModel MapToEditUser(User user)
         {
             return new AdminEditViewModel()
