@@ -86,7 +86,7 @@ namespace Bibaket.Application.Services.Implementation
             return AdminCreateUserResult.Success;
         }
 
-        public async Task<AdminEditUserResult> EditUserInAdminAsync(AdminEditViewModel model)
+        public async Task<AdminEditUserResult> EditUserAsync(AdminEditViewModel model)
         {
             #region Validations
             try
@@ -132,42 +132,40 @@ namespace Bibaket.Application.Services.Implementation
 
                 return AdminEditUserResult.UnknownError;
             }
-            #endregion        }
+            #endregion        
 
             #region Save Avatar
-            if (model.Avatar != null)
+            if (model.AvatarFile != null)
             {
                 if (model.Avatar != "NoPhoto.jpg")
                 {
-                    string DeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatars", model.Avatar);
-                    FileHellper.DeletePath(DeletePath);
-
+                    string deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Avatars", model.Avatar);
+                    FileHellper.DeletePath(deletePath);
                 }
-                var avatarName = await SaveImageFileAsync(model.AvatarFile);
+
+                string avatarName = await SaveImageFileAsync(model.AvatarFile);
                 model.Avatar = avatarName;
             }
             #endregion
 
-            #region Edit User
-            //User user = UserMapper.MapToEditUser(model);
+            #region Map To User And Edit User
             var user = await userRepository.GetUserFullDataAsync(model.Id);
-            user.FirstName=model.FirstName.Trim();
-            user.LastName=model.LastName.Trim();
-            user.Email=model.Email.FixEmail();
             user.Avatar = model.Avatar;
+            user.Email = model.Email.FixEmail();
+            user.FirstName = model.FirstName?.Trim();
             user.UserName = model.UserName.FixUserName();
-            user.UpdateDate=DateTime.Now;
-            user.IsDelete = model.IsDelete;
+            user.LastName = model.LastName?.Trim();
+            user.UpdateDate = DateTime.Now;
             user.IsActive = model.IsActive;
+            user.IsDelete = model.IsDelete;
             user.Mobile = model.Mobile;
-            user.NationalCode=model.NationalCode;
-
+            user.NationalCode = model.NationalCode;
             await userRepository.UpdateAsync(user);
             await userRepository.SaveAsync();
             #endregion
 
             #region Edit Role
-            await roleRepository.UpdateUserInRole(user.Id,model.UserSelectedRoles);
+            await roleRepository.UpdateUserInRole(user.Id, model.UserSelectedRoles);
             #endregion
             return AdminEditUserResult.Success;
         }

@@ -1,4 +1,5 @@
-﻿using Bibaket.Application.Services.Interfaces;
+﻿using Bibaket.Application.Services.Implementation;
+using Bibaket.Application.Services.Interfaces;
 using Bibaket.Domain.Enums.User;
 using Bibaket.Domain.ViewModels.User;
 using Bibaket.Domin.Models.Users;
@@ -92,7 +93,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        #region Edit
+        #region Edit User
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -120,12 +121,27 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            if (ModelState.IsValid)
+            // دیباگ - ببینید چه خطاهایی وجود داره
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //foreach (var error in errors)
+            //{
+            //    // اینجا می‌تونید خطا رو لاگ کنید یا با breakpoint ببینید
+            //    var errorMessage = error.ErrorMessage;
+            //}
+            if (!ModelState.IsValid)  
             {
-                var result = await _userServices.EditUserInAdminAsync(user);
-                if(result == AdminEditUserResult.Success)
-                    return RedirectToAction(nameof(Index));
+                return View(user);
             }
+
+            var result = await _userServices.EditUserAsync(user);
+
+            if (result == AdminEditUserResult.Success)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError("", "ویرایش کاربر با خطا مواجه شد");
+
             return View(user);
         }
         #endregion

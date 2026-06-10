@@ -12,7 +12,7 @@ namespace Bibaket.Application.Services.Interfaces
     {
         Task<IEnumerable<UserViewModel>> ListUsersForAdmin();
         Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model);
-        Task<AdminEditUserResult> EditUserInAdminAsync(AdminEditViewModel model);
+        Task<AdminEditUserResult> EditUserAsync(AdminEditViewModel model);
         Task<User> GetUserForDeleteAsync(int userId);
         Task<AdminEditViewModel> GetUserForEditAsync(int userId);
         Task DeleteUserAsync(int userId);

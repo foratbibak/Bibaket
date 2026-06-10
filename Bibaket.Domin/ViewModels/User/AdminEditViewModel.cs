@@ -33,9 +33,9 @@ namespace Bibaket.Domain.ViewModels.User
         [DisplayName("کدملی")]
         public string? NationalCode { get; set; }
 
-        [DisplayName("کلمه عبور")]
-        [Required(ErrorMessage = "لطفا {0} را وارد فرمایید")]
-        public string Password { get; set; }
+        //[DisplayName("کلمه عبور")]
+        //[Required(ErrorMessage = "لطفا {0} را وارد فرمایید")]
+        //public string Password { get; set; }
 
         [DisplayName("تصویر پروفایل")]
         public string? Avatar { get; set; }
