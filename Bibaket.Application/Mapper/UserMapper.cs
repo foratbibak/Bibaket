@@ -75,8 +75,8 @@ namespace Bibaket.Application.Mapper
                 IsActive = user.IsActive,
                 IsDelete=user.IsDelete,
                 NationalCode=user.NationalCode,
-                Mobile=user.Mobile,
-                UserSelectedRoles=user.UserInRole?.Select(r=>r.Id).ToList(),
+                Mobile=user.Mobile, 
+                UserSelectedRoles=user.UserInRole?.Select(r=>r.RoleId).ToList(),
                
             };
 

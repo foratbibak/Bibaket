@@ -4,6 +4,7 @@ using Bibaket.Ifra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Bibaket.Ifra.Data.Repositories
@@ -119,6 +120,28 @@ namespace Bibaket.Ifra.Data.Repositories
         public async Task<IEnumerable<User>> GetAllUserForAdminAsync()
         {
            return await context.Users.IgnoreQueryFilters().ToListAsync();
+        }
+
+        public async Task<bool> IsExistEmailForEditAsync(string email, int userId)
+        {
+            return await context.Users.AnyAsync(u => u.Email == email&&u.Id!=userId);
+
+        }
+
+        public async Task<bool> IsExsitUserNameForEditAsync(string userName, int userId)
+        {
+            return await context.Users.AnyAsync(u=>u.UserName==userName&&u.Id!=userId);
+        }
+
+        public async Task<bool> IsExistMobileForEditAsync(string mobile, int userId)
+        {
+            return await context.Users.AnyAsync(u=>u.Mobile==mobile&&u.Id!=userId);
+        }
+
+        public async Task<bool> IsExistNationalForEditAsync(string national, int userId)
+        {
+            return await context.Users.AnyAsync(u => u.NationalCode == national && u.Id != userId);
+
         }
     }
 }

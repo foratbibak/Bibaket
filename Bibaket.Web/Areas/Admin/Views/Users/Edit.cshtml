@@ -12,6 +12,67 @@
     </h4>
 
     <div class="row g-4">
+        @if (ViewBag.Error != null)
+        {
+            var error = (AdminEditUserResult)ViewBag.Error;
+            switch (error)
+            {
+                case AdminEditUserResult.UserNameDuplicated:
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bx bx-user-x me-2"></i>
+                            <strong>نام کاربری تکراری!</strong> این نام کاربری قبلاً ثبت شده است. لطفاً نام کاربری دیگری انتخاب کنید.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+                case AdminEditUserResult.EmailDuplicated:
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bx bx-envelope me-2"></i>
+                            <strong>ایمیل تکراری!</strong> این آدرس ایمیل قبلاً در سیستم ثبت شده است. لطفاً از ایمیل دیگری استفاده کنید.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+                case AdminEditUserResult.NationalCodeDuplicated:
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bx bx-id-card me-2"></i>
+                            <strong>کد ملی تکراری!</strong> این کد ملی قبلاً ثبت نام کرده است. در صورت صحت اطلاعات، با پشتیبانی تماس بگیرید.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+                case AdminEditUserResult.InvalidImage:
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bx bx-image-alt me-2"></i>
+                            <strong>خطا در آپلود تصویر!</strong> فرمت تصویر نامعتبر است. فرمت‌های مجاز: JPG، PNG و GIF.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+                case AdminEditUserResult.DatabaseError:
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bx bx-server me-2"></i>
+                            <strong>خطای سرور!</strong> مشکلی در سرور رخ داده است. لطفاً چند دقیقه دیگر تلاش کنید یا با پشتیبانی تماس بگیرید.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+                case AdminEditUserResult.UnknownError:
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bx bx-help-circle me-2"></i>
+                            <strong>خطای ناشناخته!</strong> خطایی رخ داده است. لطفاً با پشتیبانی تماس بگیرید. (کد: 5001)
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        break;
+                    }
+            }
+        }
         <form asp-action="Edit" class="row g-4" enctype="multipart/form-data">
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="Avatar" />

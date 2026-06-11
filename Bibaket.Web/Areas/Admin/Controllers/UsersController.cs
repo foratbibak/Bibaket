@@ -139,9 +139,10 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-
-            ModelState.AddModelError("", "ویرایش کاربر با خطا مواجه شد");
-
+            else
+            {
+                ViewBag.Error = result;
+            }
             return View(user);
         }
         #endregion
@@ -172,34 +173,6 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        //public async Task<IActionResult> DeDelete(int id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var user = await _userServices.GetUserFullDataAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(user);
-
-        //}
-
-        //// POST: Admin/Users/Delete/5
-        //[HttpPost, ActionName("DeDelete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeDeleteConfirmed(int id)
-        //{
-        //    await _userServices.UserDeAcitve(id);
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
 
         private bool UserExists(int id)
         {

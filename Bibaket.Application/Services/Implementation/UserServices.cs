@@ -96,28 +96,28 @@ namespace Bibaket.Application.Services.Implementation
                 {
                     return AdminEditUserResult.Error;
                 }
-                //if (await userRepository.IsExistEmailAsync(model.Email))
-                //{
-                //    return AdminEditUserResult.EmailDuplicated;
-                //}
-                //if (await userRepository.IsExsitUserNameAsync(model.UserName))
-                //{
-                //    return AdminEditUserResult.UserNameDuplicated;
-                //}
-                //if (!string.IsNullOrEmpty(model.Mobile))
-                //{
-                //    if (await userRepository.IsExistMobileAsync(model.Mobile))
-                //    {
-                //        return AdminEditUserResult.MobileDuplicated;
-                //    }
-                //}
-                //if (!string.IsNullOrEmpty(model.NationalCode))
-                //{
-                //    if (await userRepository.IsExistNationalAsync(model.NationalCode))
-                //    {
-                //        return AdminEditUserResult.NationalCodeDuplicated;
-                //    }
-                //}
+                if (await userRepository.IsExistEmailForEditAsync(model.Email,model.Id))
+                {
+                    return AdminEditUserResult.EmailDuplicated;
+                }
+                if (await userRepository.IsExsitUserNameForEditAsync(model.UserName, model.Id))
+                {
+                    return AdminEditUserResult.UserNameDuplicated;
+                }
+                if (!string.IsNullOrEmpty(model.Mobile))
+                {
+                    if (await userRepository.IsExistMobileForEditAsync(model.Mobile, model.Id))
+                    {
+                        return AdminEditUserResult.MobileDuplicated;
+                    }
+                }
+                if (!string.IsNullOrEmpty(model.NationalCode))
+                {
+                    if (await userRepository.IsExistNationalForEditAsync(model.NationalCode, model.Id))
+                    {
+                        return AdminEditUserResult.NationalCodeDuplicated;
+                    }
+                }
                 if (model.AvatarFile?.ImageValidate() == false)
                 {
                     return AdminEditUserResult.InvalidImage;

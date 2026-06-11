@@ -33,6 +33,8 @@ namespace Bibaket.Ifra.Data.Repositories
                     });
                 }
             }
+            _context.SaveChanges();
+
         }
     }
 }

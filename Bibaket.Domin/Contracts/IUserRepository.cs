@@ -22,15 +22,19 @@ namespace Bibaket.Domin.Contracts
         Task AddUserToRole(int UserId, List<int> roleIds);
 
         Task<bool> IsExsitUserNameAsync(string userName);
+        Task<bool> IsExsitUserNameForEditAsync(string userName, int userId);
         Task<bool> IsExistEmailAsync(string email);
+        Task<bool> IsExistEmailForEditAsync(string email, int userId);
         Task<bool> IsExistMobileAsync(string mobile);
+        Task<bool> IsExistMobileForEditAsync(string mobile, int userId);
         Task<bool> IsExistNationalAsync(string national);
+        Task<bool> IsExistNationalForEditAsync(string national, int userId);
 
 
 
         Task<User?> GetUserByActiveCodeAsync(string activeCode);
 
-        Task<User?>GetUserByEmailOrUserName(string emailOrUserName);
+        Task<User?> GetUserByEmailOrUserName(string emailOrUserName);
 
         Task SaveAsync();
     }

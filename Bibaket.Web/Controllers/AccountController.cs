@@ -54,7 +54,7 @@ namespace Bibaket.Web.Controllers
             switch (result)
             {
                 case RegisterUserResult.Success:
-                    return View("~/Views/Account/SuccessRegister.cshtml", register);
+                    return View("/Views/Account/SuccessRegister.cshtml", register);
                 case RegisterUserResult.EmailDuplicated:
                     ModelState.AddModelError("Email", "ایمیل وارد شده تکراری است");
                     break;
