@@ -233,6 +233,11 @@ namespace Bibaket.Application.Services.Implementation
 
             return AvatarName;
         }
+
+        public Task<AdminFilterUserViewModel> AdminFilterAsync(AdminFilterUserViewModel model)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

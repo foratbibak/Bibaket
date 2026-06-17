@@ -10,6 +10,7 @@ namespace Bibaket.Application.Services.Interfaces
 {
     public interface IUserServices
     {
+        Task<AdminFilterUserViewModel> AdminFilterAsync(AdminFilterUserViewModel model);
         Task<IEnumerable<UserViewModel>> ListUsersForAdmin();
         Task<AdminCreateUserResult> CreatUserInAdminAsync(AdminCreatUserViewModel model);
         Task<AdminEditUserResult> EditUserAsync(AdminEditViewModel model);
