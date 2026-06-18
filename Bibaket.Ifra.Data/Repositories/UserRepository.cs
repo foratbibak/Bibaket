@@ -143,5 +143,10 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Users.AnyAsync(u => u.NationalCode == national && u.Id != userId);
 
         }
+
+        public async Task<IQueryable<User>> FilterAsync()
+        {
+            return await context.Users.AsQueryable();
+        }
     }
 }

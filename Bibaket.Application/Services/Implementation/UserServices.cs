@@ -69,15 +69,15 @@ namespace Bibaket.Application.Services.Implementation
             #endregion
 
             #region Save Avatar
-            var avatarName=await SaveImageFileAsync(model.AvatarFile);
+            var avatarName = await SaveImageFileAsync(model.AvatarFile);
             model.Avatar = avatarName;
             #endregion
 
             #region CreateUser
-            User user=UserMapper.MapToUser(model);
+            User user = UserMapper.MapToUser(model);
             await userRepository.CreatAsync(user);
             await userRepository.SaveAsync();
-            if (model.UserSelectedRoles!=null&&model.UserSelectedRoles.Any())
+            if (model.UserSelectedRoles != null && model.UserSelectedRoles.Any())
             {
                 await userRepository.AddUserToRole(user.Id, model.UserSelectedRoles);
                 await userRepository.SaveAsync();
@@ -96,7 +96,7 @@ namespace Bibaket.Application.Services.Implementation
                 {
                     return AdminEditUserResult.Error;
                 }
-                if (await userRepository.IsExistEmailForEditAsync(model.Email,model.Id))
+                if (await userRepository.IsExistEmailForEditAsync(model.Email, model.Id))
                 {
                     return AdminEditUserResult.EmailDuplicated;
                 }
@@ -182,18 +182,19 @@ namespace Bibaket.Application.Services.Implementation
 
         public async Task<AdminEditViewModel> GetUserForEditAsync(int userId)
         {
-            var user= await userRepository.GetUserFullDataAsync(userId);
+            var user = await userRepository.GetUserFullDataAsync(userId);
             if (user == null)
             {
-                throw new Exception("کاربر یافت نشد");           }
-            var edituser=UserMapper.MapToEditUser(user);
-            edituser.Roles=await roleRepository.GetAllRolesAsync();
+                throw new Exception("کاربر یافت نشد");
+            }
+            var edituser = UserMapper.MapToEditUser(user);
+            edituser.Roles = await roleRepository.GetAllRolesAsync();
             return edituser;
         }
 
         public async Task<IEnumerable<UserViewModel>> ListUsersForAdmin()
         {
-            var List= userRepository.GetAllUserForAdminAsync().Result.Select(u => new UserViewModel
+            var List = userRepository.GetAllUserForAdminAsync().Result.Select(u => new UserViewModel
             {
                 Avatar = u.Avatar,
                 CreatDate = u.CreatDate,
@@ -234,9 +235,71 @@ namespace Bibaket.Application.Services.Implementation
             return AvatarName;
         }
 
-        public Task<AdminFilterUserViewModel> AdminFilterAsync(AdminFilterUserViewModel model)
+        public async Task<AdminFilterUserViewModel> AdminFilterAsync(AdminFilterUserViewModel model)
         {
-            throw new NotImplementedException();
+            #region Query
+            var query = await userRepository.FilterAsync();
+            #endregion
+
+            #region Filter
+            if (!string.IsNullOrEmpty(model.FirstName))
+            {
+                query = query.Where(u => u.FirstName.Contains(model.FirstName));
+
+            }
+            if (!string.IsNullOrEmpty(model.LastName))
+            {
+                query = query.Where(u => u.LastName.Contains(model.LastName));
+
+            }
+            if (!string.IsNullOrEmpty(model.UserName))
+            {
+                query = query.Where(u => u.UserName.Contains(model.UserName));
+
+            }
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                query = query.Where(u => u.Email.Contains(model.Email));
+
+            }
+            if (!string.IsNullOrEmpty(model.NationalCode))
+            {
+                query = query.Where(u => u.NationalCode.Contains(model.NationalCode));
+
+            }
+            if (!string.IsNullOrEmpty(model.Mobile))
+            {
+                query = query.Where(u => u.Mobile.Contains(model.Mobile));
+
+            }
+            switch (model.DeleteStatus)
+            {
+                case FilterDeleteStatus.NotDeleted:
+                    {
+                        break;
+                    }
+                case FilterDeleteStatus.All:
+                    {
+                        query = query.Where(u => u.IsDelete);
+                        break;
+                    }
+                case FilterDeleteStatus.Deleted:
+                    {
+                        query = query.Where(u => !u.IsDelete);
+                        break;
+                    }
+            }
+            #endregion
+
+            #region Sort
+            query = query.OrderByDescending(u => u.CreatDate);
+            #endregion
+
+            #region Paging
+            await model.Paging(UserMapper.MapToUserViewModel(query));
+            #endregion
+
+            return model;
         }
         #endregion
     }

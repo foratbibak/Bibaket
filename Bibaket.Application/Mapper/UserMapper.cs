@@ -12,6 +12,26 @@ namespace Bibaket.Application.Mapper
 {
     public static class UserMapper
     {
+        public static IQueryable<UserViewModel>MapToUserViewModel(IQueryable<User> query)
+        {
+            return query.Select(user => new UserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Email = user.Email,
+                Mobile = user.Mobile,
+                NationalCode = user.NationalCode,
+                Avatar=user.Avatar,
+                Password=user.Password,
+                CreatDate=user.CreatDate,
+                //IsDelete=user.IsDelete,
+                IsActive=user.IsActive,
+                
+
+            });
+        }
         public static User MapToUser(RegisterViewModel model)
         {
             return new User()

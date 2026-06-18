@@ -7,6 +7,7 @@ namespace Bibaket.Domin.Contracts
 {
     public interface IUserRepository
     {
+        Task<IQueryable<User>> FilterAsync();
         Task<IEnumerable<User>> GetAllUserAsync();
         Task<IEnumerable<User>> GetAllUserForAdminAsync();
         Task<User?> GetUserbyIdAsync(int userId);
