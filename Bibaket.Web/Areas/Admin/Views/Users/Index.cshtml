@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Bibaket.Domain.ViewModels.User.UserViewModel>
+﻿@using Bibaket.Domain.ViewModels.User
+@model AdminFilterUserViewModel
 
 @{
     ViewData["Title"] = "لیست کاربران";
@@ -19,25 +20,25 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Avatar)
+                آواتار
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                نام
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                نام خانوادگی
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                نام کاربری 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                ایمیل 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mobile)
+                موبایل
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
+                فعال/غیرفعال
             </th>
             <th>
                 تاریخ ایجاد
@@ -50,7 +51,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Entities)
         {
             <tr style="@(item.IsDelete ? "color:Red;" : "")">
                 <td>
@@ -102,7 +103,8 @@
         }
     </tbody>
 </table>
-
+<hr />
+<partial name="_AdminPagination" model="Model.GetCurrentPaging()" />
 
 
 

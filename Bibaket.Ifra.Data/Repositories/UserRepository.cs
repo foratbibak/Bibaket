@@ -146,7 +146,9 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task<IQueryable<User>> FilterAsync()
         {
-            return await context.Users.AsQueryable();
+            return await Task.FromResult(context.Users.AsQueryable());
+
+            //return await context.Users.AsQueryable();
         }
     }
 }

@@ -30,9 +30,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #region Index
         // GET: Admin/Users
-        public async Task<IActionResult> Index(string create = "false")
+        public async Task<IActionResult> Index(AdminFilterUserViewModel adminFilter, string create = "false")
         {
-            var lst = await _userServices.ListUsersForAdmin();
+            var lst = await _userServices.AdminFilterAsync(adminFilter);
             ViewBag.Create = create;
             return View(lst);
         }
