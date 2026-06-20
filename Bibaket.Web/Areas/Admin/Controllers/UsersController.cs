@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    //[Area("Admin")]
     public class UsersController : Controller
     {
         private readonly EshopDbContext _context;
