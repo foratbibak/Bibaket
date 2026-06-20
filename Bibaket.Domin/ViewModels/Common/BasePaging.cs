@@ -27,7 +27,7 @@ namespace Bibaket.Domain.ViewModels.Common
         {
             var allEntitiesCount = query.Count();
             var pageCount = (int)Math.Ceiling(allEntitiesCount / (double)TakeEntity);
-            PageId = pageCount < 1 ? PageId : PageId > PageCount ? pageCount : PageId;
+            PageId = pageCount < 1 ? PageId : PageId > pageCount ? pageCount : PageId;
             AllEntitiesCount = allEntitiesCount;
 
             SkipEntity=(PageId - 1) * TakeEntity;
