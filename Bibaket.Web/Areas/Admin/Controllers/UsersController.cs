@@ -34,7 +34,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         {
             var lst = await _userServices.AdminFilterAsync(adminFilter);
             ViewBag.Create = create;
-            return View(lst);
+            //return View(lst);
         }
         #endregion
 
