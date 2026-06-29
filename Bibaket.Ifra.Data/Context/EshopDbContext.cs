@@ -1,4 +1,5 @@
-﻿using Bibaket.Domain.Models.Roles;
+﻿using Bibaket.Domain.Models.Permission;
+using Bibaket.Domain.Models.Roles;
 using Bibaket.Domin.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,14 @@ namespace Bibaket.Ifra.Data.Context
         public DbSet<Role> Role { get; set; }
         public DbSet<UserInRoles> UserInRoles { get; set; }
         #endregion
+
+        #region Permissions
+        public DbSet<Permission> Permissions { get; set; }
+
+        public DbSet<RolePermissionMapping> RolePermissionMappings { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Query Fillter

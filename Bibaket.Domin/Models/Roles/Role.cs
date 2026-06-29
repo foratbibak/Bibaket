@@ -1,4 +1,5 @@
-﻿using Bibaket.Domin.Models.Common;
+﻿using Bibaket.Domain.Models.Permission;
+using Bibaket.Domin.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Bibaket.Domain.Models.Roles
 
         #region Realations
         public ICollection<UserInRoles>? UserInRole { get; set; }
+
+        public ICollection<RolePermissionMapping>? RolePermissionConfigs { get; set; }
         #endregion
 
     }
