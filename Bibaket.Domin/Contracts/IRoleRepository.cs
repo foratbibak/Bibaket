@@ -11,11 +11,13 @@ namespace Bibaket.Domain.Contracts
 
         Task<IEnumerable<Role>> GetAllRolesAsync();
 
-        Task<Role?>GetbyIdAsync(int Id);
+        Task<Role?>GetbyIdAsync(int roleId);
         Task CreateRoleAsync(Role role);
         Task UpdateRoleAsync(Role role);
         Task DeleteAsync(Role role);
         Task DeleteAsync(int Id);
+        Task SaveAsync();
+
         Task UpdateUserInRole(int  userId, List<int> selectedroles);
     }
 }

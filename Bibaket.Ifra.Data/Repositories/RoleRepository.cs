@@ -20,12 +20,15 @@ namespace Bibaket.Ifra.Data.Repositories
         {
             role.IsDelete = true;
             role.DeleteDate = DateTime.Now;
+            _context.Role.Update(role);
+        
 
         }
 
-        public Task DeleteAsync(int Id)
+        public async Task DeleteAsync(int roleId)
         {
-            throw new NotImplementedException();
+            var role = await GetbyIdAsync(roleId);
+            await DeleteAsync(role);
         }
 
         public async Task<IEnumerable<Role>> GetAllRolesAsync()
@@ -33,14 +36,20 @@ namespace Bibaket.Ifra.Data.Repositories
             return await _context.Role.ToListAsync();
         }
 
-        public Task<Role?> GetbyIdAsync(int Id)
+        public async Task<Role?> GetbyIdAsync(int roleId)
         {
-            throw new NotImplementedException();
+            return await _context.Role.FindAsync(roleId);
+
         }
 
-        public Task UpdateRoleAsync(Role role)
+        public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateRoleAsync(Role role)
+        {
+             _context.Role.Update(role);
         }
 
         public async Task UpdateUserInRole(int userId, List<int> selectedroles)
