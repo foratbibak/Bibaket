@@ -19,7 +19,7 @@ namespace Bibaket.Ifra.Data.Repositories
         public async Task DeleteAsync(Role role)
         {
             role.IsDelete = true;
-            //role.DeleteDate = DateTime.Now;
+            role.DeleteDate = DateTime.Now;
 
         }
 
