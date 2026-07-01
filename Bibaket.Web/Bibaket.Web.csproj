@@ -47,7 +47,7 @@
 	
   <ItemGroup>
     <Reference Include="ASPSnippets.Core.Captcha">
-      <HintPath>..\..\..\..\Desktop\Asp Boot camp\فایل های ضمیمه\27_Madaeny_Asp_Bootcamp\ASPSnippets.Core.Captcha.dll</HintPath>
+      <HintPath>..\ASPSnippets.Core.Captcha.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

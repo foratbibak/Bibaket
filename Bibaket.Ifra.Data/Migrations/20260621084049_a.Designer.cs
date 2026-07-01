@@ -4,6 +4,7 @@ using Bibaket.Ifra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bibaket.Ifra.Data.Migrations
 {
     [DbContext(typeof(EshopDbContext))]
-    partial class EshopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260621084049_a")]
+    partial class a
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,61 +24,6 @@ namespace Bibaket.Ifra.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Bibaket.Domain.Models.Permission.Permission", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UniqName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("Permissions");
-                });
-
-            modelBuilder.Entity("Bibaket.Domain.Models.Permission.RolePermissionMapping", b =>
-                {
-                    b.Property<int>("PermissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PermissionId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RolePermissionMappings");
-                });
 
             modelBuilder.Entity("Bibaket.Domain.Models.Roles.Role", b =>
                 {
@@ -258,34 +206,6 @@ namespace Bibaket.Ifra.Data.Migrations
                     b.ToTable("UserAddresses");
                 });
 
-            modelBuilder.Entity("Bibaket.Domain.Models.Permission.Permission", b =>
-                {
-                    b.HasOne("Bibaket.Domain.Models.Permission.Permission", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("Bibaket.Domain.Models.Permission.RolePermissionMapping", b =>
-                {
-                    b.HasOne("Bibaket.Domain.Models.Permission.Permission", "Permission")
-                        .WithMany("RolePermissionConfigs")
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bibaket.Domain.Models.Roles.Role", "Role")
-                        .WithMany("RolePermissionConfigs")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("Bibaket.Domain.Models.Roles.UserInRoles", b =>
                 {
                     b.HasOne("Bibaket.Domain.Models.Roles.Role", "Role")
@@ -316,15 +236,8 @@ namespace Bibaket.Ifra.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Bibaket.Domain.Models.Permission.Permission", b =>
-                {
-                    b.Navigation("RolePermissionConfigs");
-                });
-
             modelBuilder.Entity("Bibaket.Domain.Models.Roles.Role", b =>
                 {
-                    b.Navigation("RolePermissionConfigs");
-
                     b.Navigation("UserInRole");
                 });
 
