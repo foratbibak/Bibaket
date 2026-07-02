@@ -1,4 +1,5 @@
 ﻿using Bibaket.Domain.Contracts;
+using Bibaket.Domain.Models.Permission;
 using Bibaket.Domain.Models.Roles;
 using Bibaket.Domin.Models.Users;
 using Bibaket.Ifra.Data.Context;
@@ -42,6 +43,11 @@ namespace Bibaket.Ifra.Data.Repositories
 
         }
 
+        public async Task<IEnumerable<Permission>> GetAllPermissionsAsync()
+        {
+            return await _context.Permissions.ToListAsync();
+        }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
@@ -71,6 +77,17 @@ namespace Bibaket.Ifra.Data.Repositories
                 }
             }
             _context.SaveChanges();
+
+        }
+
+        public async Task AddPermissonToRoleAsync(int roleId, int permissionId)
+        {
+            await _context.RolePermissionMappings.AddAsync(new RolePermissionMapping()
+            {
+                RoleId=roleId,
+                PermissionId=permissionId
+               
+            });
 
         }
     }

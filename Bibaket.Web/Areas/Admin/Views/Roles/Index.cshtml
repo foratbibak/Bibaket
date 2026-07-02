@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Bibaket.Domain.Models.Roles.Role>
+
+@{
+    ViewData["Title"] = "نقش ها";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">افزودن نقش </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                عنوان
+            </th>
+            <th>
+                تاریخ ایجاد
+            </th>
+            <th>
+                تاریخ ویرایش 
+            </th>
+            <th>
+                تاریخ حذف
+            </th>
+            <th>
+                آیا حذف هست؟
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeleteDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDelete)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

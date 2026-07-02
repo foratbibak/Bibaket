@@ -1,4 +1,5 @@
-﻿using Bibaket.Domain.Models.Roles;
+﻿using Bibaket.Domain.Models.Permission;
+using Bibaket.Domain.Models.Roles;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,11 @@ namespace Bibaket.Domain.Contracts
         Task UpdateRoleAsync(Role role);
         Task DeleteAsync(Role role);
         Task DeleteAsync(int Id);
+
+        Task<IEnumerable<Permission>> GetAllPermissionsAsync();
+
+        Task AddPermissonToRoleAsync(int roleId, int permissionId);
+
         Task SaveAsync();
 
         Task UpdateUserInRole(int  userId, List<int> selectedroles);
