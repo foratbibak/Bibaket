@@ -12,9 +12,9 @@ namespace Bibaket.Domain.ViewModels.Roles
     {
         [DisplayName("نام نقش")]
         public string RoleName { get; set; }
-
-        public List<int?> PermissonSelectedIds{ get; set; }
         public IEnumerable<Permission>? permissions { get; set; }
+
+        public List<int>? PermissonSelectedIds{ get; set; }
 
 
     }

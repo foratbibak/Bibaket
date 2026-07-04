@@ -15,6 +15,9 @@ namespace Bibaket.Ifra.Data.Configuration.RoleConfig
             builder.HasKey(r => r.Id);
             #endregion
             #region Validations
+            builder.Property(r => r.Id)
+               .ValueGeneratedOnAdd()
+               .UseIdentityColumn();
             builder.Property(r => r.RoleName).IsRequired().HasMaxLength(200);
             #endregion
 

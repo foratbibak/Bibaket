@@ -43,27 +43,32 @@
                                 @item.DisplayName
                             </label>
                         </div>
+                        <div style="margin-right: 50px;">
 
-                        @foreach (var sub1 in Model.permissions.Where(p => p.ParentId == item.Id))
-                        {
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" name="PermissonSelectedIds" type="checkbox" value="@sub1.Id" id="@sub1.Id">
-                                <label class="form-check-label" for="@sub1.Id">
-                                    <i class="bx bx-shield-alt text-info me-1"></i>
-                                    @sub1.DisplayName
-                                </label>
-                            </div>
-                            @foreach (var sub2 in Model.permissions.Where(p => p.ParentId == sub1.Id))
+                            @foreach (var sub1 in Model.permissions.Where(p => p.ParentId == item.Id))
                             {
-                                <div class="form-check mb-2">
+                                <div class="form-check mb-2" style="">
                                     <input class="form-check-input" name="PermissonSelectedIds" type="checkbox" value="@sub1.Id" id="@sub1.Id">
                                     <label class="form-check-label" for="@sub1.Id">
                                         <i class="bx bx-shield-alt text-info me-1"></i>
                                         @sub1.DisplayName
                                     </label>
                                 </div>
+                                <div style="margin-right: 50px;">
+                                    @foreach (var sub2 in Model.permissions.Where(p => p.ParentId == sub1.Id))
+                                    {
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" name="PermissonSelectedIds" type="checkbox" value="@sub2.Id" id="@sub2.Id">
+                                            <label class="form-check-label" for="@sub2.Id">
+                                                <i class="bx bx-shield-alt text-info me-1"></i>
+                                                @sub2.DisplayName
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
                             }
-                        }
+                        </div>
+
                     }
                 </div>
             </div>

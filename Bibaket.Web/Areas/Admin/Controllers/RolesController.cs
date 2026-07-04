@@ -52,7 +52,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
+                await _roleServices.CreateRole(adminCrate);
                 return RedirectToAction(nameof(Index));
             }
             adminCrate.permissions=await _roleServices.GetAllPermissionAsync();

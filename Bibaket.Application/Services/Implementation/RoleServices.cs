@@ -23,11 +23,10 @@ namespace Bibaket.Application.Services.Implementation
             await _roleRepository.CreateRoleAsync(Addrole);
             await _roleRepository.SaveAsync();
 
-            foreach (int item in role.PermissonSelectedIds)
+            foreach (var item in role.PermissonSelectedIds)
             {
                 await _roleRepository.AddPermissonToRoleAsync(Addrole.Id, item);
             }
-            await _roleRepository.CreateRoleAsync(Addrole);
             await _roleRepository.SaveAsync();
         }
 
