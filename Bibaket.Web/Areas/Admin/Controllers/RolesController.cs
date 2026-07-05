@@ -18,7 +18,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         private readonly EshopDbContext _context;
         private readonly IRoleServices _roleServices;
 
-        public RolesController(EshopDbContext context,IRoleServices roleServices)
+        public RolesController(EshopDbContext context, IRoleServices roleServices)
         {
             _context = context;
             this._roleServices = roleServices;
@@ -38,14 +38,11 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
             AdminCreateRoleViewModel adminCreateRole = new AdminCreateRoleViewModel
             {
-               permissions =await _roleServices.GetAllPermissionAsync()
+                permissions = await _roleServices.GetAllPermissionAsync()
             };
             return View(adminCreateRole);
         }
 
-        // POST: Admin/Roles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AdminCreateRoleViewModel adminCrate)
@@ -55,7 +52,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 await _roleServices.CreateRole(adminCrate);
                 return RedirectToAction(nameof(Index));
             }
-            adminCrate.permissions=await _roleServices.GetAllPermissionAsync();
+            adminCrate.permissions = await _roleServices.GetAllPermissionAsync();
             return View(adminCrate);
         }
 
@@ -66,47 +63,32 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            var role = await _context.Role.FindAsync(id);
-            if (role == null)
+            AdminEditRoleViewModel adminEdit = new AdminEditRoleViewModel();
+            adminEdit.permissions = await _roleServices.GetAllPermissionAsync();
+            var role = await _roleServices.GetRoleByIdForAdmin(id);
+            adminEdit.RoleId=role.Id;
+            if (role.RolePermissionMappings.Any())
             {
-                return NotFound();
+                adminEdit.PermissonSelectedIds = role.RolePermissionMappings.Select(r => r.PermissionId).ToList();
             }
-            return View(role);
+            adminEdit.RoleName = role.RoleName;
+            return View(adminEdit);
         }
-
-        // POST: Admin/Roles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoleName,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Role role)
+        public async Task<IActionResult> Edit(int id, AdminEditRoleViewModel role)
         {
-            if (id != role.Id)
+            if (id != role.RoleId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(role);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RoleExists(role.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _roleServices.EditRoleAsync(role);
                 return RedirectToAction(nameof(Index));
             }
+            role.permissions = await _roleServices.GetAllPermissionAsync();
             return View(role);
         }
 

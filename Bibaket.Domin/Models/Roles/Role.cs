@@ -14,7 +14,7 @@ namespace Bibaket.Domain.Models.Roles
         #region Realations
         public ICollection<UserInRoles>? UserInRole { get; set; }
 
-        public ICollection<RolePermissionMapping>? RolePermissionConfigs { get; set; }
+        public ICollection<RolePermissionMapping>? RolePermissionMappings { get; set; }
         #endregion
 
     }

@@ -1,0 +1,18 @@
+﻿using Bibaket.Domain.Models.Permission;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text;
+
+namespace Bibaket.Domain.ViewModels.Roles
+{
+    public class AdminEditRoleViewModel
+    {
+        [DisplayName("نام نقش")]
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+        public IEnumerable<Permission>? permissions { get; set; }
+
+        public List<int>? PermissonSelectedIds { get; set; }
+    }
+}

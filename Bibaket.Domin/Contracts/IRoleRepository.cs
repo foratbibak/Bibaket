@@ -12,6 +12,12 @@ namespace Bibaket.Domain.Contracts
 
         Task<IEnumerable<Role>> GetAllRolesAsync();
 
+        Task<Role> GetRoleByIdForAdminAsync(int? id);
+
+        Task DeleteAllPermissionInRole(int roleId);
+
+        Task<IEnumerable<RolePermissionMapping>>GetAllPermissionInRole(int roleId);
+
         Task<Role?>GetbyIdAsync(int roleId);
         Task CreateRoleAsync(Role role);
         Task UpdateRoleAsync(Role role);

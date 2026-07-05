@@ -22,7 +22,7 @@ namespace Bibaket.Ifra.Data.Repositories
             role.IsDelete = true;
             role.DeleteDate = DateTime.Now;
             _context.Role.Update(role);
-        
+
 
         }
 
@@ -55,7 +55,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task UpdateRoleAsync(Role role)
         {
-             _context.Role.Update(role);
+            _context.Role.Update(role);
         }
 
         public async Task UpdateUserInRole(int userId, List<int> selectedroles)
@@ -84,11 +84,29 @@ namespace Bibaket.Ifra.Data.Repositories
         {
             await _context.RolePermissionMappings.AddAsync(new RolePermissionMapping()
             {
-                RoleId=roleId,
-                PermissionId=permissionId
-               
+                RoleId = roleId,
+                PermissionId = permissionId
+
             });
 
+        }
+
+        public async Task<Role> GetRoleByIdForAdminAsync(int? id)
+        {
+            return await _context.Role.Include(r => r.RolePermissionMappings)
+                .Where(r => r.Id == id).FirstOrDefaultAsync();
+
+        }
+
+        public async Task DeleteAllPermissionInRole(int roleId)
+        {
+            var permissions=await GetAllPermissionInRole(roleId);
+            _context.RolePermissionMappings.RemoveRange(permissions);
+        }
+
+        public async Task<IEnumerable<RolePermissionMapping>> GetAllPermissionInRole(int roleId)
+        {
+            return await _context.RolePermissionMappings.Where(r => r.RoleId == roleId).ToListAsync();
         }
     }
 }
