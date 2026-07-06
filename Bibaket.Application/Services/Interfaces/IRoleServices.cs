@@ -17,5 +17,7 @@ namespace Bibaket.Application.Services.Interfaces
 
         Task EditRoleAsync(AdminEditRoleViewModel role);
 
+        Task DeleteRoleAsync(int roleId);
+
     }
 }

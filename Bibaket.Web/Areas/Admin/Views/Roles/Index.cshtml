@@ -19,7 +19,7 @@
                 تاریخ ایجاد
             </th>
             <th>
-                تاریخ ویرایش 
+                تاریخ ویرایش
             </th>
             <th>
                 تاریخ حذف
@@ -31,28 +31,45 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr id="tr_@(item.Id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeleteDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDelete)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش</a> |
+                    <a onclick="deleteRole(@item.Id)"
+                       class="btn btn-outline-danger btn-xs">حذف</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@section Scripts {
+    <script>
+           function deleteRole(id)
+           {
+             if(confirm('آیا از حذف مطمئن هستید ؟'))
+             {
+        $.get("/Admin/Roles/Delete/"+id,function(){
+        $("#tr_"+id).hide('slow');
+             });
+             }
+           }
+
+
+    </script>
+}

@@ -23,17 +23,30 @@ namespace Bibaket.Application.Services.Implementation
             await _roleRepository.CreateRoleAsync(Addrole);
             await _roleRepository.SaveAsync();
 
-            foreach (var item in role.PermissonSelectedIds)
+            if (role.PermissonSelectedIds != null && role.PermissonSelectedIds.Any())
             {
-                await _roleRepository.AddPermissonToRoleAsync(Addrole.Id, item);
+                foreach (var item in role.PermissonSelectedIds)
+                {
+                    await _roleRepository.AddPermissonToRoleAsync(Addrole.Id, item);
+                    await _roleRepository.SaveAsync();
+
+                }
             }
+        }
+
+        public async Task DeleteRoleAsync(int roleId)
+        {
+            var role = await _roleRepository.GetbyIdAsync(roleId);
+            role.IsDelete = true;
+            role.DeleteDate = DateTime.Now;
+            await _roleRepository.UpdateRoleAsync(role);
             await _roleRepository.SaveAsync();
         }
 
         public async Task EditRoleAsync(AdminEditRoleViewModel role)
         {
             var editrole = await _roleRepository.GetbyIdAsync(role.RoleId);
-            editrole.UpdateDate= DateTime.Now;
+            editrole.UpdateDate = DateTime.Now;
             editrole.RoleName = role.RoleName;
             await _roleRepository.UpdateRoleAsync(editrole);
 

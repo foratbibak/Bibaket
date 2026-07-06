@@ -32,6 +32,8 @@ namespace Bibaket.Ifra.Data.Context
         {
             #region Query Fillter
             modelBuilder.Entity<User>().HasQueryFilter(u=>!u.IsDelete);
+            modelBuilder.Entity<Role>().HasQueryFilter(r => !r.IsDelete);
+
             #endregion
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             base.OnModelCreating(modelBuilder);

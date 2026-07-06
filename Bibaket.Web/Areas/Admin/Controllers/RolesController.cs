@@ -93,41 +93,15 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Roles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var role = await _context.Role
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (role == null)
-            {
-                return NotFound();
-            }
-
-            return View(role);
+            await _roleServices.DeleteRoleAsync(id);
         }
 
-        // POST: Admin/Roles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var role = await _context.Role.FindAsync(id);
-            if (role != null)
-            {
-                _context.Role.Remove(role);
-            }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool RoleExists(int id)
-        {
-            return _context.Role.Any(e => e.Id == id);
-        }
+        //private bool RoleExists(int id)
+        //{
+        //    return _context.Role.Any(e => e.Id == id);
+        //}
     }
 }
