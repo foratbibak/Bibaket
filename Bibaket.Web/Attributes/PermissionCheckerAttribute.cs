@@ -11,7 +11,7 @@ namespace Bibaket.Web.Attributes
             {
 
             }
-            else
+            //else
             {
                 context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
 
