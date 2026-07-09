@@ -24,6 +24,7 @@ namespace Bibaket.Ifra.Ioc
             services.AddScoped<IAccountServices, AccountServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IRoleServices, RoleServices>();
+            services.AddScoped<IPermissionService, PermissionService>();
             #endregion
         }
     }

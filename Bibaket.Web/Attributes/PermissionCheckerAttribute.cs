@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Bibaket.Application.Extensions;
+using Bibaket.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Bibaket.Web.Attributes
 {
@@ -7,9 +9,10 @@ namespace Bibaket.Web.Attributes
     {
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
+            var permissionservice = context.HttpContext.RequestServices.GetService<IPermissionService>();
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
-
+                var userId = context.HttpContext.User.GetUserId();
             }
             else
             {

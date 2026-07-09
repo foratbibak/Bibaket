@@ -17,11 +17,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
     {
         private readonly EshopDbContext _context;
         private readonly IRoleServices _roleServices;
+        private readonly IPermissionService _permissionService;
 
-        public RolesController(EshopDbContext context, IRoleServices roleServices)
+        public RolesController(EshopDbContext context, IRoleServices roleServices,IPermissionService permissionService)
         {
             _context = context;
             this._roleServices = roleServices;
+            this._permissionService = permissionService;
         }
 
         // GET: Admin/Roles
@@ -38,7 +40,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
             AdminCreateRoleViewModel adminCreateRole = new AdminCreateRoleViewModel
             {
-                permissions = await _roleServices.GetAllPermissionAsync()
+                permissions = await _permissionService.GetAllPermissionAsync()
             };
             return View(adminCreateRole);
         }
@@ -52,7 +54,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 await _roleServices.CreateRole(adminCrate);
                 return RedirectToAction(nameof(Index));
             }
-            adminCrate.permissions = await _roleServices.GetAllPermissionAsync();
+            adminCrate.permissions = await _permissionService.GetAllPermissionAsync();
             return View(adminCrate);
         }
 
@@ -64,7 +66,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
             AdminEditRoleViewModel adminEdit = new AdminEditRoleViewModel();
-            adminEdit.permissions = await _roleServices.GetAllPermissionAsync();
+            adminEdit.permissions = await _permissionService.GetAllPermissionAsync();
             var role = await _roleServices.GetRoleByIdForAdmin(id);
             adminEdit.RoleId=role.Id;
             if (role.RolePermissionMappings.Any())
@@ -88,7 +90,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 await _roleServices.EditRoleAsync(role);
                 return RedirectToAction(nameof(Index));
             }
-            role.permissions = await _roleServices.GetAllPermissionAsync();
+            role.permissions = await _permissionService.GetAllPermissionAsync();
             return View(role);
         }
 

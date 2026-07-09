@@ -11,7 +11,6 @@ namespace Bibaket.Application.Services.Interfaces
     {
         Task<IEnumerable<Role>> GetAllRoleAsync();
         Task<Role> GetRoleByIdForAdmin(int? id);
-        Task<IEnumerable<Permission>> GetAllPermissionAsync();
 
         Task CreateRole(AdminCreateRoleViewModel role);
 
