@@ -1,16 +1,28 @@
-﻿using Bibaket.Application.Services.Interfaces;
+﻿
+using Bibaket.Application.Services.Interfaces;
+using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Models.Permission;
+using Bibaket.Domin.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Bibaket.Application.Services.Implementation
 {
-    public class PermissionService : IPermissionService
+    public class PermissionService(IUserRepository userRepository,IPermissionRepository permissionRepository) : IPermissionService
     {
-        public Task<bool> CheckUserPermission(int userId, string permissionName)
+        public async Task<bool> CheckUserPermission(int userId, string permissionName)
         {
-            throw new NotImplementedException();
+            var user = await userRepository.GetUserFullDataAsync(userId);
+            if (user == null) return false;
+
+            var permission=await permissionRepository.GetPermissionByName(permissionName);
+            if (user == null) return false;
+            return user.UserInRole.Any(
+                s => permission.RolePermissionMappings.Any(p => p.RoleId == s.RoleId)
+                );
+
+
         }
 
         public Task<bool> CheckUserPermission(int userId, IEnumerable<string> permissionNames)

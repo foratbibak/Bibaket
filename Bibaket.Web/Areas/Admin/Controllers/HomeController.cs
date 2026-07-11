@@ -8,5 +8,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         {
             return View();
         }
+
+
+
+        [Route("/Admin/AccsesDenided")]
+        public IActionResult AccsessDenied()
+        {
+            return Content("Accsess .. Denied ... ");
+        }
     }
 }

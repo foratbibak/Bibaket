@@ -15,6 +15,6 @@ namespace Bibaket.Domain.Models.Permission
 
         public  Permission? Parent { get; set; }
 
-        public ICollection<RolePermissionMapping> RolePermissionConfigs { get; set; }
+        public ICollection<RolePermissionMapping> RolePermissionMappings { get; set; }
     }
 }

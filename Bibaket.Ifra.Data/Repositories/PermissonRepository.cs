@@ -44,7 +44,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task<Permission?> GetPermissionByName(string PermissionName)
         {
-            return await context.Permissions.SingleOrDefaultAsync(p => p.UniqName == PermissionName);
+            return await context.Permissions.Include(p=>p.RolePermissionMappings).SingleOrDefaultAsync(p => p.UniqName == PermissionName);
         }
 
         public async Task SaveChangesAsync()

@@ -9,6 +9,8 @@ namespace Bibaket.Domain.Contracts
     {
         Task<IEnumerable<Permission>> GetAllPermission();
 
+
+
         Task<Permission?> GetbyIdAsync(int permissionId);
 
         Task<Permission?> GetPermissionByName(string PermissionName);

@@ -13,6 +13,14 @@ namespace Bibaket.Web.Attributes
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
                 var userId = context.HttpContext.User.GetUserId();
+
+                bool userHaveAccsess=await permissionservice.CheckUserPermission(userId,permissionName);
+
+                if (!userHaveAccsess)
+                {
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    context.HttpContext.Response.Redirect("/Admin/AccsesDenided");
+                }
             }
             else
             {

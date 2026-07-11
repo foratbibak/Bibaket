@@ -16,7 +16,7 @@ namespace Bibaket.Ifra.Data.Configuration.PermissionConfig
             builder.Property(x=>x.DisplayName).HasMaxLength(200).IsRequired();
 
 
-            builder.HasMany(x => x.RolePermissionConfigs).WithOne(x => x.Permission).HasForeignKey(x => x.PermissionId);
+            builder.HasMany(x => x.RolePermissionMappings).WithOne(x => x.Permission).HasForeignKey(x => x.PermissionId);
 
             builder.HasOne(x => x.Parent).WithMany().HasForeignKey(x => x.ParentId);
         }
