@@ -13,11 +13,17 @@ namespace Bibaket.Web.Controllers
         {
             return View();
         }
+        [Route("Contact-Us")]
         public IActionResult ContactUs()
         {
             return View();
         }
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult NotFound()
         {
             return View();
         }

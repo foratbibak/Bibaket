@@ -18,6 +18,8 @@ namespace Bibaket.Ifra.Ioc
             #region Repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IPermissionRepository, PermissonRepository>();
+
             #endregion
 
             #region Services
