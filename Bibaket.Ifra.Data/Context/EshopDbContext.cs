@@ -1,4 +1,5 @@
-﻿using Bibaket.Domain.Models.Permission;
+﻿using Bibaket.Domain.Models.Categories;
+using Bibaket.Domain.Models.Permission;
 using Bibaket.Domain.Models.Roles;
 using Bibaket.Domin.Models.Users;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,9 @@ namespace Bibaket.Ifra.Data.Context
 
         #endregion
 
+        #region Categories
+        public DbSet<Category> Categories { get; set; }
+        #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Query Fillter
