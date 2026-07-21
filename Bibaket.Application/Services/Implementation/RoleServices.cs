@@ -61,10 +61,7 @@ namespace Bibaket.Application.Services.Implementation
             await _roleRepository.SaveAsync();
         }
 
-        public async Task<IEnumerable<Permission>> GetAllPermissionAsync()
-        {
-            return await _roleRepository.GetAllPermissionsAsync();
-        }
+   
 
         public async Task<IEnumerable<Role>> GetAllRoleAsync()
         {

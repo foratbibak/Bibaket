@@ -43,10 +43,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         }
 
-        public async Task<IEnumerable<Permission>> GetAllPermissionsAsync()
-        {
-            return await _context.Permissions.ToListAsync();
-        }
+ 
 
         public async Task SaveAsync()
         {

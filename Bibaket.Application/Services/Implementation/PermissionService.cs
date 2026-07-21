@@ -30,9 +30,9 @@ namespace Bibaket.Application.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Permission>> GetAllPermissionAsync()
+        public async Task<IEnumerable<Permission>> GetAllPermissionAsync()
         {
-            throw new NotImplementedException();
+            return await permissionRepository.GetAllPermission();
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Bibaket.Domain.Contracts
         Task DeleteAsync(Role role);
         Task DeleteAsync(int Id);
 
-        Task<IEnumerable<Permission>> GetAllPermissionsAsync();
 
         Task AddPermissonToRoleAsync(int roleId, int permissionId);
 
