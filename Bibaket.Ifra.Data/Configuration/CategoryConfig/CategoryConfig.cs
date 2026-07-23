@@ -13,9 +13,10 @@ namespace Bibaket.Ifra.Data.Configuration.CategoryConfig
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x=>x.Title).HasMaxLength(200);
-
+            builder.Property(x => x.Title).HasMaxLength(250).IsRequired();
+            builder.Property(x => x.Slug).HasMaxLength(250).IsRequired();
             builder.Property(x => x.ImageName).IsRequired();
+
         }
     }
 }

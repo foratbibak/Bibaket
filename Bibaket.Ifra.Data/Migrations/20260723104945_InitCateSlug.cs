@@ -5,24 +5,26 @@
 namespace Bibaket.Ifra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Updatingg : Migration
+    public partial class InitCateSlug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "NationalCode",
-                table: "Users",
-                type: "nvarchar(max)",
-                nullable: true);
+                name: "Slug",
+                table: "Categories",
+                type: "nvarchar(250)",
+                maxLength: 250,
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "NationalCode",
-                table: "Users");
+                name: "Slug",
+                table: "Categories");
         }
     }
 }

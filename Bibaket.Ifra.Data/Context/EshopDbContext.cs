@@ -29,7 +29,7 @@ namespace Bibaket.Ifra.Data.Context
 
         #endregion
 
-        #region Categories
+        #region Category
         public DbSet<Category> Categories { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)

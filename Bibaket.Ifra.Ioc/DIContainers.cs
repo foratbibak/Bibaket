@@ -19,6 +19,7 @@ namespace Bibaket.Ifra.Ioc
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissonRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             #endregion
 
@@ -27,6 +28,7 @@ namespace Bibaket.Ifra.Ioc
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IRoleServices, RoleServices>();
             services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<ICategoryServices , CategoryServices>();
             #endregion
         }
     }
