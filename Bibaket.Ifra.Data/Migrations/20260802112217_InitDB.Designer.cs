@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bibaket.Ifra.Data.Migrations
 {
     [DbContext(typeof(EshopDbContext))]
-    [Migration("20260723104945_InitCateSlug")]
-    partial class InitCateSlug
+    [Migration("20260802112217_InitDB")]
+    partial class InitDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

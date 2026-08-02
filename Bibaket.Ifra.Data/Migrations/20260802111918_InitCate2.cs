@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bibaket.Ifra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDb : Migration
+    public partial class InitCate2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,7 @@ namespace Bibaket.Ifra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),

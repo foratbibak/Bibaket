@@ -5,70 +5,45 @@
     <a href="#" class="vertical-menu-btn">دسته بندی کالاها <i class="ri-apps-fill icon"></i></a>
     <div class="vertical-menu-items">
         <ul>
-            <li class="mega-menu-category show">
-                <a href="#">کالای دیجیتال</a>
-                <ul class="mega-menu">
-                    <li class="parent"><a href="#">لوازم جانبی گوشی</a></li>
-                    <li><a href="#">کیف و کاور گوشی</a></li>
-                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                    <li class="parent"><a href="#">گوشی موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">هوآوی</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">شیائومی</a></li>
-                    <li><a href="#">آنر</a></li>
-                    <li><a href="#">نوکیا</a></li>
-                    <li class="parent"><a href="#">واقعیت مجازی</a></li>
-                    <li class="parent"><a href="#">مچ بند و ساعت هوشمند</a></li>
-                    <li class="parent"><a href="#">لوازم جانبی گوشی</a></li>
-                    <li><a href="#">کیف و کاور گوشی</a></li>
-                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                    <li class="parent"><a href="#">گوشی موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">هوآوی</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">شیائومی</a></li>
-                    <li><a href="#">آنر</a></li>
-                    <li><a href="#">نوکیا</a></li>
-                    <li class="parent"><a href="#">واقعیت مجازی</a></li>
-                    <li class="parent"><a href="#">مچ بند و ساعت هوشمند</a></li>
-                </ul>
+            @{
+                bool IsShow = false;
+
+            }
+            @foreach (var parent in Model.Where(c=>c.ParentId==null))
+            {
+            <li class="mega-menu-category @((IsShow)?"show":"") ">
+                    @{
+                        IsShow = true;
+                    }
+                <a href="/Category/@parent.Slug">@parent.Title</a>
+                    @if (Model.Any(c => c.ParentId == parent.Id))
+                    {
+                        <ul class="mega-menu">
+
+                        @foreach (var category in Model.Where(c=>c.ParentId==parent.Id))
+                        {
+                                <li class="parent"><a href="/Category/@category.Slug" ">@category.Title</a></li>
+                                @if (Model.Any(c => c.ParentId == category.Id))
+                                {
+                                   foreach (var subcategory in Model.Where(c=>c.ParentId==category.Id))
+                                    {
+                                        <li><a href="/Category/@subcategory.Slug">@subcategory.Title</a></li>
+                               
+                                    }
+                                }
+
+                        }
+                        </ul>
+
+                    }
             </li>
-            <li class="mega-menu-category">
-                <a href="#">مد و پوشاک</a>
-                <ul class="mega-menu">
-                    <li class="parent"><a href="#">لوازم جانبی گوشی</a></li>
-                    <li><a href="#">کیف و کاور گوشی</a></li>
-                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                    <li class="parent"><a href="#">گوشی موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">هوآوی</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">شیائومی</a></li>
-                    <li><a href="#">آنر</a></li>
-                    <li><a href="#">نوکیا</a></li>
-                    <li class="parent"><a href="#">لوازم جانبی گوشی</a></li>
-                    <li><a href="#">کیف و کاور گوشی</a></li>
-                    <li><a href="#">پاور بانک (شارژر همراه)</a></li>
-                    <li><a href="#">پایه نگهدارنده گوشی</a></li>
-                    <li class="parent"><a href="#">گوشی موبایل</a></li>
-                    <li><a href="#">سامسونگ</a></li>
-                    <li><a href="#">هوآوی</a></li>
-                    <li><a href="#">اپل</a></li>
-                    <li><a href="#">شیائومی</a></li>
-                    <li><a href="#">آنر</a></li>
-                    <li><a href="#">نوکیا</a></li>
-                </ul>
-            </li>
-            <li><a href="#">اسباب بازی</a></li>
+            }
+            @* <li><a href="#">اسباب بازی</a></li>
             <li><a href="#">زیبایی و سلامت</a></li>
             <li><a href="#">خانه و آشپزخانه</a></li>
             <li><a href="#">لوازم تحریر</a></li>
             <li><a href="#">ورزش و سفر</a></li>
-            <li><a href="#">سوپرمارکت</a></li>
+            <li><a href="#">سوپرمارکت</a></li> *@
         </ul>
     </div>
 </div>

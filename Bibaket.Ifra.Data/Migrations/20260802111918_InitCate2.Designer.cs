@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bibaket.Ifra.Data.Migrations
 {
     [DbContext(typeof(EshopDbContext))]
-    [Migration("20260723101138_InitDb")]
-    partial class InitDb
+    [Migration("20260802111918_InitCate2")]
+    partial class InitCate2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,11 @@ namespace Bibaket.Ifra.Data.Migrations
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Title")
                         .IsRequired()
