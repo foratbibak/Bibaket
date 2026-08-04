@@ -16,7 +16,12 @@ builder.Services.AddControllersWithViews()
      {
          var converter = new JsonStringEnumConverter();
          options.JsonSerializerOptions.Converters.Add(converter);
-     }); 
+     });
+
+
+#region Active Memory Cash
+builder.Services.AddMemoryCache();
+#endregion
 
 #region UniCode
 builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[]
@@ -25,7 +30,6 @@ builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new
     UnicodeRanges.Arabic
 }));
 #endregion
-
 #region Add Db Context
 builder.Services.AddDbContext<EshopDbContext>(options =>
 {
