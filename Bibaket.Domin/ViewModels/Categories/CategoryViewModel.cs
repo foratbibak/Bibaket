@@ -7,9 +7,11 @@ namespace Bibaket.Domain.ViewModels.Categories
 {
     public class CategoryViewModel
     {
+
         public int Id { get; set; }
 
         public int? ParentId { get; set; }
+
         [Display(Name ="عنوان")]
         public string Title { get; set; }
 
