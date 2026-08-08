@@ -6,7 +6,7 @@
     <div class="vertical-menu-items">
         <ul>
             @{
-                bool IsShow = false;
+               bool IsShow = false;
 
             }
             @foreach (var parent in Model.Where(c=>c.ParentId==null))
@@ -22,7 +22,7 @@
 
                         @foreach (var category in Model.Where(c=>c.ParentId==parent.Id))
                         {
-                                <li class="parent"><a href="/Category/@category.Slug" ">@category.Title</a></li>
+                                <li class="parent"><a href="/Category/@category.Slug" >@category.Title</a></li>
                                 @if (Model.Any(c => c.ParentId == category.Id))
                                 {
                                    foreach (var subcategory in Model.Where(c=>c.ParentId==category.Id))

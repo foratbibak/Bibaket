@@ -93,6 +93,8 @@ namespace Bibaket.Application.Services.Implementation
         public async Task<LoginUserResult> LoginUserAsync(LoginViewModel model)
         {
             var user = await _userRepository.GetUserByEmailOrUserName(model.UserNameOrEmail);
+
+            if (user == null)
                 return LoginUserResult.NotFound;
             if (!PasswordHelper.VerifyPassword(model.Password, user.Password))
                 return LoginUserResult.NotFound;

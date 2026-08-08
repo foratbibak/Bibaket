@@ -1,77 +1,172 @@
-﻿@model IEnumerable<Bibaket.Domain.Models.Categories.Category>
+﻿@using Bibaket.Domain.ViewModels.Categories
+@model CategoryFilterViewModel
+
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "مدیریت کاربران";
+    ViewBag.Url = "/Admin/Categories";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+            <p class="text-muted small">مدیریت و جستجوی دسته بندی سیستم</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary rounded-pill px-4">
+            <i class="bi bi-plus-lg me-1"></i>
+            افزودن دسته جدید
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Slug)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Parent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDelete)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Parent.ImageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <!-- Filter Section -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center py-3">
+            <h5 class="mb-0">
+                <i class="bi bi-funnel me-2"></i>
+                فیلترها
+            </h5>
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#filterCardBody"
+                    aria-expanded="true">
+                <i class="bi bi-chevron-up"></i>
+                بستن
+            </button>
+        </div>
+        <div class="collapse show" id="filterCardBody">
+            <form asp-action="Index" method="get" id="filter-search" class="card-body pt-0">
+                <input asp-for="PageId" type="hidden" id="PageId" />
+
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label asp-for="Title" class="form-label fw-semibold small"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                            <input asp-for="Title" class="form-control" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-search me-1"></i>
+                        جستجو
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>
+                        حذف فیلترها
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Alert -->
+    @if (ViewBag.Create == "Success")
+    {
+        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                <div>
+                    <h6 class="mb-0">عملیات موفق</h6>
+                    <small class="text-success-emphasis">دسته بندی با موفقیت ثبت شد</small>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Table Section -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th scope="col" style="width: 80px;">آواتار</th>
+                            <th scope="col">گروه اصلی</th>
+                            <th scope="col">تصویر گروه</th>
+                            <th scope="col">تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Entities)
+                        {
+                            <tr class="@(item.IsDeleted ? "table-danger" : "")">
+                                @* <td>
+                                    <img src="/Avatars/@item.Avatar"
+                                         class="rounded-circle object-fit-cover border"
+                                         style="width: 50px; height: 50px; object-fit: cover;"
+                                         alt="آواتار" />
+                                </td> *@
+                                <td class="fw-medium">@item.Title</td>
+                                <td class="text-center">
+          
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <a asp-action="SubCategory" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            زیردسته ها
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                            ویرایش
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-outline-danger rounded-pill px-3" >
+                                            حذف
+                                        </a>
+                                        <a asp-action="Index"
+                                           class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                            بازگشت به صفحه اصلی
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="card-footer bg-transparent border-0 pt-3">
+            <partial name="_AdminPagination" model="@Model.GetCurrentPaging()" />
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    .table > :not(caption) > * > * {
+        padding: 1rem 0.75rem;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.04);
+    }
+
+    .table-danger {
+        --bs-table-bg: rgba(220, 53, 69, 0.05);
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+    .bg-opacity-10 {
+        --bs-bg-opacity: 0.1;
+    }
+
+    @@media (max-width: 768px) {
+        .table-responsive {
+            font-size: 0.875rem;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+        }
+    }
+</style>

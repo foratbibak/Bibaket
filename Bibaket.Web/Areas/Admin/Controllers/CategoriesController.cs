@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bibaket.Application.Services.Interfaces;
+using Bibaket.Domain.Models.Categories;
+using Bibaket.Domain.ViewModels.Categories;
+using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bibaket.Domain.Models.Categories;
-using Bibaket.Ifra.Data.Context;
-using Bibaket.Application.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using static System.Net.WebRequestMethods;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
@@ -20,33 +22,25 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         public CategoriesController(EshopDbContext context,ICategoryServices categoryServices)
         {
             _context = context;
-            this._categoryServices = categoryServices;
+            _categoryServices = categoryServices;
         }
 
         // GET: Admin/Categories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CategoryFilterViewModel filter)
         {
-            var eshopDbContext = _context.Categories.Include(c => c.Parent);
-            return View(await eshopDbContext.ToListAsync());
+            var result = await _categoryServices.FilterAsync(filter);
+            return View(result);
         }
 
-        // GET: Admin/Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+       public async Task<IActionResult> SubCategory(int id)
         {
-            if (id == null)
+            var filter = new CategoryFilterViewModel()
             {
-                return NotFound();
-            }
+                ParentId=id
+            };
 
-            var category = await _context.Categories
-                .Include(c => c.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return View(category);
+            var result = await _categoryServices.FilterAsync(filter);
+            return View("Index", result);
         }
 
         // GET: Admin/Categories/Create
