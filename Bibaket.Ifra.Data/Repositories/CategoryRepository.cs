@@ -10,9 +10,14 @@ namespace Bibaket.Ifra.Data.Repositories
 {
     public class CategoryRepository(EshopDbContext context) : ICategoryRepository
     {
+        public Task<IQueryable<Category>> FillterAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<Category>> GetAllCategory()
         {
-            return await context.Categories.ToListAsync();
+            return context.Categories.AsQueryable();
         }
     }
 }

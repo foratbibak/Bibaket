@@ -11,7 +11,7 @@ namespace Bibaket.Domain.ViewModels.Categories
 {
     public class CategoryFilterViewModel : BasePaging<CategoryViewModel>
     {
-        public string ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         [Display(Name ="عنوان دسته بندی")]
         public string Title { get; set; }

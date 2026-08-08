@@ -8,5 +8,6 @@ namespace Bibaket.Domain.Contracts
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllCategory();
+        Task<IQueryable<Category>> FillterAsync();
     }
 }
