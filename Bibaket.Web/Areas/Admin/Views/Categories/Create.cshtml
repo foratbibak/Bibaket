@@ -1,7 +1,8 @@
-﻿@model Bibaket.Domain.Models.Categories.Category
+﻿@using Bibaket.Domain.ViewModels.Categories
+@model AdminCreateCategoryViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "افزودن دسته بندی";
 }
 
 <h1>Create</h1>
@@ -11,11 +12,22 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ParentId" class="control-label"></label>
-                <select asp-for="ParentId" class ="form-control" asp-items="ViewBag.ParentId"></select>
+            <div class="alert alert-warning">
+                <h2>
+                    @if (Model.CategoryParentTitle == null)
+                        {
+                            <text>شما در حال افزودن سرگروه هستین</text>
+                        }
+                        else
+                        {
+                        <text>شما درحال افزودن زیر گروه برای @Model.CategoryParentTitle هستید</text>
+
+                        }
+                    </h2>
             </div>
+            <input type="hidden" asp-for="ParentId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -26,40 +38,21 @@
                 <input asp-for="Slug" class="form-control" />
                 <span asp-validation-for="Slug" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="ImageName" class="control-label"></label>
                 <input asp-for="ImageName" class="form-control" />
                 <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
+            </div> *@
+   
             <div class="form-group">
-                <label asp-for="CreatDate" class="control-label"></label>
-                <input asp-for="CreatDate" class="form-control" />
-                <span asp-validation-for="CreatDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DeleteDate" class="control-label"></label>
-                <input asp-for="DeleteDate" class="form-control" />
-                <span asp-validation-for="DeleteDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDelete" /> @Html.DisplayNameFor(model => model.IsDelete)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value=" ثبت" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">بازگشت</a>
 </div>
 
 @section Scripts {

@@ -44,10 +44,20 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/Categories/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id)
         {
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "ImageName");
-            return View();
+            AdminCreateCategoryViewModel categoryViewModel =new AdminCreateCategoryViewModel()
+            {
+                ParentId = id
+            };
+
+            if(id != null)
+            {
+                var categoryparent=await _categoryServices.GetCategoryById(id.Value);
+                categoryViewModel.CategoryParentTitle = categoryparent.Title;
+            }
+            
+            return View(categoryViewModel);
         }
 
         // POST: Admin/Categories/Create

@@ -14,10 +14,11 @@
             <h1 class="h3 mb-0">@ViewData["Title"]</h1>
             <p class="text-muted small">مدیریت و جستجوی دسته بندی سیستم</p>
         </div>
-        <a asp-action="Create" class="btn btn-primary rounded-pill px-4">
+        <a asp-action="Create" asp-route-id="@Model.ParentId" class="btn btn-primary rounded-pill px-4">
             <i class="bi bi-plus-lg me-1"></i>
             افزودن دسته جدید
         </a>
+
     </div>
 
     <!-- Filter Section -->

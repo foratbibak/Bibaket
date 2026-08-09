@@ -19,5 +19,10 @@ namespace Bibaket.Ifra.Data.Repositories
         {
             return await context.Categories.ToListAsync();
         }
+
+        public async Task<Category> GetCategoryById(int CatId)
+        {
+            return await context.Categories.FindAsync(CatId);
+        }
     }
 }

@@ -64,5 +64,10 @@ namespace Bibaket.Application.Services.Implementation
                 return category;
             }
         }
+
+        public async Task<Category?> GetCategoryById(int CatId)
+        {
+           return await categoryRepository.GetCategoryById(CatId);
+        }
     }
 }
