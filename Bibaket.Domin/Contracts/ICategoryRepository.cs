@@ -1,4 +1,5 @@
 ﻿using Bibaket.Domain.Models.Categories;
+using Bibaket.Domain.ViewModels.Categories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,13 @@ namespace Bibaket.Domain.Contracts
         Task<Category> GetCategoryById(int CatId);
 
         Task<IEnumerable<Category>> GetAllCategory();
+        Task<bool> IsExistSlug(string slug);
+
         Task<IQueryable<Category>> FillterAsync();
+
+        Task CreateCategoryAsync(Category category);
+
+        Task SaveChangeAsync();
+
     }
 }

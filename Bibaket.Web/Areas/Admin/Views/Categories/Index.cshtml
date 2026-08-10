@@ -95,12 +95,12 @@
                         @foreach (var item in Model.Entities)
                         {
                             <tr class="@(item.IsDeleted ? "table-danger" : "")">
-                                @* <td>
-                                    <img src="/Avatars/@item.Avatar"
+                                <td>
+                                    <img src="/CategoryImages/@item.ImageName"
                                          class="rounded-circle object-fit-cover border"
                                          style="width: 50px; height: 50px; object-fit: cover;"
-                                         alt="آواتار" />
-                                </td> *@
+                                         alt="تصویر گروه" />
+                                </td>
                                 <td class="fw-medium">@item.Title</td>
                                 <td class="text-center">
           

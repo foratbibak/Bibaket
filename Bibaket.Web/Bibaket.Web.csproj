@@ -17,6 +17,7 @@
     <Folder Include="Areas\UserPanel\Data\" />
 	 <Folder Include="Areas\UserPanel\Models\" />
     <Folder Include="Models\" />
+    <Folder Include="wwwroot\CategoryImages\" />
   </ItemGroup>
 
 	<ItemGroup>

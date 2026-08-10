@@ -20,6 +20,11 @@ namespace Bibaket.Domain.ViewModels.Categories
 
         public string? CategoryParentTitle { get; set; }
 
-        public IFormFile? ImageName { get; set; }
+        [Display(Name = "تصویر دسته")]
+
+        public IFormFile? ImageFile { get; set; }
+
+        public string? ImageName { get; set; }
+
     }
 }

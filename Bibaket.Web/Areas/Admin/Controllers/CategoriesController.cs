@@ -60,21 +60,21 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(categoryViewModel);
         }
 
-        // POST: Admin/Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParentId,Title,Slug,ImageName,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Category category)
+        public async Task<IActionResult> Create(AdminCreateCategoryViewModel categoryViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                if(await _categoryServices.IsExistSlug(categoryViewModel.Slug))
+                {
+                    ModelState.AddModelError("Slug","این آدرس بار  وجورد دارد");
+                }
+                await _categoryServices.CreateCategoryAsync(categoryViewModel);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "ImageName", category.ParentId);
-            return View(category);
+            return View(categoryViewModel);
         }
 
         // GET: Admin/Categories/Edit/5

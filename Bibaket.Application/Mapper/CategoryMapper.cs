@@ -19,5 +19,17 @@ namespace Bibaket.Application.Mapper
                 IsDeleted = c.IsDelete,
             });
         }
+        public static Category MapToCategory(AdminCreateCategoryViewModel categoryViewModel)
+        {
+            return new Category()
+            {
+                Title = categoryViewModel.Title.Trim(),
+                Slug = categoryViewModel.Slug.Trim(),
+                ParentId = categoryViewModel.ParentId,
+                CreatDate = DateTime.Now,
+                IsDelete = false,
+                ImageName = categoryViewModel.ImageName
+            };
+        }
     }
 }
