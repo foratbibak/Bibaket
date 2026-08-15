@@ -1,6 +1,7 @@
 ﻿using Bibaket.Application.Generator;
 using Bibaket.Application.Mapper;
 using Bibaket.Application.Services.Interfaces;
+using Bibaket.Application.Utilities;
 using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Models.Categories;
 using Bibaket.Domain.ViewModels.Categories;
@@ -28,6 +29,7 @@ namespace Bibaket.Application.Services.Implementation
 
             await categoryRepository.CreateCategoryAsync(categoryMap);
             await categoryRepository.SaveChangeAsync();
+            cache.Remove(CashKeyNames.GetAllCategoryForMegaMenu);
 
         }
         #region Utilites
@@ -87,7 +89,7 @@ namespace Bibaket.Application.Services.Implementation
 
         public async Task<IEnumerable<Category>> GetAllCategoryForMegaMenu()
         {
-            string cashkey = "GetAllCategoryForMegaMenu";
+            string cashkey = CashKeyNames.GetAllCategoryForMegaMenu;
             
             if(cache.TryGetValue(cashkey, out IEnumerable<Category> category))
             {
