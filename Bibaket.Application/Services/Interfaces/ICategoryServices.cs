@@ -15,7 +15,7 @@ namespace Bibaket.Application.Services.Interfaces
         Task<CategoryFilterViewModel> FilterAsync(CategoryFilterViewModel filter);
 
         Task CreateCategoryAsync(AdminCreateCategoryViewModel category);
-        Task EditCategoryAsync(AdminCreateCategoryViewModel category);
+        Task EditCategoryAsync(AdminEditCategoryViewModel categoryEdit);
 
 
 

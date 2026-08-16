@@ -7,6 +7,7 @@ using Bibaket.Domain.Models.Categories;
 using Bibaket.Domain.ViewModels.Categories;
 using Bibaket.Domin.Models.Users;
 using Bibaket.Ifra.Data.Context;
+using Bibaket.Ifra.Data.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -25,13 +26,16 @@ namespace Bibaket.Application.Services.Implementation
             category.ImageName = Img;
             #endregion
 
+            #region Create Category
             Category categoryMap = CategoryMapper.MapToCategory(category);
 
             await categoryRepository.CreateCategoryAsync(categoryMap);
             await categoryRepository.SaveChangeAsync();
             cache.Remove(CashKeyNames.GetAllCategoryForMegaMenu);
+            #endregion
 
         }
+
         #region Utilites
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {
@@ -48,17 +52,39 @@ namespace Bibaket.Application.Services.Implementation
             return imageName;
         }
         #endregion
-        public Task EditCategoryAsync(AdminCreateCategoryViewModel category)
+
+        public async Task EditCategoryAsync(AdminEditCategoryViewModel categoryEdit)
         {
-            throw new NotImplementedException();
+            #region MapToEdit
+            var Category = await categoryRepository.GetCategoryById(categoryEdit.CategoryId);
+            CategoryMapper.MapToEditCategory(Category, categoryEdit);
+            #endregion
+
+            #region Delete Img
+            if (categoryEdit.ImageFile != null)
+            {
+                if (categoryEdit.ImageName != "NoPhoto.jpg")
+                {
+                    string delete = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CategoryImages", categoryEdit.ImageName);
+                    FileHellper.DeletePath(delete);
+                }
+                Category.ImageName = await SaveImageFileAsync(categoryEdit.ImageFile);
+            }
+            #endregion
+
+            #region Edit Category
+            await categoryRepository.EditCategoryAsync(Category);
+            await categoryRepository.SaveChangeAsync();
+            #endregion
         }
 
         public async Task<CategoryFilterViewModel> FilterAsync(CategoryFilterViewModel filter)
         {
-            var query=await categoryRepository.FillterAsync();
+            #region Filter Validate
+            var query = await categoryRepository.FillterAsync();
             if (filter.ParentId.HasValue)
             {
-                query=query.Where(c=>c.ParentId== filter.ParentId);
+                query = query.Where(c => c.ParentId == filter.ParentId);
             }
             else
             {
@@ -80,18 +106,23 @@ namespace Bibaket.Application.Services.Implementation
                     query = query.Where(c => c.IsDelete);
                     break;
             }
+            #endregion
+
+            #region Filter
             query = query.OrderByDescending(c => c.CreatDate);
 
             await filter.Paging(CategoryMapper.MapToCategoryViewModel(query));
 
             return filter;
+            #endregion
         }
 
         public async Task<IEnumerable<Category>> GetAllCategoryForMegaMenu()
         {
+            #region Cashe
             string cashkey = CashKeyNames.GetAllCategoryForMegaMenu;
-            
-            if(cache.TryGetValue(cashkey, out IEnumerable<Category> category))
+
+            if (cache.TryGetValue(cashkey, out IEnumerable<Category> category))
             {
                 return category;
             }
@@ -99,10 +130,11 @@ namespace Bibaket.Application.Services.Implementation
             {
                 category = await categoryRepository.GetAllCategory();
 
-                cache.Set(cashkey, category,TimeSpan.FromHours(1));
+                cache.Set(cashkey, category, TimeSpan.FromHours(1));
 
                 return category;
             }
+            #endregion
         }
 
         public async Task<Category?> GetCategoryById(int CatId)

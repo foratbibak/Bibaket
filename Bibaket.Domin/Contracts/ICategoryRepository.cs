@@ -17,6 +17,8 @@ namespace Bibaket.Domain.Contracts
 
         Task CreateCategoryAsync(Category category);
 
+        Task EditCategoryAsync(Category category);
+
         Task SaveChangeAsync();
 
     }

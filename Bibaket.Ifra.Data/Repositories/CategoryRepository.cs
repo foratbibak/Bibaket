@@ -16,6 +16,11 @@ namespace Bibaket.Ifra.Data.Repositories
             await context.AddAsync(category);
         }
 
+        public async Task EditCategoryAsync(Category category)
+        {
+             context.Categories.Update(category);
+        }
+
         public async Task<IQueryable<Category>> FillterAsync()
         {
             return context.Categories.AsQueryable();

@@ -25,58 +25,65 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             _categoryServices = categoryServices;
         }
 
+        #region Index
         // GET: Admin/Categories
         public async Task<IActionResult> Index(CategoryFilterViewModel filter)
         {
             var result = await _categoryServices.FilterAsync(filter);
             return View(result);
         }
+        #endregion
 
-       public async Task<IActionResult> SubCategory(int id)
+        #region SubCategory
+        public async Task<IActionResult> SubCategory(int id)
         {
             var filter = new CategoryFilterViewModel()
             {
-                ParentId=id
+                ParentId = id
             };
 
             var result = await _categoryServices.FilterAsync(filter);
             return View("Index", result);
         }
+        #endregion
 
-        // GET: Admin/Categories/Create
-        public async Task<IActionResult> Create(int? id)
-        {
-            AdminCreateCategoryViewModel categoryViewModel =new AdminCreateCategoryViewModel()
+        #region Create Category
+            // GET: Admin/Categories/Create
+            public async Task<IActionResult> Create(int? id)
             {
-                ParentId = id
-            };
-
-            if(id != null)
-            {
-                var categoryparent=await _categoryServices.GetCategoryById(id.Value);
-                categoryViewModel.CategoryParentTitle = categoryparent.Title;
-            }
-            
-            return View(categoryViewModel);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AdminCreateCategoryViewModel categoryViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                if(await _categoryServices.IsExistSlug(categoryViewModel.Slug))
+                AdminCreateCategoryViewModel categoryViewModel = new AdminCreateCategoryViewModel()
                 {
-                    ModelState.AddModelError("Slug","این آدرس بار  وجورد دارد");
-                }
-                await _categoryServices.CreateCategoryAsync(categoryViewModel);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(categoryViewModel);
-        }
+                    ParentId = id
+                };
 
+                if (id != null)
+                {
+                    var categoryparent = await _categoryServices.GetCategoryById(id.Value);
+                    categoryViewModel.CategoryParentTitle = categoryparent.Title;
+                }
+
+                return View(categoryViewModel);
+            }
+
+
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Create(AdminCreateCategoryViewModel categoryViewModel)
+            {
+                if (ModelState.IsValid)
+                {
+                    if (await _categoryServices.IsExistSlug(categoryViewModel.Slug))
+                    {
+                        ModelState.AddModelError("Slug", "این آدرس بار  وجورد دارد");
+                    }
+                    await _categoryServices.CreateCategoryAsync(categoryViewModel);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(categoryViewModel);
+            }
+        #endregion
+
+        #region Edit Category
         // GET: Admin/Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -85,51 +92,43 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
+            AdminEditCategoryViewModel adminedit = new AdminEditCategoryViewModel();
+            var category = await _categoryServices.GetCategoryById(id.Value);
+            if (category.ParentId != null)
             {
-                return NotFound();
+                var categoryparent = await _categoryServices.GetCategoryById(category.ParentId.Value);
+                adminedit.CategoryParentTitle = categoryparent.Title;
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "ImageName", category.ParentId);
-            return View(category);
+            adminedit.Slug = category.Slug;
+            adminedit.Title = category.Title;
+            adminedit.CategoryId = id.Value;
+            adminedit.ParentId = category.ParentId;
+            adminedit.ImageName = category.ImageName;
+            return View(adminedit);
         }
 
         // POST: Admin/Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ParentId,Title,Slug,ImageName,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Category category)
+        public async Task<IActionResult> Edit(int id, AdminEditCategoryViewModel category)
         {
-            if (id != category.Id)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _categoryServices.EditCategoryAsync(category);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Categories, "Id", "ImageName", category.ParentId);
             return View(category);
         }
 
+        #endregion
+
+
+        #region Delete Category
         // GET: Admin/Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -163,10 +162,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
-        private bool CategoryExists(int id)
-        {
-            return _context.Categories.Any(e => e.Id == id);
-        }
     }
 }

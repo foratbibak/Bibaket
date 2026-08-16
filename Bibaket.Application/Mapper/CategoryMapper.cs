@@ -31,5 +31,17 @@ namespace Bibaket.Application.Mapper
                 ImageName = categoryViewModel.ImageName
             };
         }
+        public static void MapToEditCategory(Category category, AdminEditCategoryViewModel model)
+        {
+            category.Id = model.CategoryId;
+            category.Title = model.Title;
+            category.ParentId = model.ParentId;
+            category.Slug = model.Slug;
+            category.ImageName = model.ImageName;
+            category.UpdateDate = DateTime.Now;
+
+
+        }
+
     }
 }
