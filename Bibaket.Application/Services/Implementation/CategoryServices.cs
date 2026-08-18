@@ -146,5 +146,11 @@ namespace Bibaket.Application.Services.Implementation
         {
             return await categoryRepository.IsExistSlug(slug);
         }
+
+        public async Task DeleteCategoryAsync(int CatId)
+        {
+            await categoryRepository.DeleteCategoryAsync(CatId);
+            await categoryRepository.SaveChangeAsync();
+        }
     }
 }

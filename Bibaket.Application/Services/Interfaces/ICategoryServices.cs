@@ -17,6 +17,10 @@ namespace Bibaket.Application.Services.Interfaces
         Task CreateCategoryAsync(AdminCreateCategoryViewModel category);
         Task EditCategoryAsync(AdminEditCategoryViewModel categoryEdit);
 
+        Task DeleteCategoryAsync(int CatId);
+
+
+
 
 
     }

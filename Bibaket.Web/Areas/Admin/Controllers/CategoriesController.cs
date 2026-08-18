@@ -19,7 +19,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         private readonly EshopDbContext _context;
         private readonly ICategoryServices _categoryServices;
 
-        public CategoriesController(EshopDbContext context,ICategoryServices categoryServices)
+        public CategoriesController(EshopDbContext context, ICategoryServices categoryServices)
         {
             _context = context;
             _categoryServices = categoryServices;
@@ -48,39 +48,39 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         #endregion
 
         #region Create Category
-            // GET: Admin/Categories/Create
-            public async Task<IActionResult> Create(int? id)
+        // GET: Admin/Categories/Create
+        public async Task<IActionResult> Create(int? id)
+        {
+            AdminCreateCategoryViewModel categoryViewModel = new AdminCreateCategoryViewModel()
             {
-                AdminCreateCategoryViewModel categoryViewModel = new AdminCreateCategoryViewModel()
-                {
-                    ParentId = id
-                };
+                ParentId = id
+            };
 
-                if (id != null)
-                {
-                    var categoryparent = await _categoryServices.GetCategoryById(id.Value);
-                    categoryViewModel.CategoryParentTitle = categoryparent.Title;
-                }
-
-                return View(categoryViewModel);
+            if (id != null)
+            {
+                var categoryparent = await _categoryServices.GetCategoryById(id.Value);
+                categoryViewModel.CategoryParentTitle = categoryparent.Title;
             }
 
+            return View(categoryViewModel);
+        }
 
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Create(AdminCreateCategoryViewModel categoryViewModel)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AdminCreateCategoryViewModel categoryViewModel)
+        {
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (await _categoryServices.IsExistSlug(categoryViewModel.Slug))
                 {
-                    if (await _categoryServices.IsExistSlug(categoryViewModel.Slug))
-                    {
-                        ModelState.AddModelError("Slug", "این آدرس بار  وجورد دارد");
-                    }
-                    await _categoryServices.CreateCategoryAsync(categoryViewModel);
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("Slug", "این آدرس بار  وجورد دارد");
                 }
-                return View(categoryViewModel);
+                await _categoryServices.CreateCategoryAsync(categoryViewModel);
+                return RedirectToAction(nameof(Index));
             }
+            return View(categoryViewModel);
+        }
         #endregion
 
         #region Edit Category
@@ -130,21 +130,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #region Delete Category
         // GET: Admin/Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories
-                .Include(c => c.Parent)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
+            var category = await _categoryServices.GetCategoryById(id);
             return View(category);
         }
 
@@ -153,13 +141,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-            }
-
-            await _context.SaveChangesAsync();
+            await _categoryServices.DeleteCategoryAsync(id);
             return RedirectToAction(nameof(Index));
         }
         #endregion

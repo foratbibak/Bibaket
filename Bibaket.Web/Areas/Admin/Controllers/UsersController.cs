@@ -42,7 +42,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
 
         #region Create
-        [PermissionChecker(PermissionName.ManageUsers)]
+        [PermissionChecker(PermissionName.AddUsers)]
         public async Task<IActionResult> Create()
         {
             var model = new AdminCreatUserViewModel()
@@ -52,12 +52,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-        // POST: Admin/Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionChecker(PermissionName.ManageUsers)]
+        [PermissionChecker(PermissionName.AddUsers)]
         public async Task<IActionResult> Create(AdminCreatUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -78,6 +75,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         #endregion
 
         #region Edit User
+        [PermissionChecker(PermissionName.EditUsers)]
         // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -94,11 +92,10 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Admin/Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [PermissionChecker(PermissionName.EditUsers)]
         public async Task<IActionResult> Edit(int id, AdminEditViewModel user)
         {
             if (id != user.Id)
@@ -131,7 +128,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
-        [PermissionChecker(PermissionName.ManageUsers)]
+        [PermissionChecker(PermissionName.DeleteUsers)]
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
@@ -148,7 +145,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(user);
         }
 
-        [PermissionChecker(PermissionName.ManageUsers)]
+        [PermissionChecker(PermissionName.DeleteUsers)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -16,6 +16,14 @@ namespace Bibaket.Ifra.Data.Repositories
             await context.AddAsync(category);
         }
 
+        public async Task DeleteCategoryAsync(int CatId)
+        {
+            var category=await GetCategoryById(CatId);
+            category.IsDelete= true;
+            category.DeleteDate = DateTime.Now; 
+            EditCategoryAsync(category);
+        }
+
         public async Task EditCategoryAsync(Category category)
         {
              context.Categories.Update(category);
