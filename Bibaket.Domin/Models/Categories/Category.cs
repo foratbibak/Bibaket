@@ -1,4 +1,5 @@
-﻿using Bibaket.Domin.Models.Common;
+﻿using Bibaket.Domain.Models.Products;
+using Bibaket.Domin.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,5 +15,6 @@ namespace Bibaket.Domain.Models.Categories
 
         public Category? Parent { get; set; }
         public ICollection<Category>? Categories { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }

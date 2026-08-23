@@ -1,5 +1,6 @@
 ﻿using Bibaket.Domain.Models.Categories;
 using Bibaket.Domain.Models.Permission;
+using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.Models.Roles;
 using Bibaket.Domin.Models.Users;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,10 @@ namespace Bibaket.Ifra.Data.Context
 
         #region Category
         public DbSet<Category> Categories { get; set; }
+        #endregion
+
+        #region product
+        public DbSet<Product> Products { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
