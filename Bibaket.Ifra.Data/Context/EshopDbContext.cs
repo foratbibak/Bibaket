@@ -4,6 +4,7 @@ using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.Models.Roles;
 using Bibaket.Domin.Models.Users;
 using Microsoft.EntityFrameworkCore;
+using Sofarashel.Domain.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,6 +37,10 @@ namespace Bibaket.Ifra.Data.Context
 
         #region product
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
+
+        public DbSet<ProductGallery> ProductGalleries { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

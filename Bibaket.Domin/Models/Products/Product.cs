@@ -1,5 +1,6 @@
 ﻿using Bibaket.Domain.Models.Categories;
 using Bibaket.Domin.Models.Common;
+using Sofarashel.Domain.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,15 @@ namespace Bibaket.Domain.Models.Products
 
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
+
+        public ICollection<ProductColor>? ProductColors { get; set; }
+
+        public ICollection<ProductFeature>? ProductFeatures { get; set; }
+
+        public ICollection<ProductGallery>? ProductGalleries { get; set; }
+
+
+
 
     }
 }
