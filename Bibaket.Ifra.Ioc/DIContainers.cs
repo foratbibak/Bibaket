@@ -20,6 +20,13 @@ namespace Bibaket.Ifra.Ioc
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissonRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            
+
+
 
             #endregion
 
