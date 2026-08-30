@@ -22,6 +22,7 @@ namespace Bibaket.Domain.Models.Products
         public string? DeatilReview { get; set; }
 
         public string? ImageName { get; set; }
+        public int Count { get; set; }
 
         public bool IsActive { get; set; }
 
