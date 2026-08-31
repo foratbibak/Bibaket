@@ -146,5 +146,12 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
+        public async Task<JsonResult> GetCategories(int? parentId)
+        {
+            var categories=await _categoryServices.GetCategoriesAsync(parentId);
+
+            return Json(categories);
+        }
+
     }
 }

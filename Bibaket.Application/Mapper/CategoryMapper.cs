@@ -19,6 +19,31 @@ namespace Bibaket.Application.Mapper
                 IsDeleted = c.IsDelete,
             });
         }
+
+        public static CategoryViewModel MapToCategoryViewModel(Category category)
+        {
+            return new CategoryViewModel
+            {
+                Id = category.Id,
+                ParentId = category.ParentId,
+                Title = category.Title,
+                ImageName = category.ImageName,
+                IsDeleted = category.IsDelete,
+            };
+        }
+
+        public static List<CategoryViewModel> MapToListCategoryViewModel(List<Category> categories)
+        {
+            return categories.Select(c=> new CategoryViewModel
+            {
+                Id = c.Id,
+                ParentId = c.ParentId,
+                Title = c.Title,
+                ImageName = c.ImageName,
+                IsDeleted = c.IsDelete,
+            }).ToList();
+        }
+
         public static Category MapToCategory(AdminCreateCategoryViewModel categoryViewModel)
         {
             return new Category()

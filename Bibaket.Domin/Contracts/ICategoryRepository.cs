@@ -15,6 +15,9 @@ namespace Bibaket.Domain.Contracts
 
         Task<IQueryable<Category>> FillterAsync();
 
+        Task<List<Category>> GetByParentIdAsync(int? parentId);
+
+
         Task CreateCategoryAsync(Category category);
 
         Task EditCategoryAsync(Category category);

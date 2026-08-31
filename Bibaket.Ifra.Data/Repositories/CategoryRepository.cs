@@ -39,6 +39,11 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Categories.ToListAsync();
         }
 
+        public async Task<List<Category>> GetByParentIdAsync(int? parentId)
+        {
+            return await context.Categories.Where(c => c.ParentId == parentId && !c.IsDelete).ToListAsync();
+        }
+
         public async Task<Category> GetCategoryById(int CatId)
         {
             return await context.Categories.FindAsync(CatId);

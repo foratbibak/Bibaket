@@ -152,5 +152,12 @@ namespace Bibaket.Application.Services.Implementation
             await categoryRepository.DeleteCategoryAsync(CatId);
             await categoryRepository.SaveChangeAsync();
         }
+
+        public async Task<List<CategoryViewModel>> GetCategoriesAsync(int? parentId)
+        {
+            var categories = await categoryRepository.GetByParentIdAsync(parentId);
+
+            return CategoryMapper.MapToListCategoryViewModel(categories);
+        }
     }
 }

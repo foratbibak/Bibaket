@@ -14,6 +14,9 @@ namespace Bibaket.Application.Services.Interfaces
         Task<bool> IsExistSlug(string slug);
         Task<CategoryFilterViewModel> FilterAsync(CategoryFilterViewModel filter);
 
+        Task<List<CategoryViewModel>> GetCategoriesAsync(int? parentId);
+
+
         Task CreateCategoryAsync(AdminCreateCategoryViewModel category);
         Task EditCategoryAsync(AdminEditCategoryViewModel categoryEdit);
 
