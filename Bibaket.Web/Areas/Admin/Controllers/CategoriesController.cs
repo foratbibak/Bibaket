@@ -127,7 +127,6 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #endregion
 
-
         #region Delete Category
         // GET: Admin/Categories/Delete/5
         public async Task<IActionResult> Delete(int id)
