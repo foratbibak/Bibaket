@@ -7,7 +7,10 @@ namespace Bibaket.Application.Services.Interfaces
 {
     public interface IProductService
     {
+        Task<AdminFilterProductViewModel> ProductFilterAsync(AdminFilterProductViewModel model);
+
         Task CreateProductAsync(AdminCreateProductViewModel model);
+
 
         Task EditProductAsync(AdminCreateProductViewModel model);
 

@@ -33,6 +33,31 @@ namespace Bibaket.Application.Services.Implementation
             throw new NotImplementedException();
         }
 
+        public async Task<AdminFilterProductViewModel> ProductFilterAsync(AdminFilterProductViewModel model)
+        {
+            var query = await _productrepository.ProductFilterAsync();
+            #region Filter
+            query = query.Where(p => !p.IsDelete);
+            if (!string.IsNullOrEmpty(model.Title))
+            {
+                query = query.Where(c => c.Title.Contains(model.Title));
+            }
+            #endregion
+
+            #region Sorting
+            query = query.OrderByDescending(p => p.CreatDate);
+            #endregion
+
+
+            #region Paging
+            await model.Paging(ProductMapper.MapToProductViewModel(query));
+
+            #endregion
+
+            return model;
+
+        }
+
 
         #region Utilites
         private async Task<string> SaveImageFileAsync(IFormFile file)

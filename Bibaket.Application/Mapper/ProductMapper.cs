@@ -8,6 +8,26 @@ namespace Bibaket.Application.Mapper
 {
     public static class ProductMapper
     {
+        public static IQueryable<ProductViewModel> MapToProductViewModel(IQueryable<Product> query)
+        {
+            return query.Select(p => new ProductViewModel
+            {
+                Id = p.Id,
+                CategoryId = p.CategoryId,
+                CategoryName=p.Category.Title,
+                Title = p.Title,
+                Price = p.Price,
+                ShortDescription= p.ShortDescription,
+                Review=p.Review,
+                DeatilReview=p.DeatilReview,
+                ImageName=p.ImageName,
+                IsActive=p.IsActive,
+                IsDelete=p.IsDelete,
+                CreateDate=p.CreatDate
+
+            });
+        }
+
         public static Product MapToProduct(AdminCreateProductViewModel model, string imageName)
         {
             return new Product()

@@ -59,6 +59,11 @@ namespace Bibaket.Ifra.Data.Repositories
             return context.Products.AnyAsync(p=>p.Id==productId);
         }
 
+        public async Task<IQueryable<Product>> ProductFilterAsync()
+        {
+            return context.Products.AsQueryable();
+        }
+
         public bool Remove(int Id)
         {
             var product=GetById(Id);
