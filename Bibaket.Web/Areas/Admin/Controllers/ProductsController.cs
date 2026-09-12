@@ -26,7 +26,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index(AdminFilterProductViewModel model)
         {
             var result=await _productService.ProductFilterAsync(model);
-            return View();
+            return View(result);
         }
         #endregion
 

@@ -1,107 +1,138 @@
-﻿@model IEnumerable<Bibaket.Domain.Models.Products.Product>
+﻿@using Bibaket.Domain.ViewModels.Products
+@model AdminFilterProductViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست محصولات";
 }
 
-<h1>Index</h1>
+<h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">محصولات /</span>لیست محصولات</h4>
+
+
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">ثبت محصول </a>
 </p>
+
+
+
+
+<!-- Filter Section -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0">
+            <i class="bi bi-funnel me-2"></i>
+            فیلترها
+        </h5>
+        <button class="btn btn-sm btn-outline-secondary rounded-pill" type="button"
+                data-bs-toggle="collapse" data-bs-target="#filterCardBody"
+                aria-expanded="true">
+            <i class="bi bi-chevron-up"></i>
+            بستن
+        </button>
+    </div>
+    <div class="collapse show" id="filterCardBody">
+        <form asp-action="Index" method="get" id="filter-search" class="card-body pt-0">
+            <input asp-for="PageId" type="hidden" id="PageId" />
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label asp-for="Title" class="form-label fw-semibold small"></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                        <input asp-for="Title" class="form-control" placeholder="" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary rounded-pill px-4">
+                    <i class="bi bi-search me-1"></i>
+                    جستجو
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i>
+                    حذف فیلترها
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
+                تصویر کالا
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                دسته بندی
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShortDescription)
+                قیمت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review)
+                وضعیت
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DeatilReview)
+                تاریخ ایجاد
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Count)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDelete)
-            </th>
-            <th></th>
+            
+            <th> دستورات</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShortDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Review)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeatilReview)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.ImageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Entities)
+        {
+            <tr class="@(item.IsDelete ? "table-danger" : "")">
+                <td>
+                    <img src="/ProductImages/@item.ImageName"
+                         class="rounded-circle object-fit-cover border"
+                         style="width: 50px; height: 50px; object-fit: cover;"
+                         alt="آواتار" />
+                </td>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.CategoryName
+                </td>
+                <td>
+                    @item.Price.ToToman()
+                </td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge rounded-pill bg-success" >فعال</span>
+                    }
+                    else
+                    {
+                        <span class="badge rounded-pill bg-success"> غیر فعال</span>
+
+                    }
+                </td>
+               
+                <td>
+                    @item.CreateDate.ToShamsi()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDelete)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویرایش </a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<!-- Pagination -->
+<div class="card-footer bg-transparent border-0 pt-3">
+    <partial name="_AdminPagination" model="@Model.GetCurrentPaging()" />
+</div>
+
