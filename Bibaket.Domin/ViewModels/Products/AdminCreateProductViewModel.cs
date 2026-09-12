@@ -34,6 +34,11 @@ namespace Bibaket.Domain.ViewModels.Products
 
         public IFormFile? ImageFile  { get; set; }
 
+        [Display(Name = "گالری تصاویر")]
+
+        public IFormFile[]? Gallaries { get; set; }
+
+
         [Display(Name = "موجودی انبار")]
         public int Count { get; set; }
 

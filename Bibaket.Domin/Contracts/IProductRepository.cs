@@ -10,5 +10,7 @@ namespace Bibaket.Domain.Contracts
     {
         Task<IQueryable<Product>> ProductFilterAsync();
         Task<bool> IsExistAsync(int productId);
+
+        Task AddProductGalleryAsync(ProductGallery productGallery);
     }
 }

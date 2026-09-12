@@ -16,6 +16,11 @@ namespace Bibaket.Ifra.Data.Repositories
             context.Products.Add(entity);
         }
 
+        public async Task AddProductGalleryAsync(ProductGallery productGallery)
+        {
+           await context.ProductGalleries.AddAsync(productGallery);
+        }
+
         public IEnumerable<Product> GetAll()
         {
             return context.Products;

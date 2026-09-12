@@ -7,7 +7,7 @@ namespace Bibaket.Domain.Models.Products
 {
     public class ProductGallery:BaseEntity
     {
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public string Alt { get; set; }
 

@@ -2,6 +2,7 @@
 using Bibaket.Application.Mapper;
 using Bibaket.Application.Services.Interfaces;
 using Bibaket.Domain.Contracts;
+using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -22,10 +23,30 @@ namespace Bibaket.Application.Services.Implementation
         {
             var imageName = await SaveImageFileAsync(model.ImageFile);
 
-            var product=ProductMapper.MapToProduct(model,imageName);
+            var product = ProductMapper.MapToProduct(model, imageName);
 
             _productrepository.Add(product);
             _productrepository.Save();
+
+            if (model.Gallaries != null && model.Gallaries.Any())
+            {
+                foreach (var img in model.Gallaries)
+                {
+                    string imageGalleryName = await SaveImageFileAsync(img);
+
+                    ProductGallery gallery = new ProductGallery()
+                    {
+                        ProductId=product.Id,
+                        Alt = product.Title,
+
+                        CreatDate = DateTime.Now,
+                        ImageName = imageGalleryName,
+                        IsDelete = false,
+                    };
+                    await _productrepository.AddProductGalleryAsync(gallery);
+                    await _productrepository.SaveAsync();
+                }
+            }
         }
 
         public Task EditProductAsync(AdminCreateProductViewModel model)
