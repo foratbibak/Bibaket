@@ -5,6 +5,7 @@ using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
+using Sofarashel.Application.Convertor;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -92,7 +93,9 @@ namespace Bibaket.Application.Services.Implementation
             {
                 await file.CopyToAsync(stream);
             }
-
+            ImageResizer imageResizer= new ImageResizer();
+            var thumbPath= Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages/thumb", AvatarName);
+            imageResizer.ImageResize(savePath, thumbPath,120,210);
             return AvatarName;
         }
         #endregion
