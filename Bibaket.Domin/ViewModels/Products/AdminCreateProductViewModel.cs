@@ -42,6 +42,9 @@ namespace Bibaket.Domain.ViewModels.Products
         [Display(Name = "موجودی انبار")]
         public int Count { get; set; }
 
+        public string? Tags { get; set; }
+
+
         [Display(Name = "فعال است")]
         public bool IsActive { get; set; }
     }
