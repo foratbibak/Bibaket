@@ -1,5 +1,6 @@
 ﻿using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Models.Products;
+using Bibaket.Domain.ViewModels.Products;
 using Bibaket.Ifra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,6 +22,18 @@ namespace Bibaket.Ifra.Data.Repositories
            await context.ProductGalleries.AddAsync(productGallery);
         }
 
+        public async Task AddProductTagAsync(int productId, List<ProductTagViewModel> productTags)
+        {
+            foreach (var item in productTags)
+            {
+                await context.ProductTags.AddAsync(new ProductTag()
+                {
+                    ProductId = productId,
+                    TagTitle = item.value
+                }); 
+            }
+        }
+
         public IEnumerable<Product> GetAll()
         {
             return context.Products;
@@ -29,6 +42,11 @@ namespace Bibaket.Ifra.Data.Repositories
         public Task<List<Product>> GetAllAsync()
         {
             return context.Products.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductTag>> GetAllTagsAsync()
+        {
+            return await context.ProductTags.ToListAsync();
         }
 
         public Product GetById(object id)

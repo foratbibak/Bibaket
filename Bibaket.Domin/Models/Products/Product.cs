@@ -35,6 +35,8 @@ namespace Bibaket.Domain.Models.Products
         public ICollection<ProductFeature>? ProductFeatures { get; set; }
 
         public ICollection<ProductGallery>? ProductGalleries { get; set; }
+        public ICollection<ProductTag>? productTags { get; set; }
+
 
 
 

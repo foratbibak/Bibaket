@@ -9,6 +9,7 @@ using Sofarashel.Application.Convertor;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Bibaket.Application.Services.Implementation
 {
@@ -28,6 +29,17 @@ namespace Bibaket.Application.Services.Implementation
 
             _productrepository.Add(product);
             _productrepository.Save();
+
+            #region Save Tags
+            if (!string.IsNullOrEmpty(model.Tags))
+            {
+                var tags = JsonSerializer.Deserialize<List<ProductTagViewModel>>(model.Tags);
+
+                await _productrepository.AddProductTagAsync(product.Id, tags);
+
+                await _productrepository.SaveAsync();
+            }
+            #endregion
 
             if (model.Gallaries != null && model.Gallaries.Any())
             {
@@ -53,6 +65,11 @@ namespace Bibaket.Application.Services.Implementation
         public Task EditProductAsync(AdminCreateProductViewModel model)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ProductTag>> GetTagsAsync()
+        {
+            return await _productrepository.GetAllTagsAsync();
         }
 
         public async Task<AdminFilterProductViewModel> ProductFilterAsync(AdminFilterProductViewModel model)

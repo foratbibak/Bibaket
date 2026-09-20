@@ -9,6 +9,7 @@ using Bibaket.Domain.Models.Products;
 using Bibaket.Ifra.Data.Context;
 using Bibaket.Application.Services.Interfaces;
 using Bibaket.Domain.ViewModels.Products;
+using Bibaket.Application.Services.Implementation;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
@@ -117,6 +118,20 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {         
             return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+
+        #region Tags
+        public async Task<JsonResult> GetTags()
+        {
+            var tags =await _productService.GetTagsAsync();
+
+            return Json(tags.Select(x => new
+            {
+                id=x.Id,
+                value=x.TagTitle,
+            }));
         }
         #endregion
 

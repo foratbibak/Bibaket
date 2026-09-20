@@ -1,4 +1,5 @@
-﻿using Bibaket.Domain.ViewModels.Products;
+﻿using Bibaket.Domain.Models.Products;
+using Bibaket.Domain.ViewModels.Products;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +12,13 @@ namespace Bibaket.Application.Services.Interfaces
 
         Task CreateProductAsync(AdminCreateProductViewModel model);
 
+        
 
         Task EditProductAsync(AdminCreateProductViewModel model);
+
+        Task<IEnumerable<ProductTag>> GetTagsAsync();   
+
+        
 
     }
 }

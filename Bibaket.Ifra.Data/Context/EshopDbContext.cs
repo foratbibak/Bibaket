@@ -41,6 +41,8 @@ namespace Bibaket.Ifra.Data.Context
         public DbSet<ProductFeature> ProductFeatures { get; set; }
 
         public DbSet<ProductGallery> ProductGalleries { get; set; }
+
+        public DbSet<ProductTag> ProductTags { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

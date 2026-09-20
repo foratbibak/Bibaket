@@ -12,5 +12,10 @@ namespace Bibaket.Domain.Contracts
         Task<bool> IsExistAsync(int productId);
 
         Task AddProductGalleryAsync(ProductGallery productGallery);
+
+        Task AddProductTagAsync(int productId, List<ProductTagViewModel> productTags);
+
+        Task<IEnumerable<ProductTag>> GetAllTagsAsync();
+
     }
 }
