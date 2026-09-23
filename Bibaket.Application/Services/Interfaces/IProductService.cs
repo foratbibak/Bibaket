@@ -14,7 +14,7 @@ namespace Bibaket.Application.Services.Interfaces
 
         
 
-        Task EditProductAsync(AdminCreateProductViewModel model);
+        Task<AdminEditProductViewModel> GetEditProductForAdmin (int productId);
 
         Task<IEnumerable<ProductTag>> GetTagsAsync();   
 

@@ -62,9 +62,27 @@ namespace Bibaket.Application.Services.Implementation
             }
         }
 
-        public Task EditProductAsync(AdminCreateProductViewModel model)
+        public async Task<AdminEditProductViewModel> GetEditProductForAdmin(int productId)
         {
-            throw new NotImplementedException();
+            AdminEditProductViewModel model =new AdminEditProductViewModel();
+
+            var product=await _productrepository.GetProductForEditAdminAsync(productId);
+            if (product.ProductGalleries != null)
+            {
+                model.productGalleries = product.ProductGalleries?.ToList();
+
+            }
+            model.Tags=string.Join(",", product.productTags.Select(t=>t.TagTitle));
+            model.Review=product.Review;
+            model.Price=product.Price;
+            model.CategoryId=product.CategoryId;
+            model.DeatilReview=product.DeatilReview;
+            model.ImageName=product.ImageName;
+            model.IsActive=product.IsActive;
+            model.ShortDescription=product.ShortDescription;
+            model.Title=product.Title;
+            model.Count = product.Count;
+            return model;
         }
 
         public async Task<IEnumerable<ProductTag>> GetTagsAsync()

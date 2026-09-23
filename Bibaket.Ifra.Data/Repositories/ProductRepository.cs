@@ -77,6 +77,14 @@ namespace Bibaket.Ifra.Data.Repositories
              .FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Product> GetProductForEditAdminAsync(int productId)
+        {
+            return await context.Products.Where(p => p.Id == productId)
+                .Include(g => g.ProductGalleries)
+                .Include(t => t.productTags)
+                .SingleOrDefaultAsync();
+        }
+
         public Task<bool> IsExistAsync(int productId)
         {
             return context.Products.AnyAsync(p=>p.Id==productId);

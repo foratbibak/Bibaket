@@ -70,32 +70,33 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #region Edit
         // GET: Admin/Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
+            var model = await _productService.GetEditProductForAdmin(id);
             if (id == null)
             {
                 return NotFound();
             }
-            return View();
+            return View(model);
         }
 
      
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Title,Price,ShortDescription,Review,DeatilReview,ImageName,Count,IsActive,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Product product)
-        {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, AdminEditProductViewModel adminEdit)
+        //{
+        //    if (id != product.Id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
+        //    if (ModelState.IsValid)
+        //    {
               
-                return RedirectToAction(nameof(Index));
-            }
-            return View();
-        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View();
+        //}
         #endregion
 
         #region Delete

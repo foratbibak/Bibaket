@@ -15,6 +15,8 @@ namespace Bibaket.Domain.Contracts
 
         Task AddProductTagAsync(int productId, List<ProductTagViewModel> productTags);
 
+        Task<Product> GetProductForEditAdminAsync(int productId);
+
         Task<IEnumerable<ProductTag>> GetAllTagsAsync();
 
     }
