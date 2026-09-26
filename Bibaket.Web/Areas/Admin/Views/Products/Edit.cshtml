@@ -92,7 +92,7 @@
 
                     <div class="form-group">
                         <label asp-for="CategoryId" class="control-label">دسته بندی اصلی </label>
-                        <select class="form-control" id="main-Category" onchange="loadSubCategory(this.value)">
+                        <select class="form-control" asp-items="@ViewBag.main_Category" id="main-Category" onchange="loadSubCategory(this.value)">
                             <option>
                                 لطفا انتخاب کنید
                             </option>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CategoryId" class="control-label">دسته بندی فرعی</label>
-                        <select class="form-control" id="sub-Category" onchange="loadFinalCategory(this.value)">
+                        <select class="form-control" asp-items="@ViewBag.sub_Category" id="sub-Category" onchange="loadFinalCategory(this.value)">
                             <option value="">
                                 لطفا انتخاب کنید
                             </option>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CategoryId" class="control-label">دسته بندی نهایی</label>
-                        <select asp-for="CategoryId" class="form-control" id="Final-Category">
+                        <select asp-for="CategoryId" asp-items="@ViewBag.Final_Category" class="form-control" id="Final-Category">
                             <option value="">
                                 لطفا انتخاب کنید
                             </option>

@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bibaket.Application.Services.Implementation;
+using Bibaket.Application.Services.Interfaces;
+using Bibaket.Domain.Models.Categories;
+using Bibaket.Domain.Models.Products;
+using Bibaket.Domain.ViewModels.Products;
+using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bibaket.Domain.Models.Products;
-using Bibaket.Ifra.Data.Context;
-using Bibaket.Application.Services.Interfaces;
-using Bibaket.Domain.ViewModels.Products;
-using Bibaket.Application.Services.Implementation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
     public class ProductsController : AdminBaseController
     {
         private readonly IProductService _productService;
+        private readonly ICategoryServices _categoryServices;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService,ICategoryServices categoryServices)
         {
             this._productService = productService;
+            this._categoryServices = categoryServices;
         }
 
         #region Index
@@ -72,11 +75,26 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Products/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _productService.GetEditProductForAdmin(id);
             if (id == null)
             {
                 return NotFound();
             }
+            var model = await _productService.GetEditProductForAdmin(id);
+
+            var categories =await _categoryServices.GetAllCategoryForMegaMenu();
+            int Final_Category = model.CategoryId;
+
+            int sub_Category = categories.First(c => c.Id == Final_Category).ParentId.Value;
+
+            int main_Category = categories.First(c => c.Id == sub_Category).ParentId.Value;
+
+            ViewBag.Final_Category = new SelectList(categories.Where(c=>c.ParentId==sub_Category),"Id", "Title", Final_Category);
+
+            ViewBag.sub_Category = new SelectList(categories.Where(c => c.ParentId == main_Category), "Id", "Title", sub_Category);
+
+            ViewBag.main_Category = new SelectList(categories.Where(c => c.ParentId == null), "Id", "Title", main_Category);
+
+
             return View(model);
         }
 
