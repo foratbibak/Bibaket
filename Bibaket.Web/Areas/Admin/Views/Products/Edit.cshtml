@@ -14,6 +14,8 @@
     <div class="row">
         <div class="row g-4">
             <form asp-action="Edit" class="row g-4" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="Id" />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col-xl-8">
                     <div class="form-group">
@@ -124,10 +126,10 @@
                             <i class="bx bx-info-circle"></i>
                             فرمت‌های مجاز: JPG، PNG، GIF | حداکثر ۲ مگابایت
                         </div>
-                        @if (Model.productGalleries != null)
+                        @if (Model.ProductGalleries != null)
                         {
                             <div class="row">
-                                @foreach (var item in Model.productGalleries)
+                                @foreach (var item in Model.ProductGalleries)
                                 {
                                     <div class="col-5 m-2 img-thumbnail">
                                         <img src="/ProductImages/@item.ImageName" style="max-width:100%" />
@@ -142,7 +144,7 @@
 
 
                 <div class="form-group">
-                    <input type="submit" value="Edit" class="btn btn-primary" />
+                    <input type="submit" value="ویرایش کالا" class="btn btn-primary" />
                 </div>
             </form>
         </div>

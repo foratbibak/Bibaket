@@ -34,6 +34,15 @@ namespace Bibaket.Ifra.Data.Repositories
             }
         }
 
+        public async Task DeleteProductTags(int productId)
+        {
+            var tags=await context.ProductTags.Where(p=>p.ProductId==productId).ToListAsync();
+            foreach (var item in tags)
+            {
+                context.ProductTags.Remove(item);
+            }
+        }
+
         public IEnumerable<Product> GetAll()
         {
             return context.Products;

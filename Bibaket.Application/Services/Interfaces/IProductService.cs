@@ -12,7 +12,7 @@ namespace Bibaket.Application.Services.Interfaces
 
         Task CreateProductAsync(AdminCreateProductViewModel model);
 
-        
+        Task EditProductAsync(AdminEditProductViewModel model);
 
         Task<AdminEditProductViewModel> GetEditProductForAdmin (int productId);
 

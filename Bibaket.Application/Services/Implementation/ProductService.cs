@@ -5,6 +5,7 @@ using Bibaket.Domain.Contracts;
 using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
 using Sofarashel.Application.Convertor;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,62 @@ namespace Bibaket.Application.Services.Implementation
             }
         }
 
+        public async Task EditProductAsync(AdminEditProductViewModel model)
+        {
+            var product = _productrepository.GetById(model.Id);
+            product.Title = model.Title;
+            product.Price = model.Price;
+            product.Review= model.Review;
+            product.CategoryId = model.CategoryId;
+            product.DeatilReview = model.DeatilReview;
+            product.ShortDescription= model.ShortDescription;
+            product.Count = model.Count;
+            product.IsActive= model.IsActive;
+            product.UpdateDate = DateTime.Now;
+
+            if(model.ImageFile != null)
+            {
+                if(product.ImageName!= "NoPhoto.jpg")
+                {
+                    DeleteProductImage(product.ImageName);
+                }
+                product.ImageName = await SaveImageFileAsync(model.ImageFile);
+            }
+            if (model.Gallaries != null && model.Gallaries.Any())
+            {
+                foreach (var img in model.Gallaries)
+                {
+                    string imageGalleryName = await SaveImageFileAsync(img);
+
+                    ProductGallery gallery = new ProductGallery()
+                    {
+                        ProductId = product.Id,
+                        Alt = product.Title,
+                        CreatDate = DateTime.Now,
+                        ImageName = imageGalleryName,
+                    };
+                    await _productrepository.AddProductGalleryAsync(gallery);
+                }
+            }
+
+            await _productrepository.DeleteProductTags(product.Id);
+
+            #region Save Tags
+            if (!string.IsNullOrEmpty(model.Tags))
+            {
+                var tags = JsonSerializer.Deserialize<List<ProductTagViewModel>>(model.Tags);
+
+                await _productrepository.AddProductTagAsync(product.Id, tags);
+
+                await _productrepository.SaveAsync();
+            }
+            #endregion
+
+            _productrepository.Update(product);
+            _productrepository.Save();
+        }
+
+        
         public async Task<AdminEditProductViewModel> GetEditProductForAdmin(int productId)
         {
             AdminEditProductViewModel model =new AdminEditProductViewModel();
@@ -69,7 +126,7 @@ namespace Bibaket.Application.Services.Implementation
             var product=await _productrepository.GetProductForEditAdminAsync(productId);
             if (product.ProductGalleries != null)
             {
-                model.productGalleries = product.ProductGalleries?.ToList();
+                model.ProductGalleries = product.ProductGalleries?.ToList();
 
             }
             model.Tags=string.Join(",", product.productTags.Select(t=>t.TagTitle));
@@ -117,21 +174,28 @@ namespace Bibaket.Application.Services.Implementation
 
 
         #region Utilites
+
+        private void DeleteProductImage(string imageName)
+        {
+            string deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages", imageName);
+            if(File.Exists(deletePath))
+                File.Delete(deletePath);
+        }
         private async Task<string> SaveImageFileAsync(IFormFile file)
         {
             if (file == null) return "NoPhoto.jpg";
-            var AvatarName = NameGenerator.GenerateUniqName() +
+            var imageName = NameGenerator.GenerateUniqName() +
                 Path.GetExtension(file.FileName);
 
-            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages", AvatarName);
+            string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages", imageName);
             using (var stream = System.IO.File.Create(savePath))
             {
                 await file.CopyToAsync(stream);
             }
             ImageResizer imageResizer= new ImageResizer();
-            var thumbPath= Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages/thumb", AvatarName);
+            var thumbPath= Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ProductImages/thumb", imageName);
             imageResizer.ImageResize(savePath, thumbPath,120,210);
-            return AvatarName;
+            return imageName;
         }
         #endregion
     }

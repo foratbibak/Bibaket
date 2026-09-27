@@ -98,23 +98,21 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(model);
         }
 
-     
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, AdminEditProductViewModel adminEdit)
-        //{
-        //    if (id != product.Id)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-              
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit( AdminEditProductViewModel adminEdit)
+        {
+            if (!ModelState.IsValid)
+            {
+
+                return View(adminEdit);
+
+            }
+            await _productService.EditProductAsync(adminEdit);
+            return RedirectToAction(nameof(Index));
+
+        }
         #endregion
 
         #region Delete

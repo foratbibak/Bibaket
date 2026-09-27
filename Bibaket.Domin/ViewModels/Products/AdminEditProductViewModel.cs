@@ -9,6 +9,9 @@ namespace Bibaket.Domain.ViewModels.Products
 {
     public class AdminEditProductViewModel
     {
+
+        public int Id { get; set; }
+
         [Display(Name = "گروه")]
         [Required(ErrorMessage = "لطفا {0}وارد کنید ")]
         public int CategoryId { get; set; }
@@ -41,7 +44,7 @@ namespace Bibaket.Domain.ViewModels.Products
 
 
         [Display(Name = "موجودی انبار")]
-        public int Count { get; set; }
+        public int Count { get; set; } = 0;
 
         public string? Tags { get; set; }
 
@@ -49,6 +52,8 @@ namespace Bibaket.Domain.ViewModels.Products
         [Display(Name = "فعال است")]
         public bool IsActive { get; set; }
 
-        public List<ProductGallery> productGalleries { get; set; }
+
+
+        public List<ProductGallery>? ProductGalleries { get; set; }
     }
 }
