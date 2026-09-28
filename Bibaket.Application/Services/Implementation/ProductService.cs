@@ -63,6 +63,15 @@ namespace Bibaket.Application.Services.Implementation
             }
         }
 
+        public async Task DeleteImageGallery(int galleryId)
+        {
+            var gallery= await _productrepository.GetGalleryById(galleryId);
+
+            DeleteProductImage(gallery.ImageName);
+            await _productrepository.DeleteGallery(gallery);
+            await _productrepository.SaveAsync();
+        }
+
         public async Task EditProductAsync(AdminEditProductViewModel model)
         {
             var product = _productrepository.GetById(model.Id);

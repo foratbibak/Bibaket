@@ -34,6 +34,11 @@ namespace Bibaket.Ifra.Data.Repositories
             }
         }
 
+        public async Task DeleteGallery(ProductGallery gallery)
+        {
+             context.ProductGalleries.Remove(gallery);
+        }
+
         public async Task DeleteProductTags(int productId)
         {
             var tags=await context.ProductTags.Where(p=>p.ProductId==productId).ToListAsync();
@@ -84,6 +89,11 @@ namespace Bibaket.Ifra.Data.Repositories
              .Include(p => p.ProductFeatures)
              .Include(p => p.ProductGalleries)
              .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<ProductGallery> GetGalleryById(int galleryId)
+        {
+            return await context.ProductGalleries.AsNoTracking().SingleOrDefaultAsync(g => g.Id == galleryId);
         }
 
         public async Task<Product> GetProductForEditAdminAsync(int productId)

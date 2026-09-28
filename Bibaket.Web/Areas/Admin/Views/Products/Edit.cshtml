@@ -131,8 +131,11 @@
                             <div class="row">
                                 @foreach (var item in Model.ProductGalleries)
                                 {
-                                    <div class="col-5 m-2 img-thumbnail">
+                                    <div id="img_@(item.Id)" class="col-5 m-2 img-thumbnail">
                                         <img src="/ProductImages/@item.ImageName" style="max-width:100%" />
+                                        <a class=" btn btn-danger btn-block " style="width:95%; margin:5px" onclick="DeleteImage(@item.Id)">
+                                            حذف
+                                        </a>
                                     </div>
                                 }
                             </div>
@@ -167,6 +170,15 @@
         CKEDITOR.replace('DetailReview');
     </script>
     <script>
+
+        function DeleteImage(id){
+            $.get("/Admin/Products/DeleteImage/"+id,function(){
+                $("#img_"+id).hide('slow');
+            });
+        }
+
+
+
         function previewImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

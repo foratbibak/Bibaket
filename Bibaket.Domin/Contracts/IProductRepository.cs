@@ -17,6 +17,10 @@ namespace Bibaket.Domain.Contracts
 
         Task AddProductTagAsync(int productId, List<ProductTagViewModel> productTags);
 
+        Task<ProductGallery> GetGalleryById(int galleryId);
+
+        Task DeleteGallery(ProductGallery gallery);
+
         Task<Product> GetProductForEditAdminAsync(int productId);
 
         Task<IEnumerable<ProductTag>> GetAllTagsAsync();

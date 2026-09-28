@@ -117,25 +117,19 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #region Delete
         // GET: Admin/Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task DeleteImage(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            await _productService.DeleteImageGallery(id);        
 
-        
-
-            return View();
         }
 
         // POST: Admin/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {         
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{         
+        //    return RedirectToAction(nameof(Index));
+        //}
         #endregion
 
 
