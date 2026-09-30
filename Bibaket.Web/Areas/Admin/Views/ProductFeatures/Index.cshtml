@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Bibaket.Domain.Models.Products.ProductFeature>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = ViewBag.Product;
 }
 
-<h1>Index</h1>
+<h1>@ViewBag.Product</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,26 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                عنوان 
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Value)
+                مقدار
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDelete)
-            </th>
+         
+         
             <th></th>
         </tr>
     </thead>
@@ -45,25 +32,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Value)
             </td>
+   
             <td>
-                @Html.DisplayFor(modelItem => item.Product.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">ویراش</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
             </td>
         </tr>
 }

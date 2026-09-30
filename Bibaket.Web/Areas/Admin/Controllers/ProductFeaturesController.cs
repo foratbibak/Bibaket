@@ -21,10 +21,16 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
 
         // GET: Admin/ProductFeatures
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            var eshopDbContext = _context.ProductFeatures.Include(p => p.Product);
-            return View(await eshopDbContext.ToListAsync());
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            ViewBag.Product = "ویژگی های"+
+                _context.Products.Find(id.Value).Title;
+            ViewBag.ProductId = id;
+            return View(await _context.ProductFeatures.Where(f=>f.ProductId==id.Value).ToListAsync());
         }
 
         // GET: Admin/ProductFeatures/Details/5
@@ -38,6 +44,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             var productFeature = await _context.ProductFeatures
                 .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (productFeature == null)
             {
                 return NotFound();
