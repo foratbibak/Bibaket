@@ -7,7 +7,7 @@
 <h1>@ViewBag.Product</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a  asp-route-id="@ViewBag.ProductId" asp-action="Create">افزودن</a>
 </p>
 <table class="table">
     <thead>
@@ -41,3 +41,6 @@
 }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Products" asp-action="Index">بازگشت</a>
+</div>

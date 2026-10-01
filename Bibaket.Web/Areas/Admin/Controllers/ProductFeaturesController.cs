@@ -30,50 +30,34 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             ViewBag.Product = "ویژگی های"+
                 _context.Products.Find(id.Value).Title;
             ViewBag.ProductId = id;
-            return View(await _context.ProductFeatures.Where(f=>f.ProductId==id.Value).ToListAsync());
+            return View(await _context.ProductFeatures.Where(f=>f.ProductId==id.Value&&!f.IsDelete).ToListAsync());
         }
 
-        // GET: Admin/ProductFeatures/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+        // GET: Admin/ProductFeatures/Create
+        public IActionResult Create(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            var productFeature = await _context.ProductFeatures
-                .Include(p => p.Product)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (productFeature == null)
-            {
-                return NotFound();
-            }
-
-            return View(productFeature);
+            return View(new ProductFeature() { ProductId=id.Value});
         }
 
-        // GET: Admin/ProductFeatures/Create
-        public IActionResult Create()
-        {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title");
-            return View();
-        }
-
-        // POST: Admin/ProductFeatures/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductId,Name,Value,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] ProductFeature productFeature)
         {
             if (ModelState.IsValid)
             {
+                productFeature.Id = 0;
+                productFeature.CreatDate = DateTime.Now;
+                productFeature.IsDelete = false;
                 _context.Add(productFeature);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new {id=productFeature.ProductId});
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productFeature.ProductId);
             return View(productFeature);
         }
 
@@ -110,6 +94,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 try
                 {
+                    productFeature.UpdateDate = DateTime.Now;
                     _context.Update(productFeature);
                     await _context.SaveChangesAsync();
                 }
@@ -124,7 +109,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index) ,new {id=productFeature.ProductId});
             }
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productFeature.ProductId);
             return View(productFeature);
@@ -157,11 +142,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             var productFeature = await _context.ProductFeatures.FindAsync(id);
             if (productFeature != null)
             {
-                _context.ProductFeatures.Remove(productFeature);
+                productFeature.IsDelete = true;
+                productFeature.DeleteDate = DateTime.Now;
+                _context.ProductFeatures.Update(productFeature);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = productFeature.ProductId });
         }
 
         private bool ProductFeatureExists(int id)
