@@ -24,6 +24,7 @@ namespace Bibaket.Domain.Contracts
         Task<Product> GetProductForEditAdminAsync(int productId);
 
         Task<IEnumerable<ProductTag>> GetAllTagsAsync();
+        Task<IQueryable<Product>> GetTopProductForshowAsync();
 
     }
 }

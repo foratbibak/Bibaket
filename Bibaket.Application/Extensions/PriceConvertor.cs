@@ -14,5 +14,9 @@ namespace Bibaket.Application.Extensions
         {
             return price.ToString("#,0 تومان");
         }
+        public static string ToTomanEpty(this double price)
+        {
+            return price.ToString("#,0");
+        }
     }
 }

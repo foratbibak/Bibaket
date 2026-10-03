@@ -156,6 +156,12 @@ namespace Bibaket.Application.Services.Implementation
             return await _productrepository.GetAllTagsAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetTopProductForshowAsync()
+        {
+            var data =await _productrepository.GetTopProductForshowAsync();
+            return data;
+        }
+
         public async Task<AdminFilterProductViewModel> ProductFilterAsync(AdminFilterProductViewModel model)
         {
             var query = await _productrepository.ProductFilterAsync();
