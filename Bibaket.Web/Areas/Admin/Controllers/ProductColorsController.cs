@@ -10,8 +10,7 @@ using Sofarashel.Domain.Models.Products;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class ProductColorsController : Controller
+    public class ProductColorsController : AdminBaseController
     {
         private readonly EshopDbContext _context;
 
@@ -20,12 +19,14 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             _context = context;
         }
 
+        #region Index
         // GET: Admin/ProductColors
         public async Task<IActionResult> Index()
         {
             var eshopDbContext = _context.ProductColors.Include(p => p.Product);
             return View(await eshopDbContext.ToListAsync());
         }
+        #endregion
 
         // GET: Admin/ProductColors/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -46,6 +47,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(productColor);
         }
 
+        #region Create
         // GET: Admin/ProductColors/Create
         public IActionResult Create()
         {
@@ -53,9 +55,6 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/ProductColors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductId,Name,Code,Price,IsDefault,Quntity,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] ProductColor productColor)
@@ -69,7 +68,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productColor.ProductId);
             return View(productColor);
         }
+        #endregion
 
+        #region Edit
         // GET: Admin/ProductColors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -87,9 +88,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return View(productColor);
         }
 
-        // POST: Admin/ProductColors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Code,Price,IsDefault,Quntity,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] ProductColor productColor)
@@ -122,7 +121,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productColor.ProductId);
             return View(productColor);
         }
+        #endregion
 
+        #region Delete
         // GET: Admin/ProductColors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -156,6 +157,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        #endregion
 
         private bool ProductColorExists(int id)
         {
