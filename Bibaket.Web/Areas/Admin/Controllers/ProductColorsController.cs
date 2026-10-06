@@ -21,31 +21,15 @@ namespace Bibaket.Web.Areas.Admin.Controllers
 
         #region Index
         // GET: Admin/ProductColors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var eshopDbContext = _context.ProductColors.Include(p => p.Product);
+            ViewBag.ProductTitle = _context.Products.FirstOrDefault(p => p.Id == id)?.Title;
+
             return View(await eshopDbContext.ToListAsync());
         }
         #endregion
 
-        // GET: Admin/ProductColors/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var productColor = await _context.ProductColors
-                .Include(p => p.Product)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (productColor == null)
-            {
-                return NotFound();
-            }
-
-            return View(productColor);
-        }
 
         #region Create
         // GET: Admin/ProductColors/Create
@@ -158,6 +142,19 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
+
+        public IActionResult IsDefault(int id)
+        {
+            var productcolor = _context.ProductColors.Find(id);
+            var colors = _context.ProductColors.Where(c => c.ProductId == productcolor.ProductId);
+            foreach (var color in colors)
+            {
+                color.IsDefault = false;
+            }
+            productcolor.IsDefault = true;
+            _context.SaveChanges();
+            return RedirectToAction("Index",new {id=productcolor.ProductId});
+        }
 
         private bool ProductColorExists(int id)
         {

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Sofarashel.Domain.Models.Products.ProductColor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "رنگ بندی های محصول :" + ViewBag.ProductTitle;
 }
 
-<h1>Index</h1>
+<h1>رنگ بندی های محصول :@ViewBag.ProductTitle</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-route-id="@ViewBag.ProductId" asp-action="Create">افزودن</a>
 </p>
 <table class="table">
     <thead>
@@ -21,69 +21,46 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDefault)
-            </th>
+         
             <th>
                 @Html.DisplayNameFor(model => model.Quntity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product)
+                @Html.DisplayNameFor(model => model.IsDefault)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDelete)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDefault)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quntity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDelete)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <span style="color:@item.Code;">@item.Code</span>
+                </td>
+                <td>
+                    @item.Price.ToToman()
+                </td>
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quntity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDefault)
+                </td>
+                <td>
+                    <a asp-action="IsDefault" asp-route-id="@item.Id">پیش فرض</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">ویراش</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">حذف</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Products" asp-action="Index">بازگشت</a>
+</div>
