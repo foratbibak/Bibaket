@@ -23,33 +23,37 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/ProductColors
         public async Task<IActionResult> Index(int id)
         {
-            var eshopDbContext = _context.ProductColors.Include(p => p.Product);
             ViewBag.ProductTitle = _context.Products.FirstOrDefault(p => p.Id == id)?.Title;
+            ViewBag.ProductId = id;
 
-            return View(await eshopDbContext.ToListAsync());
+            return View(await _context.ProductColors.Where(c=>c.ProductId==id).ToListAsync());
         }
         #endregion
 
 
         #region Create
         // GET: Admin/ProductColors/Create
-        public IActionResult Create()
+        public IActionResult Create(int id)
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title");
+            ViewBag.ProductId=id;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Code,Price,IsDefault,Quntity,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] ProductColor productColor)
+        public async Task<IActionResult> Create(ProductColor productColor)
         {
             if (ModelState.IsValid)
             {
+                productColor.Id = 0;
+                productColor.IsDefault = false;
+                productColor.CreatDate= DateTime.Now;
+                productColor.IsDelete=false;
                 _context.Add(productColor);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new {id=productColor.ProductId});
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productColor.ProductId);
+     
             return View(productColor);
         }
         #endregion
@@ -68,14 +72,13 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productColor.ProductId);
             return View(productColor);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Code,Price,IsDefault,Quntity,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] ProductColor productColor)
+        public async Task<IActionResult> Edit(int id,  ProductColor productColor)
         {
             if (id != productColor.Id)
             {
@@ -86,6 +89,8 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 try
                 {
+                    productColor.UpdateDate = DateTime.Now;
+
                     _context.Update(productColor);
                     await _context.SaveChangesAsync();
                 }
@@ -100,9 +105,8 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),new {id=productColor.ProductId});
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Title", productColor.ProductId);
             return View(productColor);
         }
         #endregion
@@ -143,6 +147,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
+        #region Default
         public IActionResult IsDefault(int id)
         {
             var productcolor = _context.ProductColors.Find(id);
@@ -153,8 +158,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             }
             productcolor.IsDefault = true;
             _context.SaveChanges();
-            return RedirectToAction("Index",new {id=productcolor.ProductId});
+            return RedirectToAction("Index", new { id = productcolor.ProductId });
         }
+        #endregion
 
         private bool ProductColorExists(int id)
         {

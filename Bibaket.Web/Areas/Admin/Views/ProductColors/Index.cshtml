@@ -40,7 +40,14 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <span style="color:@item.Code;">@item.Code</span>
+
+                    <div class="product-variant-item">
+                        <div class="custom-radio-circle">
+                            <span class="color"
+                                  style="background-color: @item.Code;">
+                            </span>
+                        </div>
+                    </div>
                 </td>
                 <td>
                     @item.Price.ToToman()
@@ -62,5 +69,17 @@
     </tbody>
 </table>
 <div>
+
     <a asp-controller="Products" asp-action="Index">بازگشت</a>
 </div>
+
+<style>
+    .custom-radio-circle .color {
+        display: block;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 0 0 1px #ddd;
+    }
+</style>              
