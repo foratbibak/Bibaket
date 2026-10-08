@@ -106,7 +106,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task<IQueryable<Product>> GetTopProductForshowAsync()
         {
-            return  context.Products.OrderByDescending(p=>p.CreatDate).Take(12).AsQueryable();
+            return  context.Products.Include(c=>c.ProductColors).OrderByDescending(p=>p.CreatDate).Take(12).AsQueryable();
         }
 
         public Task<bool> IsExistAsync(int productId)

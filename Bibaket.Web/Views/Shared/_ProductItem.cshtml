@@ -13,19 +13,36 @@
                 @Model.Title
             </a>
         </h2>
-        <div class="product-variant">
-            <span class="color" style="background-color: #d4d4d4;"></span>
-            <span class="color" style="background-color: #e86841;"></span>
-            <span class="color" style="background-color: #b82c32;"></span>
-            <span>+</span>
-        </div>
+        @if (Model.ProductColors != null && Model.ProductColors.Any())
+        {
+            <div class="product-variant">
+                @foreach (var item in Model.ProductColors.Take(3))
+                {
+                    <span class="color" style="background-color: @item.Code;"></span>
+     
+                }
+                @if (Model.ProductColors.Count() > 3)
+                {
+
+                    <span>+</span>
+                }
+            </div>
+        }
         <div class="product-price fa-num">
             @* <div class="d-flex align-items-center">
                                         <del class="price-old"></del>
                                         <span class="discount ms-2">%2</span>
                                     </div> *@
             <span class="price-now">
-                @Model.Price.ToTomanEpty() <span class="currency">تومان</span>
+                @{
+                    double price = Model.Price;
+                    if (Model.ProductColors != null && Model.ProductColors.Any())
+                    {
+                        price = Model.ProductColors
+                        .Where(p => p.IsDefault).First().Price;
+                    }
+                }
+                @price.ToTomanEpty() <span class="currency">تومان</span>
             </span>
         </div>
     </div>

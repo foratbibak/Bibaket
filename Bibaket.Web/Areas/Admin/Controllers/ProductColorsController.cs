@@ -49,6 +49,10 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 productColor.IsDefault = false;
                 productColor.CreatDate= DateTime.Now;
                 productColor.IsDelete=false;
+                if (_context.ProductColors.Where(c => c.ProductId == productColor.ProductId).Count() == 0)
+                {
+                    productColor.IsDefault = true;
+                }
                 _context.Add(productColor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index),new {id=productColor.ProductId});
