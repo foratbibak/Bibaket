@@ -30,7 +30,6 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         }
         #endregion
 
-
         #region Create
         // GET: Admin/ProductColors/Create
         public IActionResult Create(int id)
