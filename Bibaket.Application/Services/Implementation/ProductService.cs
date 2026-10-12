@@ -151,6 +151,11 @@ namespace Bibaket.Application.Services.Implementation
             return model;
         }
 
+        public async Task<Product> GetProductForShortDescbyIdAsync(int productId)
+        {
+            return await _productrepository.GetProductForShortDescbyIdAsync(productId);
+        }
+
         public async Task<IEnumerable<ProductTag>> GetTagsAsync()
         {
             return await _productrepository.GetAllTagsAsync();

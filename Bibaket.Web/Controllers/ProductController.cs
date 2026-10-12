@@ -1,12 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Bibaket.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bibaket.Web.Controllers
 {
     public class ProductController : Controller
     {
-        public PartialViewResult ShortDescProduct (int id)
+        IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            return PartialView();
+            _productService=productService;
+        }
+        public async Task<PartialViewResult> ShortDescProduct (int id)
+        {
+            var product=await _productService.GetProductForShortDescbyIdAsync(id);
+            return PartialView(product);
         }
     }
 }

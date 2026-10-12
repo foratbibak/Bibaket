@@ -15,11 +15,14 @@ namespace Bibaket.Application.Services.Interfaces
         Task EditProductAsync(AdminEditProductViewModel model);
 
         Task<AdminEditProductViewModel> GetEditProductForAdmin (int productId);
+
         Task<IEnumerable<Product>> GetTopProductForshowAsync();
 
         Task DeleteImageGallery(int galleryId);
 
-        Task<IEnumerable<ProductTag>> GetTagsAsync();   
+        Task<IEnumerable<ProductTag>> GetTagsAsync();
+
+        Task<Product> GetProductForShortDescbyIdAsync(int productId);
 
         
 

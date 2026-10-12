@@ -104,6 +104,17 @@ namespace Bibaket.Ifra.Data.Repositories
                 .SingleOrDefaultAsync();
         }
 
+        public Task<Product> GetProductForShortDescbyIdAsync(int productId)
+        {
+           return context.Products.Where (p => p.Id == productId)
+                .Include(p=>p.ProductGalleries)
+                .Include (f => f.ProductFeatures)
+                .Include(p=>p.ProductColors)
+                .Include(c=>c.Category)
+                .ThenInclude(c=>c.Parent)
+                .SingleOrDefaultAsync();
+        }
+
         public async Task<IQueryable<Product>> GetTopProductForshowAsync()
         {
             return  context.Products.Include(c=>c.ProductColors).OrderByDescending(p=>p.CreatDate).Take(12).AsQueryable();

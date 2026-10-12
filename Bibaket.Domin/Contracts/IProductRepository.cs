@@ -26,5 +26,8 @@ namespace Bibaket.Domain.Contracts
         Task<IEnumerable<ProductTag>> GetAllTagsAsync();
         Task<IQueryable<Product>> GetTopProductForshowAsync();
 
+        Task<Product> GetProductForShortDescbyIdAsync(int productId);
+
+
     }
 }
