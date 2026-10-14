@@ -159,5 +159,7 @@ namespace Bibaket.Application.Services.Implementation
 
             return CategoryMapper.MapToListCategoryViewModel(categories);
         }
+
+     
     }
 }

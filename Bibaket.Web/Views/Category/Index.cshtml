@@ -1,0 +1,12 @@
+﻿@using Bibaket.Domain.Models.Products
+@model IEnumerable<Product>
+
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <partial name="_ProductItem" model="item" />
+    }
+
+</div>

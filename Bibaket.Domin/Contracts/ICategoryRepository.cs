@@ -1,4 +1,5 @@
 ﻿using Bibaket.Domain.Models.Categories;
+using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.ViewModels.Categories;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Bibaket.Domain.Contracts
         Task<bool> IsExistSlug(string slug);
 
         Task<IQueryable<Category>> FillterAsync();
+        Task<IQueryable<Product>> GetProductsBySlug(string slug);
 
         Task<List<Category>> GetByParentIdAsync(int? parentId);
 

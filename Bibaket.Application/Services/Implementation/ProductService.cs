@@ -17,10 +17,12 @@ namespace Bibaket.Application.Services.Implementation
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productrepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductService(IProductRepository productrepository)
+        public ProductService(IProductRepository productrepository ,ICategoryRepository categoryRepository)
         {
             this._productrepository = productrepository;
+            _categoryRepository = categoryRepository;
         }
         public async Task CreateProductAsync(AdminCreateProductViewModel model)
         {
@@ -127,7 +129,11 @@ namespace Bibaket.Application.Services.Implementation
             _productrepository.Save();
         }
 
-        
+        public async Task<IEnumerable<Product>> GetCategoryBySlug(string slug)
+        {
+            return await _categoryRepository.GetProductsBySlug(slug);
+        }
+
         public async Task<AdminEditProductViewModel> GetEditProductForAdmin(int productId)
         {
             AdminEditProductViewModel model =new AdminEditProductViewModel();

@@ -17,6 +17,7 @@ namespace Bibaket.Application.Services.Interfaces
         Task<AdminEditProductViewModel> GetEditProductForAdmin (int productId);
 
         Task<IEnumerable<Product>> GetTopProductForshowAsync();
+        Task<IEnumerable<Product>> GetCategoryBySlug(string slug);
 
         Task DeleteImageGallery(int galleryId);
 
