@@ -15,7 +15,7 @@ namespace Bibaket.Domain.Contracts
         Task<bool> IsExistSlug(string slug);
 
         Task<IQueryable<Category>> FillterAsync();
-        Task<IQueryable<Product>> GetProductsBySlug(string slug);
+        Task<IEnumerable<Product>> GetProductsBySlug(string slug);
 
         Task<List<Category>> GetByParentIdAsync(int? parentId);
 

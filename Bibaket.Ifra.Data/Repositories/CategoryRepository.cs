@@ -50,12 +50,18 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Categories.FindAsync(CatId);
         }
 
-        public async Task<IQueryable<Product>> GetProductsBySlug(string slug)
+        public async Task<IEnumerable<Product>> GetProductsBySlug(string slug)
         {
-            return  context.Products
-                .Include(c => c.Category)
-                .Where(c => c.Category.Slug == slug && !c.IsDelete)
-                .AsQueryable();
+
+
+
+            return await context.Products
+                .Where(p => p.Category.Slug == slug
+                || p.Category.Parent.Slug == slug
+                || p.Category.Parent.Parent.Slug == slug
+
+                ).ToListAsync();
+
         }
 
         public async Task<bool> IsExistSlug(string slug)
