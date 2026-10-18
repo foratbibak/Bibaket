@@ -24,6 +24,9 @@ namespace Bibaket.Application.Services.Interfaces
         Task<IEnumerable<ProductTag>> GetTagsAsync();
 
         Task<Product> GetProductForShortDescbyIdAsync(int productId);
+        Task<Product> GetProductForProductPage(int productId);
+
+
 
         
 

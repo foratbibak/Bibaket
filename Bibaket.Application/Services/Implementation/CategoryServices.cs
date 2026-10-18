@@ -75,6 +75,8 @@ namespace Bibaket.Application.Services.Implementation
             #region Edit Category
             await categoryRepository.EditCategoryAsync(Category);
             await categoryRepository.SaveChangeAsync();
+            cache.Remove(CashKeyNames.GetAllCategoryForMegaMenu);
+
             #endregion
         }
 

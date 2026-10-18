@@ -157,6 +157,11 @@ namespace Bibaket.Application.Services.Implementation
             return model;
         }
 
+        public async Task<Product> GetProductForProductPage(int productId)
+        {
+            return await _productrepository.GetProductForProductPage(productId);
+        }
+
         public async Task<Product> GetProductForShortDescbyIdAsync(int productId)
         {
             return await _productrepository.GetProductForShortDescbyIdAsync(productId);
