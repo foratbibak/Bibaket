@@ -112,6 +112,7 @@ namespace Bibaket.Ifra.Data.Repositories
                             .Include(p => p.ProductColors)
                             .Include(c => c.Category)
                             .ThenInclude(c => c.Parent)
+                            .ThenInclude(c=>c.Parent)
                             .SingleOrDefaultAsync();
         }
 
