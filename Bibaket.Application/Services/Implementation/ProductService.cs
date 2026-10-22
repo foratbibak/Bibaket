@@ -54,7 +54,7 @@ namespace Bibaket.Application.Services.Implementation
                     {
                         ProductId=product.Id,
                         Alt = product.Title,
-
+                        
                         CreatDate = DateTime.Now,
                         ImageName = imageGalleryName,
                         IsDelete = false,
@@ -78,6 +78,7 @@ namespace Bibaket.Application.Services.Implementation
         {
             var product = _productrepository.GetById(model.Id);
             product.Title = model.Title;
+            product.Slug= model.Slug;
             product.Price = model.Price;
             product.Review= model.Review;
             product.CategoryId = model.CategoryId;
@@ -154,6 +155,7 @@ namespace Bibaket.Application.Services.Implementation
             model.ShortDescription=product.ShortDescription;
             model.Title=product.Title;
             model.Count = product.Count;
+            model.Slug = product.Slug;
             return model;
         }
 

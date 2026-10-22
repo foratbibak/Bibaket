@@ -17,6 +17,7 @@ namespace Bibaket.Domain.ViewModels.Products
         public string CategoryName { get; set; }
 
         public string Title { get; set; }
+        public string Slug { get; set; }
 
         public double Price { get; set; }
 

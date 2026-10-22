@@ -16,6 +16,10 @@ namespace Bibaket.Domain.ViewModels.Products
         [Required(ErrorMessage = "لطفا {0}وارد کنید ")]
         public string Title { get; set; }
 
+        [Display(Name = " عنوان در Url")]
+        [Required(ErrorMessage = "لطفا {0}وارد کنید ")]
+        public string Slug { get; set; }
+
         [Display(Name = "قیمت")]
         [Required(ErrorMessage = "لطفا {0}وارد کنید ")]
         public double Price { get; set; }

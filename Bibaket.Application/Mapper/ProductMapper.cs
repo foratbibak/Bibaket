@@ -16,6 +16,7 @@ namespace Bibaket.Application.Mapper
                 CategoryId = p.CategoryId,
                 CategoryName=p.Category.Title,
                 Title = p.Title,
+                Slug = p.Slug,
                 Price = p.Price,
                 ShortDescription= p.ShortDescription,
                 Review=p.Review,
@@ -43,6 +44,7 @@ namespace Bibaket.Application.Mapper
                 ShortDescription = model.ShortDescription,
                 DeleteDate=DateTime.Now,
                 ImageName = imageName,
+                Slug= model.Slug,
                 
             };
         }
