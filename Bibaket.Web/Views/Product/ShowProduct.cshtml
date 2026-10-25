@@ -1,6 +1,8 @@
 ﻿@using Bibaket.Domain.Models.Products
 @model Product
-
+@section Header{
+    <link rel="canonical" href="@SiteSetting.SiteAdress/Product/@Model.Slug/" />
+}
 <main class="page-content">
     <div class="container">
         <!-- start of breadcrumb -->
@@ -195,6 +197,13 @@
                     <!-- end of product-detail -->
                 </div>
                 <div class="col-xl-3 col-lg-4">
+                    
+                    <div class="product-seller-info ui-box" style="margin:10px;">
+                        <p class="" style="text-align:center; margin:15px;">
+                            @SiteSetting.SiteAdress/p/@Model.Id
+                        </p>
+                    </div>
+
                     <!-- start of product-seller-info -->
                     <div class="product-seller-info ui-box">
                         <div class="seller-info-changeable">

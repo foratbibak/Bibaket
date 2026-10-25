@@ -1,4 +1,5 @@
-﻿using Bibaket.Application.Services.Interfaces;
+﻿using Bibaket.Application.EnCoders;
+using Bibaket.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bibaket.Web.Controllers
@@ -16,11 +17,20 @@ namespace Bibaket.Web.Controllers
             return PartialView(product);
         }
 
-        [Route("Product/Product{id}.html")]
-        public async Task<IActionResult> ShowProduct(int Id)
+        [Route("Product/{slug}")]
+        public async Task<IActionResult> ShowProduct(string slug)
         {
-            var product=await _productService.GetProductForProductPage(Id);
+            var product=await _productService.GetProductBySlug(slug);
             return View(product);
+        }
+
+        [Route("p/{id}")]
+
+        public async Task<IActionResult> ShortLinkRedirect(int id)
+        {
+            var slug = await _productService.GetSlugProduct(id);
+            var encodedSlug = UrlEncoder.Encoded(slug);
+            return RedirectPermanent($"/Product/{slug}");
         }
     
     }

@@ -28,6 +28,9 @@ namespace Bibaket.Domain.Contracts
 
         Task<Product> GetProductForShortDescbyIdAsync(int productId);
         Task<Product> GetProductForProductPage(int productId);
+        Task<Product> GetProductBySlug(string slug);
+        Task<string> GetSlugProduct(int productId);
+
 
 
     }

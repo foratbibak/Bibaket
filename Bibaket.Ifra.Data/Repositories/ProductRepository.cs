@@ -19,7 +19,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public async Task AddProductGalleryAsync(ProductGallery productGallery)
         {
-           await context.ProductGalleries.AddAsync(productGallery);
+            await context.ProductGalleries.AddAsync(productGallery);
         }
 
         public async Task AddProductTagAsync(int productId, List<ProductTagViewModel> productTags)
@@ -30,18 +30,18 @@ namespace Bibaket.Ifra.Data.Repositories
                 {
                     ProductId = productId,
                     TagTitle = item.value
-                }); 
+                });
             }
         }
 
         public async Task DeleteGallery(ProductGallery gallery)
         {
-             context.ProductGalleries.Remove(gallery);
+            context.ProductGalleries.Remove(gallery);
         }
 
         public async Task DeleteProductTags(int productId)
         {
-            var tags=await context.ProductTags.Where(p=>p.ProductId==productId).ToListAsync();
+            var tags = await context.ProductTags.Where(p => p.ProductId == productId).ToListAsync();
             foreach (var item in tags)
             {
                 context.ProductTags.Remove(item);
@@ -70,16 +70,16 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public Task<Product> GetByIdAsync(int id)
         {
-            return context.Products.SingleOrDefaultAsync(p=>p.Id==id);
+            return context.Products.SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public Product GetByIdWithInCludes(int id)
         {
             return context.Products
-                .Include(p=>p.ProductColors)
-                .Include(p=>p.ProductFeatures)
-                .Include(p=>p.ProductGalleries)
-                .FirstOrDefault(p=>p.Id==id);
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductFeatures)
+                .Include(p => p.ProductGalleries)
+                .FirstOrDefault(p => p.Id == id);
         }
 
         public Task<Product> GetByIdWithInCludesAsync(int id)
@@ -94,6 +94,18 @@ namespace Bibaket.Ifra.Data.Repositories
         public async Task<ProductGallery> GetGalleryById(int galleryId)
         {
             return await context.ProductGalleries.AsNoTracking().SingleOrDefaultAsync(g => g.Id == galleryId);
+        }
+
+        public async Task<Product> GetProductBySlug(string slug)
+        {
+            return await context.Products
+                .Include(p => p.ProductGalleries)
+                .Include(f => f.ProductFeatures)
+                .Include(p => p.ProductColors)
+                .Include(c => c.Category)
+                .ThenInclude(c => c.Parent)
+                .ThenInclude(c => c.Parent)
+                .FirstOrDefaultAsync(p=>p.Slug==slug);
         }
 
         public async Task<Product> GetProductForEditAdminAsync(int productId)
@@ -112,28 +124,33 @@ namespace Bibaket.Ifra.Data.Repositories
                             .Include(p => p.ProductColors)
                             .Include(c => c.Category)
                             .ThenInclude(c => c.Parent)
-                            .ThenInclude(c=>c.Parent)
+                            .ThenInclude(c => c.Parent)
                             .SingleOrDefaultAsync();
         }
 
         public Task<Product> GetProductForShortDescbyIdAsync(int productId)
         {
-           return context.Products.Where (p => p.Id == productId)
-                .Include(p=>p.ProductGalleries)
-                .Include(p=>p.productTags)
-                .Include (f => f.ProductFeatures)
-                .Include(p=>p.ProductColors)
-                .SingleOrDefaultAsync();
+            return context.Products.Where(p => p.Id == productId)
+                 .Include(p => p.ProductGalleries)
+                 .Include(p => p.productTags)
+                 .Include(f => f.ProductFeatures)
+                 .Include(p => p.ProductColors)
+                 .SingleOrDefaultAsync();
+        }
+
+        public async Task<string> GetSlugProduct(int productId)
+        {
+            return await context.Products.Where(p => p.Id == productId).Select(p=>p.Slug).FirstOrDefaultAsync();
         }
 
         public async Task<IQueryable<Product>> GetTopProductForshowAsync()
         {
-            return  context.Products.Include(c=>c.ProductColors).OrderByDescending(p=>p.CreatDate).Take(12).AsQueryable();
+            return context.Products.Include(c => c.ProductColors).OrderByDescending(p => p.CreatDate).Take(12).AsQueryable();
         }
 
         public Task<bool> IsExistAsync(int productId)
         {
-            return context.Products.AnyAsync(p=>p.Id==productId);
+            return context.Products.AnyAsync(p => p.Id == productId);
         }
 
         public async Task<IQueryable<Product>> ProductFilterAsync()
@@ -143,7 +160,7 @@ namespace Bibaket.Ifra.Data.Repositories
 
         public bool Remove(int Id)
         {
-            var product=GetById(Id);
+            var product = GetById(Id);
             Remove(product);
             return true;
         }
