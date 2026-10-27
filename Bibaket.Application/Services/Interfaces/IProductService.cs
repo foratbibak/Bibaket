@@ -18,6 +18,7 @@ namespace Bibaket.Application.Services.Interfaces
 
         Task<IEnumerable<Product>> GetTopProductForshowAsync();
         Task<IEnumerable<Product>> GetCategoryBySlug(string slug);
+        Task<IEnumerable<Product>> GetProductByGroupId(int groupId);
 
         Task DeleteImageGallery(int galleryId);
 
@@ -27,6 +28,8 @@ namespace Bibaket.Application.Services.Interfaces
         Task<Product> GetProductForProductPage(int productId);
         Task<Product> GetProductBySlug(string slug);
         Task<string> GetSlugProduct(int productId);
+
+
 
 
 

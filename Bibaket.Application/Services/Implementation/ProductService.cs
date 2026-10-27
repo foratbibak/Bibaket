@@ -159,6 +159,11 @@ namespace Bibaket.Application.Services.Implementation
             return model;
         }
 
+        public async Task<IEnumerable<Product>> GetProductByGroupId(int groupId)
+        {
+            return await _productrepository.GetProductByCategoryId(groupId);
+        }
+
         public async Task<Product> GetProductBySlug(string slug)
         {
             return await _productrepository.GetProductBySlug(slug);

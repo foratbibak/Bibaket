@@ -50,6 +50,8 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.Categories.FindAsync(CatId);
         }
 
+       
+
         public async Task<IEnumerable<Product>> GetProductsBySlug(string slug)
         {
 

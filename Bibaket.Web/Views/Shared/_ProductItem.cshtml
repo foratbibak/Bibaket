@@ -4,12 +4,12 @@
 <div class="product-card">
     <div class="product-thumbnail">
         <a href="/Product/@Model.Slug" title="@Model.Title">
-            <img src="/ProductImages/@Model.ImageName" style="height:155px;" alt="product title">
+            <img src="/ProductImages/@Model.ImageName" style="height:155px; max-width:100%;" alt="product title">
         </a>
     </div>
     <div class="product-card-body">
         <h2 class="product-title">
-            <a href="/Product/@Model.Slug" title="@Model.Title" style="text-wrap:nowrap">
+            <a href="/Product/@Model.Slug" title="@Model.Title" style="text-wrap:nowrap;">
                 @Model.Title
             </a>
         </h2>

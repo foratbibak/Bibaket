@@ -96,6 +96,11 @@ namespace Bibaket.Ifra.Data.Repositories
             return await context.ProductGalleries.AsNoTracking().SingleOrDefaultAsync(g => g.Id == galleryId);
         }
 
+        public async Task<IEnumerable<Product>> GetProductByCategoryId(int categoryId)
+        {
+            return await context.Products.Where(p => p.CategoryId == categoryId).ToListAsync();
+        }
+
         public async Task<Product> GetProductBySlug(string slug)
         {
             return await context.Products
