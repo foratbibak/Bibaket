@@ -2,6 +2,7 @@
 using Bibaket.Domain.Models.Permission;
 using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.Models.Roles;
+using Bibaket.Domain.Models.Slider;
 using Bibaket.Domin.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using Sofarashel.Domain.Models.Products;
@@ -43,6 +44,10 @@ namespace Bibaket.Ifra.Data.Context
         public DbSet<ProductGallery> ProductGalleries { get; set; }
 
         public DbSet<ProductTag> ProductTags { get; set; }
+        #endregion
+
+        #region Slider
+        public DbSet<Slide> Sliders { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
