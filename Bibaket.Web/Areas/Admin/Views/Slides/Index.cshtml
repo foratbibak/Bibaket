@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Bibaket.Domain.Models.Slider.Slide>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست اسلاید ها";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">افزودن اسلاید جدید</a>
 </p>
 <table class="table">
     <thead>
@@ -21,9 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.IBlank)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
+    
             <th>
                 @Html.DisplayNameFor(model => model.IsActive)
             </th>
@@ -58,42 +56,39 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Url)
+                <a href="@item.Url" target="_blank" class="btn btn-outline-info" >نمایش لینک</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IBlank)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
-            </td>
+         
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
+                @item.StartDate?.ToShamsi()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ExpireDate)
-            </td>
+                    @item.ExpireDate?.ToShamsi()
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VisitCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatDate)
-            </td>
+                    @item.CreatDate.ToShamsi()
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UpdateDate)
-            </td>
+                    @item.UpdateDate?.ToShamsi()
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
+                    @item.DeleteDate?.ToShamsi()
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsDelete)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" class="btn btn-outline-warning btn-sm" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">حذف</a>
             </td>
         </tr>
 }

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bibaket.Application.Generator;
+using Bibaket.Domain.Models.Slider;
+using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bibaket.Domain.Models.Slider;
-using Bibaket.Ifra.Data.Context;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bibaket.Web.Areas.Admin.Controllers
 {
@@ -60,10 +62,28 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Url,IBlank,ImageName,IsActive,StartDate,ExpireDate,VisitCount,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Slide slide)
+        public async Task<IActionResult> Create( Slide slide,IFormFile? imgUp)
         {
             if (ModelState.IsValid)
             {
+                if (imgUp == null)
+                {
+                    ModelState.AddModelError("ImageName", "لطفا تصویر اسلاید را انتخاب کنید");
+                    return View(slide);
+                }
+                slide.CreatDate = DateTime.Now;
+                slide.VisitCount = 0;
+
+                var imageName = NameGenerator.GenerateUniqName() +
+              Path.GetExtension(imgUp.FileName);
+
+                string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Slides", imageName);
+                using (var stream = System.IO.File.Create(savePath))
+                {
+                    await imgUp.CopyToAsync(stream);
+                }
+
+
                 _context.Add(slide);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
