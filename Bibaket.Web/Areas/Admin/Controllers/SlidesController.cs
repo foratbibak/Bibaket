@@ -1,4 +1,5 @@
-﻿using Bibaket.Application.Generator;
+﻿using Bibaket.Application.Convertor;
+using Bibaket.Application.Generator;
 using Bibaket.Domain.Models.Slider;
 using Bibaket.Ifra.Data.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -62,8 +63,16 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Slide slide,IFormFile? imgUp)
+        public async Task<IActionResult> Create( Slide slide,IFormFile? imgUp ,string? InputStartdate,string? InputExpireDate)
         {
+            if (!string.IsNullOrEmpty(InputStartdate))
+            {
+                slide.StartDate = DateConvertor.ToMiladi(InputStartdate);
+            }
+            if (!string.IsNullOrEmpty(InputExpireDate))
+            {
+                slide.ExpireDate = DateConvertor.ToMiladi(InputExpireDate);
+            }
             if (ModelState.IsValid)
             {
                 if (imgUp == null)

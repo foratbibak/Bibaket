@@ -1,59 +1,66 @@
 ﻿@model Bibaket.Domain.Models.Slider.Slide
 
 @{
-    ViewData["Title"] = "افزودن ";
+    ViewData["Title"] = "افزودن";
 }
 
-<h1>Create</h1>
+@section HeaderRefrences {
+    <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
+}
 
 <h4>Slide</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Url" class="control-label"></label>
                 <input asp-for="Url" class="form-control" />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
-          
+
             <div class="form-group">
                 <label asp-for="ImageName" class="control-label"></label>
                 <input type="file" name="imgUp" asp-for="ImageName" class="form-control" />
                 <span asp-validation-for="ImageName" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input type="text" name="InputStartDate" id="InputStartDate" class="form-control" autocomplete="off" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ExpireDate" class="control-label"></label>
-                <input asp-for="ExpireDate" class="form-control" />
+                <input type="text" name="InputExpireDate" id="InputExpireDate" class="form-control" autocomplete="off" />
                 <span asp-validation-for="ExpireDate" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IBlank" /> @Html.DisplayNameFor(model => model.IBlank)
+                    <input class="form-check-input" asp-for="IBlank" />
+                    @Html.DisplayNameFor(model => model.IBlank)
                 </label>
+              
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    <input class="form-check-input" asp-for="IsActive" />
+                    @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
-      
-         
-       
-        
-         
-   
+
             <div class="form-group">
                 <input type="submit" value="ثبت" class="btn btn-primary" />
             </div>
@@ -66,5 +73,36 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Persian Datepicker -->
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // Initialize Persian datepicker for StartDate
+            $('#InputStartDate').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true
+            });
+
+            // Initialize Persian datepicker for ExpireDate
+            $('#InputExpireDate').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true
+            });
+
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
 }
+
+
