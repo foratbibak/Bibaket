@@ -85,16 +85,18 @@
     <script>
         $(document).ready(function () {
 
-            // Initialize Persian datepicker for StartDate
             $('#InputStartDate').persianDatepicker({
                 format: 'YYYY/MM/DD',
-                autoClose: true
+                autoClose: true,
+                initialValue: true,
+                initialValueType: 'persian'
             });
 
-            // Initialize Persian datepicker for ExpireDate
             $('#InputExpireDate').persianDatepicker({
                 format: 'YYYY/MM/DD',
-                autoClose: true
+                autoClose: true,
+                initialValue: true,
+                initialValueType: 'persian'
             });
 
         });

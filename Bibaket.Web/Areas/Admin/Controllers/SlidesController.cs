@@ -63,7 +63,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Slide slide,IFormFile? imgUp ,string? InputStartdate,string? InputExpireDate)
+        public async Task<IActionResult> Create(Slide slide, IFormFile? imgUp, string? InputStartdate, string? InputExpireDate)
         {
             if (!string.IsNullOrEmpty(InputStartdate))
             {
@@ -92,7 +92,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                     await imgUp.CopyToAsync(stream);
                 }
 
-
+                slide.ImageName = imageName;
                 _context.Add(slide);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -123,8 +123,17 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Url,IBlank,ImageName,IsActive,StartDate,ExpireDate,VisitCount,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Slide slide)
+        public async Task<IActionResult> Edit(int id,  [Bind("Title,Url,IBlank,ImageName,IsActive,StartDate,ExpireDate,VisitCount,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Slide slide
+            ,IFormFile? imgUp, string? InputStartdate, string? InputExpireDate)
         {
+            if (!string.IsNullOrEmpty(InputStartdate))
+            {
+                slide.StartDate = DateConvertor.ToMiladi(InputStartdate);
+            }
+            if (!string.IsNullOrEmpty(InputExpireDate))
+            {
+                slide.ExpireDate = DateConvertor.ToMiladi(InputExpireDate);
+            }
             if (id != slide.Id)
             {
                 return NotFound();
@@ -134,6 +143,24 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (imgUp != null)
+                    {
+                        var imageName = NameGenerator.GenerateUniqName() +
+                            Path.GetExtension(imgUp.FileName);
+
+                        string deletepath  = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Slides", imageName);
+                        if (System.IO.File.Exists(deletepath))
+                        {
+                            System.IO.File.Delete(deletepath);
+                        }
+                        string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Slides", imageName);
+                        using (var stream = System.IO.File.Create(savePath))
+                        {
+                            await imgUp.CopyToAsync(stream);
+                        }
+                        slide.ImageName = imageName;
+                    }
+                   slide.UpdateDate=DateTime.Now;
                     _context.Update(slide);
                     await _context.SaveChangesAsync();
                 }
