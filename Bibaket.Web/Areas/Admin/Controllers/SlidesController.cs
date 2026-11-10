@@ -27,7 +27,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Slides
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Sliders.ToListAsync());
+            return View(await _context.Sliders.OrderBy(s=>s.DeleteDate).ThenBy(s=>s.CreatDate).ToListAsync());
         }
         #endregion
 
@@ -209,7 +209,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             var slide = await _context.Sliders.FindAsync(id);
             if (slide != null)
             {
-                _context.Sliders.Remove(slide);
+                slide.IsDelete = true;
+                slide.DeleteDate = DateTime.Now;
+                _context.Update(slide);
             }
 
             await _context.SaveChangesAsync();

@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "لیست اسلاید ها";
 }
-
+<style>
+    .trDeleted{
+        background-color:bisque;
+        color:red;
+    }
+</style>
 <h1>@ViewData["Title"]</h1>
 
 <p>
@@ -51,7 +56,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr class="@((item.IsDelete) ? "trDeleted" : "")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
