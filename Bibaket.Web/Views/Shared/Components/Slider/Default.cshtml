@@ -1,0 +1,24 @@
+﻿@using Bibaket.Domain.Models.Slider
+@model IEnumerable<Slide>
+
+<div class="swiper main-swiper-slider">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        @foreach (var item in Model)
+        {
+            <div class="swiper-slide main-swiper-slide">
+                <a href="@item.Url" target="_@((item.IBlank)?"_blank":"")"
+                   style="background-image: url(/Slides/@item.ImageName);">
+                    <img src="/Slides/@item.ImageName" alt="@item.Title">
+                </a>
+            </div>
+
+        } 
+    </div>
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
+
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
