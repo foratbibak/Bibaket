@@ -1,4 +1,5 @@
-﻿using Bibaket.Domain.Models.Categories;
+﻿using Bibaket.Domain.Models.Ads;
+using Bibaket.Domain.Models.Categories;
 using Bibaket.Domain.Models.Permission;
 using Bibaket.Domain.Models.Products;
 using Bibaket.Domain.Models.Roles;
@@ -48,6 +49,11 @@ namespace Bibaket.Ifra.Data.Context
 
         #region Slider
         public DbSet<Slide> Sliders { get; set; }
+        #endregion
+
+        #region Ads
+        public DbSet<AdsZone> AdsZones { get; set; }
+        public DbSet<Ads> Ads{ get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

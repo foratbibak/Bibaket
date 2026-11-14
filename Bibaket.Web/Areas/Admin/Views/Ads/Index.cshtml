@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Bibaket.Domain.Models.Ads.Ads>
+
+@{
+    ViewData["Title"] = "بنر";
+}
+
+<style>
+    .trDeleted{
+        background-color:bisque;
+        color:red;
+    }
+</style>
+<p>
+    <a asp-action="Create">افزودن بنر </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+                 <th>
+                محل نمایش
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+        
+            <th>
+                @Html.DisplayNameFor(model => model.IBlank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpireDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitCount)
+            </th>
+       
+            <th>
+                @Html.DisplayNameFor(model => model.CreatDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeleteDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDelete)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr class="@((item.IsDelete) ? "trDeleted" : "")">
+             <td>
+                 <img class="img-thumbnail" style="max-width:120px;" src="/AdsImages/@item.ImageName"/>
+            </td>
+             <td>
+                @item.AdsZone.Title
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+             <td>
+                <a href="@item.Url" target="_blank"  >نمایش لینک</a>
+            </td>
+         
+            <td>
+                @Html.DisplayFor(modelItem => item.IBlank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+             <td>
+                @item.StartDate?.ToShamsi()
+            </td>
+            <td>
+                    @item.ExpireDate?.ToShamsi()
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitCount)
+            </td>
+            <td>
+                    @item.CreatDate.ToShamsi()
+                </td>
+            <td>
+                    @item.UpdateDate?.ToShamsi()
+                </td>
+            <td>
+                    @item.DeleteDate?.ToShamsi()
+                </td>
+            <td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDelete)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-outline-warning btn-sm" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">حذف</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

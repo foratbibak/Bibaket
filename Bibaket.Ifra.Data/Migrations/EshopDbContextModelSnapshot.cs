@@ -17,10 +17,83 @@ namespace Bibaket.Ifra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Bibaket.Domain.Models.Ads.Ads", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IBlank")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VisitCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ZoneId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ZoneId");
+
+                    b.ToTable("Ads");
+                });
+
+            modelBuilder.Entity("Bibaket.Domain.Models.Ads.AdsZone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdsZones");
+                });
 
             modelBuilder.Entity("Bibaket.Domain.Models.Categories.Category", b =>
                 {
@@ -563,6 +636,17 @@ namespace Bibaket.Ifra.Data.Migrations
                     b.ToTable("ProductColors");
                 });
 
+            modelBuilder.Entity("Bibaket.Domain.Models.Ads.Ads", b =>
+                {
+                    b.HasOne("Bibaket.Domain.Models.Ads.AdsZone", "AdsZone")
+                        .WithMany("Ads")
+                        .HasForeignKey("ZoneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdsZone");
+                });
+
             modelBuilder.Entity("Bibaket.Domain.Models.Categories.Category", b =>
                 {
                     b.HasOne("Bibaket.Domain.Models.Categories.Category", "Parent")
@@ -683,6 +767,11 @@ namespace Bibaket.Ifra.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Bibaket.Domain.Models.Ads.AdsZone", b =>
+                {
+                    b.Navigation("Ads");
                 });
 
             modelBuilder.Entity("Bibaket.Domain.Models.Categories.Category", b =>
