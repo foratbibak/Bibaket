@@ -27,7 +27,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // GET: Admin/Ads
         public async Task<IActionResult> Index()
         {
-            var eshopDbContext = _context.Ads.Include(a => a.AdsZone).OrderBy(s=>s.DeleteDate).ThenBy(s=>s.CreatDate);
+            var eshopDbContext = _context.Ads.Include(a => a.AdsZone).OrderBy(s => s.DeleteDate).ThenBy(s => s.CreatDate);
             return View(await eshopDbContext.ToListAsync());
         }
         #endregion
@@ -73,7 +73,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
                 {
                     await imgUp.CopyToAsync(stream);
                 }
-            
+
                 ads.ImageName = imageName;
                 _context.Add(ads);
                 await _context.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace Bibaket.Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ZoneId,Title,Url,ImageName,IBlank,IsActive,StartDate,ExpireDate,VisitCount,Id,CreatDate,UpdateDate,DeleteDate,IsDelete")] Ads ads)
+        public async Task<IActionResult> Edit(int id, Ads ads, IFormFile? imgUp, string? InputStartdate, string? InputExpireDate)
         {
             if (id != ads.Id)
             {
@@ -118,6 +118,38 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (!string.IsNullOrEmpty(InputStartdate))
+                    {
+                        ads.StartDate = DateConvertor.ToMiladi(InputStartdate);
+                    }
+                    if (!string.IsNullOrEmpty(InputExpireDate))
+                    {
+                        ads.ExpireDate = DateConvertor.ToMiladi(InputExpireDate);
+                    }
+                    else
+                    {
+                        ads.ExpireDate = DateConvertor.ToMiladi(InputExpireDate);
+                    }
+                    if (imgUp != null)
+                    {
+                        string deletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/AdsImages", ads.ImageName);
+
+                        if (System.IO.File.Exists(deletePath))
+                        {
+                            System.IO.File.Delete(deletePath);
+                        }
+
+                        var imageName = NameGenerator.GenerateUniqName() +
+                        Path.GetExtension(imgUp.FileName);
+
+                        string savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/AdsImages", imageName);
+                        using (var stream = System.IO.File.Create(savePath))
+                        {
+                            await imgUp.CopyToAsync(stream);
+                        }
+
+                        ads.ImageName = imageName;
+                    }
                     _context.Update(ads);
                     await _context.SaveChangesAsync();
                 }
@@ -167,7 +199,9 @@ namespace Bibaket.Web.Areas.Admin.Controllers
             var ads = await _context.Ads.FindAsync(id);
             if (ads != null)
             {
-                _context.Ads.Remove(ads);
+                ads.DeleteDate = DateTime.Now;
+                ads.IsDelete=true;
+                _context.Ads.Update(ads);
             }
 
             await _context.SaveChangesAsync();
